@@ -17,7 +17,7 @@ const toSearchableValues = (row: AcademicYearRow) => [
   renderBooleanValue(row.isActive),
 ];
 
-export const useAcademicYearConfigurationTable = () => {
+export const useAcademicYearTable = () => {
   const rows = useAcademicYearStore((state) => state.rows);
   const deleteRow = useAcademicYearStore((state) => state.deleteRow);
   const [searchValue, setSearchValue] = useState("");

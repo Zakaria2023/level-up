@@ -3,26 +3,12 @@
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
 import { renderBooleanValue } from "@/lib/utils/helpers";
-import { useAcademicYearConfigurationTable } from "../../hooks/useAcademicYearConfigurationTable";
+import { useTranslation } from "react-i18next";
+import { useAcademicYearTable } from "../../hooks/useAcademicYearTable";
 
-const academicYearConfigurationTableHeaders = [
-  <span key="academicYearName">academicYearName</span>,
-  <span key="startDate">startDate</span>,
-  <span key="endDate">endDate</span>,
-  <span key="registrationStartDate">registrationStartDate</span>,
-  <span key="registrationEndDate">registrationEndDate</span>,
-  <span key="allowGradeEditingAfterEnd">allowGradeEditingAfterEnd</span>,
-  <span key="allowStudentFileEditingAfterEnd">
-    allowStudentFileEditingAfterEnd
-  </span>,
-  <span key="semesters">semesters</span>,
-  <span key="isActive">isActive</span>,
-  <span key="actions" className="block w-full text-center">
-    actions
-  </span>,
-];
+const AcademicYearTable = () => {
+  const { t } = useTranslation();
 
-const AcademicYearConfigurationTable = () => {
   const {
     paginatedRows,
     deleteRow,
@@ -34,28 +20,51 @@ const AcademicYearConfigurationTable = () => {
     totalPages,
     filteredRows,
     currentPage,
-  } = useAcademicYearConfigurationTable();
+  } = useAcademicYearTable();
+
+  const academicYearTableHeaders = [
+    <span key="academicYearName">{t("AcademicYearTable.academicYearName")}</span>,
+    <span key="startDate">{t("AcademicYearTable.startDate")}</span>,
+    <span key="endDate">{t("AcademicYearTable.endDate")}</span>,
+    <span key="registrationStartDate">
+      {t("AcademicYearTable.registrationStartDate")}
+    </span>,
+    <span key="registrationEndDate">
+      {t("AcademicYearTable.registrationEndDate")}
+    </span>,
+    <span key="allowGradeEditingAfterEnd">
+      {t("AcademicYearTable.allowGradeEditingAfterEnd")}
+    </span>,
+    <span key="allowStudentFileEditingAfterEnd">
+      {t("AcademicYearTable.allowStudentFileEditingAfterEnd")}
+    </span>,
+    <span key="semesters">{t("AcademicYearTable.semesters")}</span>,
+    <span key="isActive">{t("AcademicYearTable.isActive")}</span>,
+    <span key="actions" className="block w-full text-center">
+      {t("AcademicYearTable.actions")}
+    </span>,
+  ];
 
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[190px_150px_150px_190px_190px_220px_250px_minmax(240px,1.2fr)_120px_120px]"
-      headers={academicYearConfigurationTableHeaders}
-      pageHeading="Academic Year Configuration"
+      headers={academicYearTableHeaders}
+      pageHeading={t("AcademicYearTable.pageHeading")}
       addLinkHref="/academic-year/new"
-      addLinkLabel="Add Academic Year"
+      addLinkLabel={t("AcademicYearTable.addAcademicYear")}
       enableSearch
       searchValue={searchValue}
       onSearchChange={(value) => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search academic year configuration"
-      emptyText="No academic year configuration rows match your search."
+      searchPlaceholder={t("AcademicYearTable.searchPlaceholder")}
+      emptyText={t("AcademicYearTable.emptyText")}
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-          {filteredRows.length} records
+          {filteredRows.length} {t("AcademicYearTable.records")}
         </div>
       }
       renderRow={(item) => (
@@ -75,9 +84,7 @@ const AcademicYearConfigurationTable = () => {
               editLink={`/academic-year/${item.id}/edit`}
               onDeleteConfirm={() => {
                 if (item.hasActiveStudentRecord) {
-                  window.alert(
-                    "This academic year cannot be deleted because it is linked to an active student record.",
-                  );
+                  window.alert(t("AcademicYearTable.deleteBlockedMessage"));
                   return;
                 }
 
@@ -99,4 +106,4 @@ const AcademicYearConfigurationTable = () => {
   );
 };
 
-export default AcademicYearConfigurationTable;
+export default AcademicYearTable;

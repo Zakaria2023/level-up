@@ -1,5 +1,5 @@
-import AcademicYearConfigurationTable from "@/features/academic-year/components/table/AcademicYearConfigurationTable";
+import AcademicYearTable from "@/features/academic-year/components/table/AcademicYearTable";
 
-const AcademicYearPage = () => <AcademicYearConfigurationTable />;
+const AcademicYearPage = () => <AcademicYearTable />;
 
 export default AcademicYearPage;

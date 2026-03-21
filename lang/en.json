@@ -346,5 +346,24 @@
       "registrationEndDateRequired": "Registration end date is required.",
       "semestersRequired": "Semesters are required."
     }
+  },
+
+  "AcademicYearTable": {
+    "pageHeading": "Academic Year",
+    "addAcademicYear": "Add Academic Year",
+    "searchPlaceholder": "Search academic year",
+    "emptyText": "No academic year rows match your search.",
+    "records": "records",
+    "academicYearName": "Academic Year Name",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "registrationStartDate": "Registration Start Date",
+    "registrationEndDate": "Registration End Date",
+    "allowGradeEditingAfterEnd": "Allow Grade Editing After End",
+    "allowStudentFileEditingAfterEnd": "Allow Student File Editing After End",
+    "semesters": "Semesters",
+    "isActive": "Active",
+    "actions": "Actions",
+    "deleteBlockedMessage": "This academic year cannot be deleted because it is linked to an active student record."
   }
 }
