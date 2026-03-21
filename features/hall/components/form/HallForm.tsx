@@ -7,7 +7,7 @@ import Input from "@/components/ui/Input";
 import Link from "next/link";
 import { useHallForm } from "../../hooks/useHallForm";
 
-type HallConfigurationFormProps = {
+type HallFormProps = {
   mode?: "create" | "edit";
   rowId?: number;
   title?: string;
@@ -16,14 +16,14 @@ type HallConfigurationFormProps = {
   cancelHref?: string;
 };
 
-export const HallConfigurationForm = ({
+export const HallForm = ({
   mode = "create",
   rowId,
   title,
   subtitle,
   submitLabel,
   cancelHref,
-}: HallConfigurationFormProps = {}) => {
+}: HallFormProps = {}) => {
   const {
     register,
     handleSubmit,
@@ -36,28 +36,32 @@ export const HallConfigurationForm = ({
     hallType,
     setHallType,
     hallTypeOptions,
+    t,
   } = useHallForm({
     mode,
     rowId,
   });
 
   const resolvedTitle =
-    title ?? (mode === "edit" ? "Edit Hall" : "Add Hall");
+    title ?? (mode === "edit" ? t("HallForm.editTitle") : t("HallForm.createTitle"));
+
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected hall record."
-      : "Create a new hall record and add it to the table.");
+      ? t("HallForm.editSubtitle")
+      : t("HallForm.createSubtitle"));
+
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save");
+    submitLabel ?? (mode === "edit" ? t("HallForm.saveChanges") : t("HallForm.save"));
+
   const resolvedCancelHref =
     cancelHref ?? (mode === "edit" && rowId ? `/hall/${rowId}` : "/hall");
 
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Hall Not Found"
-        subtitle="The requested record could not be loaded for editing."
+        title={t("HallForm.notFoundTitle")}
+        subtitle={t("HallForm.notFoundSubtitle")}
         className="max-w-120"
       >
         <div className="flex justify-end">
@@ -65,7 +69,7 @@ export const HallConfigurationForm = ({
             href="/hall"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Back to Table
+            {t("HallForm.backToTable")}
           </Link>
         </div>
       </DashboardCard>
@@ -82,20 +86,20 @@ export const HallConfigurationForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Hall Name"
+            label={t("HallForm.hallName")}
             requiredMark
             inputType="text"
-            placeholder="Science Lab A"
+            placeholder={t("HallForm.hallNamePlaceholder")}
             error={errors.hallName?.message}
             disabled={isSubmitting}
             {...register("hallName")}
           />
 
           <Input
-            label="Hall Number"
+            label={t("HallForm.hallNumber")}
             requiredMark
             inputType="text"
-            placeholder="LAB-101"
+            placeholder={t("HallForm.hallNumberPlaceholder")}
             error={errors.hallNumber?.message}
             disabled={isSubmitting}
             {...register("hallNumber")}
@@ -104,10 +108,10 @@ export const HallConfigurationForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Capacity"
+            label={t("HallForm.capacity")}
             requiredMark
             inputType="number"
-            placeholder="28"
+            placeholder={t("HallForm.capacityPlaceholder")}
             min={1}
             max={500}
             error={errors.capacity?.message}
@@ -118,11 +122,11 @@ export const HallConfigurationForm = ({
           <div>
             <input type="hidden" {...register("hallType")} />
             <Dropdown
-              label="Hall Type"
+              label={t("HallForm.hallType")}
               value={hallType || undefined}
               onChange={setHallType}
               options={hallTypeOptions}
-              placeholder="Select hall type"
+              placeholder={t("HallForm.selectHallType")}
               error={errors.hallType?.message}
               disabled={isSubmitting}
             />
@@ -131,20 +135,20 @@ export const HallConfigurationForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Building Name"
+            label={t("HallForm.buildingName")}
             requiredMark
             inputType="text"
-            placeholder="Main Building"
+            placeholder={t("HallForm.buildingNamePlaceholder")}
             error={errors.buildingName?.message}
             disabled={isSubmitting}
             {...register("buildingName")}
           />
 
           <Input
-            label="Floor Number"
+            label={t("HallForm.floorNumber")}
             requiredMark
             inputType="number"
-            placeholder="1"
+            placeholder={t("HallForm.floorNumberPlaceholder")}
             min={0}
             max={100}
             error={errors.floorNumber?.message}
@@ -162,7 +166,7 @@ export const HallConfigurationForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Reset
+            {t("HallForm.reset")}
           </button>
 
           <Link
@@ -170,7 +174,7 @@ export const HallConfigurationForm = ({
             onClick={resetForm}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-8 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Cancel
+            {t("HallForm.cancel")}
           </Link>
 
           <button
@@ -178,7 +182,7 @@ export const HallConfigurationForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Saving..." : resolvedSubmitLabel}
+            {isSubmitting ? t("HallForm.saving") : resolvedSubmitLabel}
           </button>
         </div>
       </form>

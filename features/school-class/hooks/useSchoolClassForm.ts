@@ -169,17 +169,15 @@ export const useSchoolClassForm = ({
 
       if (mode === "edit") {
         updateRow(nextRow);
-        router.push(`/school-class-configuration/${nextRow.id}`);
+        router.push(`/school-class/${nextRow.id}`);
         return;
       }
 
       addRow(nextRow);
       reset(getDefaultValues());
-      router.push("/school-class-configuration");
+      router.push("/school-class");
     } catch {
-      setServerError(
-        "Unable to save the school class configuration. Please try again.",
-      );
+      setServerError("Unable to save the school class. Please try again.");
     }
   };
 

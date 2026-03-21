@@ -128,9 +128,7 @@ export const useAcademicYearForm = ({
       reset(getDefaultValues());
       router.push("/academic-year");
     } catch {
-      setServerError(
-        "Unable to save the academic year configuration. Please try again.",
-      );
+      setServerError("Unable to save the academic year. Please try again.");
     }
   };
 

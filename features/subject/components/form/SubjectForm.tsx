@@ -82,8 +82,8 @@ export const SubjectForm = ({
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit"
-      ? `/subject-configuration/${rowId}`
-      : "/subject-configuration");
+      ? `/subject/${rowId}`
+      : "/subject");
 
   const inputsDisabled = isSubmitting || !hasSchoolClassOptions;
 
@@ -106,7 +106,7 @@ export const SubjectForm = ({
       >
         <div className="flex justify-end">
           <Link
-            href="/subject-configuration"
+            href="/subject"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             {t("SubjectForm.backToTable")}

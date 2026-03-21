@@ -32,7 +32,7 @@ export const useSubjectStore = create<SubjectStore>()(
         })),
     }),
     {
-      name: "subject-configuration-storage",
+      name: "subject-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         rows: state.rows,

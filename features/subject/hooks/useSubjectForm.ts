@@ -260,17 +260,15 @@ export const useSubjectForm = ({
 
       if (mode === "edit") {
         updateRow(nextRow);
-        router.push(`/subject-configuration/${nextRow.id}`);
+        router.push(`/subject/${nextRow.id}`);
         return;
       }
 
       addRow(nextRow);
       reset(getDefaultValues());
-      router.push("/subject-configuration");
+      router.push("/subject");
     } catch {
-      setServerError(
-        "Unable to save the subject configuration. Please try again.",
-      );
+      setServerError("Unable to save the subject. Please try again.");
     }
   };
 

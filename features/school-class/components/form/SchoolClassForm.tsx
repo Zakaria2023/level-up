@@ -59,13 +59,13 @@ export const SchoolClassForm = ({
     submitLabel ??
     (mode === "edit"
       ? t("SchoolClassForm.saveChanges")
-      : t("SchoolClassForm.saveConfiguration"));
+      : t("SchoolClassForm.save"));
 
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit" && rowId
-      ? `/school-class-configuration/${rowId}`
-      : "/school-class-configuration");
+      ? `/school-class/${rowId}`
+      : "/school-class");
 
   const inputsDisabled = isSubmitting || !hasEducationalStageOptions;
 
@@ -78,7 +78,7 @@ export const SchoolClassForm = ({
       >
         <div className="flex justify-end">
           <Link
-            href="/school-class-configuration"
+            href="/school-class"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             {t("SchoolClassForm.backToTable")}

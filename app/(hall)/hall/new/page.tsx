@@ -1,5 +1,5 @@
-import { HallConfigurationForm } from "@/features/hall/components/form/HallConfigurationForm";
+import { HallForm } from "@/features/hall/components/form/HallForm";
 
-const NewHallPage = () => <HallConfigurationForm />;
+const NewHallPage = () => <HallForm />;
 
 export default NewHallPage;

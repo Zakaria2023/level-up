@@ -83,7 +83,7 @@
     "schoolSealPreviewEmpty": "Select a school seal to preview it here.",
     "schoolLogo": "School Logo",
     "schoolSeal": "School Seal",
-    "configurationToggles": "Configuration Toggles",
+    "Toggles": "Toggles",
     "allowMultipleCurrencies": "Allow Multiple Currencies",
     "showLogoOnInvoices": "Show Logo On Invoices",
     "enableNotifications": "Enable Notifications",
@@ -451,7 +451,7 @@
 
   "AcademicYearStructureExplorer": {
     "title": "Academic Year Structure",
-    "subtitle": "Select an academic year to explore its timeline and the current school configuration map.",
+    "subtitle": "Select an academic year to explore its timeline and the current school map.",
     "dropdownLabel": "Academic Year",
     "dropdownPlaceholder": "Select academic year",
     "dropdownSearchPlaceholder": "Search academic year",
@@ -481,8 +481,8 @@
     "timeline": {
       "lessons": "Lessons",
       "finalExam": "Final Exam",
-      "missingSemester": "This semester is listed in the academic year record but does not have a semester configuration entry yet.",
-      "empty": "No semester configuration is linked to this academic year yet."
+      "missingSemester": "This semester is listed in the academic year record but does not have a semester entry yet.",
+      "empty": "No semester is linked to this academic year yet."
     },
     "stats": {
       "educationalStages": "Educational Stages",
@@ -523,7 +523,7 @@
     },
     "emptyState": {
       "title": "Academic Year Structure",
-      "subtitle": "Add at least one academic year configuration record to explore the structure.",
+      "subtitle": "Add at least one academic year record to explore the structure.",
       "description": "The academic year structure page needs academic years, semesters, stages, classes, sections, and subjects to build the diagram."
     },
     "common": {
@@ -602,11 +602,11 @@
   },
 
   "SchoolClassDetails": {
-    "notFoundTitle": "School Class Configuration Not Found",
+    "notFoundTitle": "School Class Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
     "backToTable": "Back to Table",
-    "title": "School Class Configuration #{{id}}",
-    "subtitle": "Review the stored values for this school class configuration record.",
+    "title": "School Class #{{id}}",
+    "subtitle": "Review the stored values for this school class record.",
     "back": "Back",
     "edit": "Edit",
     "fields": {
@@ -618,13 +618,13 @@
   },
 
   "SchoolClassForm": {
-    "createTitle": "Add School Class Configuration",
-    "editTitle": "Edit School Class Configuration",
-    "createSubtitle": "Create a new school class configuration record and add it to the table.",
-    "editSubtitle": "Update the selected school class configuration record.",
-    "saveConfiguration": "Save Configuration",
+    "createTitle": "Add School Class",
+    "editTitle": "Edit School Class",
+    "createSubtitle": "Create a new school class record and add it to the table.",
+    "editSubtitle": "Update the selected school class record.",
+    "save": "Save",
     "saveChanges": "Save Changes",
-    "notFoundTitle": "School Class Configuration Not Found",
+    "notFoundTitle": "School Class Not Found",
     "notFoundSubtitle": "The requested record could not be loaded for editing.",
     "backToTable": "Back to Table",
     "className": "Class Name",
@@ -632,7 +632,7 @@
     "educationalStage": "Educational Stage",
     "selectEducationalStage": "Select educational stage",
     "searchEducationalStage": "Search educational stage",
-    "noEducationalStageMessage": "Add an educational stage configuration first so you can link a school class to it.",
+    "noEducationalStageMessage": "Add an educational stage first so you can link a school class to it.",
     "minimumPassingGrade": "Minimum Passing Grade",
     "minimumPassingGradePlaceholder": "50",
     "activation": "Activation",
@@ -895,5 +895,48 @@
     "hallType": "Hall Type",
     "location": "Location",
     "actions": "Actions"
+  },
+
+  "HallForm": {
+    "createTitle": "Add Hall",
+    "editTitle": "Edit Hall",
+    "createSubtitle": "Create a new hall record and add it to the table.",
+    "editSubtitle": "Update the selected hall record.",
+    "save": "Save",
+    "saveChanges": "Save Changes",
+    "notFoundTitle": "Hall Not Found",
+    "notFoundSubtitle": "The requested record could not be loaded for editing.",
+    "backToTable": "Back to Table",
+    "hallName": "Hall Name",
+    "hallNamePlaceholder": "Science Lab A",
+    "hallNumber": "Hall Number",
+    "hallNumberPlaceholder": "LAB-101",
+    "capacity": "Capacity",
+    "capacityPlaceholder": "28",
+    "hallType": "Hall Type",
+    "selectHallType": "Select hall type",
+    "buildingName": "Building Name",
+    "buildingNamePlaceholder": "Main Building",
+    "floorNumber": "Floor Number",
+    "floorNumberPlaceholder": "1",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "saving": "Saving..."
+  },
+  "HallSchema": {
+    "errors": {
+      "hallNameRequired": "Hall name is required.",
+      "hallNumberRequired": "Hall number is required.",
+      "capacityRequired": "Capacity is required.",
+      "capacityInteger": "Capacity must be a whole number.",
+      "capacityMin": "Capacity must be at least 1.",
+      "capacityMax": "Capacity cannot exceed 500.",
+      "hallTypeRequired": "Hall type is required.",
+      "buildingNameRequired": "Building name is required.",
+      "floorNumberRequired": "Floor number is required.",
+      "floorNumberInteger": "Floor number must be a whole number.",
+      "floorNumberMin": "Floor number cannot be negative.",
+      "floorNumberMax": "Floor number cannot exceed 100."
+    }
   }
 }

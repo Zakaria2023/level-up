@@ -4,20 +4,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { HALL_TYPE_OPTIONS } from "../constants";
 import { useHallStore } from "../store/useHallStore";
 import type { HallRow } from "../types";
 import {
-  addHallConfigurationSchema,
-  type AddHallConfigurationFormValues,
-} from "../validation/addHallConfigurationSchema";
+  createHallSchema,
+  type HallFormValues,
+} from "../validation/HallSchema";
 
-type UseHallConfigurationFormOptions = {
+type UseHallFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
 };
 
-const getDefaultValues = (row?: HallRow): AddHallConfigurationFormValues => ({
+const getDefaultValues = (row?: HallRow): HallFormValues => ({
   hallName: row?.hallName ?? "",
   hallNumber: row?.hallNumber ?? "",
   capacity: row?.capacity ?? 30,
@@ -29,7 +30,9 @@ const getDefaultValues = (row?: HallRow): AddHallConfigurationFormValues => ({
 export const useHallForm = ({
   mode = "create",
   rowId,
-}: UseHallConfigurationFormOptions = {}) => {
+}: UseHallFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useHallStore((state) => state.rows);
   const addRow = useHallStore((state) => state.addRow);
@@ -41,6 +44,8 @@ export const useHallForm = ({
   );
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const HallSchema = createHallSchema(t);
+
   const {
     register,
     control,
@@ -50,8 +55,8 @@ export const useHallForm = ({
     setError,
     clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm<AddHallConfigurationFormValues>({
-    resolver: zodResolver(addHallConfigurationSchema),
+  } = useForm<HallFormValues>({
+    resolver: zodResolver(HallSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -69,7 +74,7 @@ export const useHallForm = ({
   }, [existingRow, mode, reset]);
 
   const setHallType = (value: string) => {
-    setValue("hallType", value as AddHallConfigurationFormValues["hallType"], {
+    setValue("hallType", value as HallFormValues["hallType"], {
       shouldDirty: true,
       shouldValidate: true,
     });
@@ -83,7 +88,7 @@ export const useHallForm = ({
 
   const hallTypeOptions = useMemo(() => HALL_TYPE_OPTIONS, []);
 
-  const onSubmit = async (values: AddHallConfigurationFormValues) => {
+  const onSubmit = async (values: HallFormValues) => {
     try {
       setServerError(null);
       clearErrors();
@@ -149,5 +154,6 @@ export const useHallForm = ({
     hallType,
     setHallType,
     hallTypeOptions,
+    t,
   };
 };

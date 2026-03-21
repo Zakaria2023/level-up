@@ -63,8 +63,8 @@ const SchoolClassTable = () => {
           <div>{renderBooleanValue(item.isActive)}</div>
           <div className="flex w-full justify-center">
             <DataTableAction
-              viewLink={`/school-class-configuration/${item.id}`}
-              editLink={`/school-class-configuration/${item.id}/edit`}
+              viewLink={`/school-class/${item.id}`}
+              editLink={`/school-class/${item.id}/edit`}
               onDeleteConfirm={() => deleteRow(item.id)}
             />
           </div>

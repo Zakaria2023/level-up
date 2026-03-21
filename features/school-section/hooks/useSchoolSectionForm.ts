@@ -192,17 +192,15 @@ export const useSchoolSectionForm = ({
 
       if (mode === "edit") {
         updateRow(nextRow);
-        router.push(`/school-section-configuration/${nextRow.id}`);
+        router.push(`/school-section/${nextRow.id}`);
         return;
       }
 
       addRow(nextRow);
       reset(getDefaultValues());
-      router.push("/school-section-configuration");
+      router.push("/school-section");
     } catch {
-      setServerError(
-        "Unable to save the school section configuration. Please try again.",
-      );
+      setServerError("Unable to save the school section. Please try again.");
     }
   };
 

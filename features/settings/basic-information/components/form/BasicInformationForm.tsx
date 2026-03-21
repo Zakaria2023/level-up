@@ -228,7 +228,7 @@ export const BasicInformationForm = ({
 
         <div>
           <p className="mb-3 text-[16px] font-semibold text-[#0E6B7A]">
-            {t("BasicInformationForm.configurationToggles")}
+            {t("BasicInformationForm.Toggles")}
           </p>
 
           <div className="grid gap-3 md:grid-cols-3">

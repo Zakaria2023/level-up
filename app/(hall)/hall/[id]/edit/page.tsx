@@ -1,4 +1,4 @@
-import { HallConfigurationForm } from "@/features/hall/components/form/HallConfigurationForm";
+import { HallForm } from "@/features/hall/components/form/HallForm";
 import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;
@@ -18,7 +18,7 @@ const EditHallPage = async ({
     return notFound();
   }
 
-  return <HallConfigurationForm mode="edit" rowId={hallId} />;
+  return <HallForm mode="edit" rowId={hallId} />;
 };
 
 export default EditHallPage;

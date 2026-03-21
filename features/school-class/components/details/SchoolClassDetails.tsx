@@ -46,7 +46,7 @@ export const SchoolClassDetails = ({
       >
         <div className="flex justify-end">
           <Link
-            href="/school-class-configuration"
+            href="/school-class"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             {t("SchoolClassDetails.backToTable")}
@@ -64,13 +64,13 @@ export const SchoolClassDetails = ({
         action={
           <div className="flex flex-wrap items-center gap-3">
             <Link
-              href="/school-class-configuration"
+              href="/school-class"
               className="inline-flex h-10 items-center justify-center rounded-xl bg-[#F3F5F8] px-5 text-sm font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
             >
               {t("SchoolClassDetails.back")}
             </Link>
             <Link
-              href={`/school-class-configuration/${row.id}/edit`}
+              href={`/school-class/${row.id}/edit`}
               className="inline-flex h-10 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-5 text-sm font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95"
             >
               {t("SchoolClassDetails.edit")}
