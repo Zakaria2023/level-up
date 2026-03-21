@@ -2,7 +2,7 @@
 
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -26,11 +26,13 @@ const toSearchableValues = (
 
 export const useSchoolClassConfigurationTable = () => {
   const rows = useSchoolClassConfigurationStore((state) => state.rows);
-  const deleteRow = useSchoolClassConfigurationStore((state) => state.deleteRow);
+  const deleteRow = useSchoolClassConfigurationStore(
+    (state) => state.deleteRow,
+  );
   const educationalStages = useEducationalStageConfigurationStore(
     (state) => state.rows,
   );
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
@@ -66,7 +68,9 @@ export const useSchoolClassConfigurationTable = () => {
     return rows.filter((row) =>
       toSearchableValues(
         row,
-        resolveEducationalStageLabel(educationalStageMap.get(row.educationalStageId)),
+        resolveEducationalStageLabel(
+          educationalStageMap.get(row.educationalStageId),
+        ),
       ).some((value) => value.toLowerCase().includes(normalizedSearch)),
     );
   }, [rows, searchValue, educationalStageMap]);

@@ -2,7 +2,7 @@
 
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import Dropdown from "@/components/ui/Dropdown";
-import { useAcademicYearConfigurationStore } from "@/features/settings/academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "@/features/academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -42,7 +42,7 @@ const DetailPill = ({
 );
 
 export default function AcademicYearStructureExplorer() {
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const semesters = useSemesterConfigurationStore((state) => state.rows);
   const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
@@ -130,45 +130,45 @@ export default function AcademicYearStructureExplorer() {
       educationalStages
         .filter((stage) => stage.academicYearId === selectedAcademicYear?.id)
         .map((stage) => {
-        const classes = schoolClasses.filter(
-          (schoolClass) => schoolClass.educationalStageId === stage.id,
-        );
+          const classes = schoolClasses.filter(
+            (schoolClass) => schoolClass.educationalStageId === stage.id,
+          );
 
-        return {
-          stage,
-          stageLabel: formatEducationalStageLabel(
-            stage.stageName,
-            resolveAcademicYearLabel(academicYearNameMap.get(stage.academicYearId)),
-          ),
-          classes: classes.map((schoolClass) => {
-            const sections = schoolSections.filter(
-              (section) => section.schoolClassId === schoolClass.id,
-            );
-            const classSubjects = subjects.filter((subject) =>
-              subject.classSettings.some(
-                (classSetting) => classSetting.schoolClassId === schoolClass.id,
-              ),
-            );
+          return {
+            stage,
+            stageLabel: formatEducationalStageLabel(
+              stage.stageName,
+              resolveAcademicYearLabel(academicYearNameMap.get(stage.academicYearId)),
+            ),
+            classes: classes.map((schoolClass) => {
+              const sections = schoolSections.filter(
+                (section) => section.schoolClassId === schoolClass.id,
+              );
+              const classSubjects = subjects.filter((subject) =>
+                subject.classSettings.some(
+                  (classSetting) => classSetting.schoolClassId === schoolClass.id,
+                ),
+              );
 
-            return {
-              schoolClass,
-              schoolClassLabel: formatSchoolClassLabel(
-                schoolClass.className,
-                formatEducationalStageLabel(
-                  stage.stageName,
-                  resolveAcademicYearLabel(academicYearNameMap.get(stage.academicYearId)),
+              return {
+                schoolClass,
+                schoolClassLabel: formatSchoolClassLabel(
+                  schoolClass.className,
+                  formatEducationalStageLabel(
+                    stage.stageName,
+                    resolveAcademicYearLabel(academicYearNameMap.get(stage.academicYearId)),
+                  ),
                 ),
-              ),
-              sections,
-              subjects: classSubjects.map((subject) => ({
-                ...subject,
-                classSetting: subject.classSettings.find(
-                  (setting) => setting.schoolClassId === schoolClass.id,
-                ),
-              })),
-            };
-          }),
-        };
+                sections,
+                subjects: classSubjects.map((subject) => ({
+                  ...subject,
+                  classSetting: subject.classSettings.find(
+                    (setting) => setting.schoolClassId === schoolClass.id,
+                  ),
+                })),
+              };
+            }),
+          };
         }),
     [academicYearNameMap, educationalStages, schoolClasses, schoolSections, selectedAcademicYear?.id, subjects],
   );

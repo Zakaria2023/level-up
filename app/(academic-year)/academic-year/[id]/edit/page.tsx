@@ -1,9 +1,9 @@
-import { AcademicYearConfigurationForm } from "@/features/settings/academic-year-configuration/components/form/AcademicYearConfigurationForm";
+import { AcademicYearConfigurationForm } from "@/features/academic-year/components/form/AcademicYearConfigurationForm";
 import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;
 
-const AcademicYearConfigurationEditPage = async ({
+const AcademicYearEditPage = async ({
   params,
 }: {
   params: Params;
@@ -22,4 +22,4 @@ const AcademicYearConfigurationEditPage = async ({
   );
 };
 
-export default AcademicYearConfigurationEditPage;
+export default AcademicYearEditPage;

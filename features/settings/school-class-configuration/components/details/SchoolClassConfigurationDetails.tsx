@@ -3,7 +3,7 @@
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
 import Link from "next/link";
-import { useAcademicYearConfigurationStore } from "../../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -25,10 +25,10 @@ export const SchoolClassConfigurationDetails = ({
   const educationalStage = useEducationalStageConfigurationStore((state) =>
     row ? state.rows.find((item) => item.id === row.educationalStageId) : undefined,
   );
-  const academicYearName = useAcademicYearConfigurationStore((state) =>
+  const academicYearName = useAcademicYearStore((state) =>
     educationalStage
       ? state.rows.find((item) => item.id === educationalStage.academicYearId)
-          ?.academicYearName
+        ?.academicYearName
       : undefined,
   );
 
@@ -78,9 +78,9 @@ export const SchoolClassConfigurationDetails = ({
             row,
             educationalStage
               ? formatEducationalStageLabel(
-                  educationalStage.stageName,
-                  resolveAcademicYearLabel(academicYearName),
-                )
+                educationalStage.stageName,
+                resolveAcademicYearLabel(academicYearName),
+              )
               : undefined,
           ).map((field) => (
             <DetailField key={field.label} label={field.label} value={field.value} />

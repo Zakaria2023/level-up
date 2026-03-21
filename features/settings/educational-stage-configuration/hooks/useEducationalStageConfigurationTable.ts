@@ -2,7 +2,7 @@
 
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -22,8 +22,10 @@ const toSearchableValues = (row: EducationalStageConfigurationRow) => [
 
 export const useEducationalStageConfigurationTable = () => {
   const rows = useEducationalStageConfigurationStore((state) => state.rows);
-  const deleteRow = useEducationalStageConfigurationStore((state) => state.deleteRow);
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const deleteRow = useEducationalStageConfigurationStore(
+    (state) => state.deleteRow,
+  );
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
@@ -37,7 +39,10 @@ export const useEducationalStageConfigurationTable = () => {
     resolveAcademicYearLabel(academicYearMap.get(academicYearId));
 
   const resolveEducationalStageName = (row: EducationalStageConfigurationRow) =>
-    formatEducationalStageLabel(row.stageName, academicYearMap.get(row.academicYearId));
+    formatEducationalStageLabel(
+      row.stageName,
+      academicYearMap.get(row.academicYearId),
+    );
 
   const filteredRows = useMemo(() => {
     const normalizedSearch = searchValue.trim().toLowerCase();

@@ -2,7 +2,7 @@
 
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -44,8 +44,10 @@ export const useSubjectConfigurationTable = () => {
   const rows = useSubjectConfigurationStore((state) => state.rows);
   const deleteRow = useSubjectConfigurationStore((state) => state.deleteRow);
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
-  const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const educationalStages = useEducationalStageConfigurationStore(
+    (state) => state.rows,
+  );
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
@@ -82,9 +84,7 @@ export const useSubjectConfigurationTable = () => {
   );
   const teacherMap = useMemo(
     () =>
-      new Map(
-        SUBJECT_TEACHER_OPTIONS.map((item) => [item.value, item.label]),
-      ),
+      new Map(SUBJECT_TEACHER_OPTIONS.map((item) => [item.value, item.label])),
     [],
   );
 

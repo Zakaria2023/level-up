@@ -1,5 +1,6 @@
 import { renderBooleanValue } from "@/lib/utils/helpers";
-import type { AcademicYearConfigurationRow } from "../types";
+import { TFunction } from "i18next";
+import type { AcademicYearRow } from "../types";
 
 export const ACADEMIC_YEAR_SEMESTER_OPTIONS = [
   { label: "First Semester", value: "First Semester" },
@@ -8,7 +9,7 @@ export const ACADEMIC_YEAR_SEMESTER_OPTIONS = [
   { label: "Summer Semester", value: "Summer Semester" },
 ];
 
-export const ACADEMIC_YEAR_CONFIGURATION_ROWS: AcademicYearConfigurationRow[] = [
+export const ACADEMIC_YEAR_ROWS: AcademicYearRow[] = [
   {
     id: 1,
     academicYearName: "2025 / 2026",
@@ -24,41 +25,41 @@ export const ACADEMIC_YEAR_CONFIGURATION_ROWS: AcademicYearConfigurationRow[] = 
   },
 ];
 
-export const toDetailFields = (row: AcademicYearConfigurationRow) => [
+export const toDetailFields = (row: AcademicYearRow, t: TFunction) => [
   {
-    label: "Academic Year Name",
+    label: t("AcademicYearDetails.fields.academicYearName"),
     value: row.academicYearName,
   },
   {
-    label: "Start Date",
+    label: t("AcademicYearDetails.fields.startDate"),
     value: row.startDate,
   },
   {
-    label: "End Date",
+    label: t("AcademicYearDetails.fields.endDate"),
     value: row.endDate,
   },
   {
-    label: "Registration Start Date",
+    label: t("AcademicYearDetails.fields.registrationStartDate"),
     value: row.registrationStartDate,
   },
   {
-    label: "Registration End Date",
+    label: t("AcademicYearDetails.fields.registrationEndDate"),
     value: row.registrationEndDate,
   },
   {
-    label: "Allow Grade Editing After End",
+    label: t("AcademicYearDetails.fields.allowGradeEditingAfterEnd"),
     value: renderBooleanValue(row.allowGradeEditingAfterEnd),
   },
   {
-    label: "Allow Student File Editing After End",
+    label: t("AcademicYearDetails.fields.allowStudentFileEditingAfterEnd"),
     value: renderBooleanValue(row.allowStudentFileEditingAfterEnd),
   },
   {
-    label: "Semesters",
+    label: t("AcademicYearDetails.fields.semesters"),
     value: row.semesters,
   },
   {
-    label: "Active",
+    label: t("AcademicYearDetails.fields.active"),
     value: renderBooleanValue(row.isActive),
   },
 ];

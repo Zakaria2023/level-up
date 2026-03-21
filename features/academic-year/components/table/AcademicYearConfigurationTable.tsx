@@ -43,7 +43,7 @@ const AcademicYearConfigurationTable = () => {
       gridColsClass="grid-cols-[190px_150px_150px_190px_190px_220px_250px_minmax(240px,1.2fr)_120px_120px]"
       headers={academicYearConfigurationTableHeaders}
       pageHeading="Academic Year Configuration"
-      addLinkHref="/academic-year-configuration/new"
+      addLinkHref="/academic-year/new"
       addLinkLabel="Add Academic Year"
       enableSearch
       searchValue={searchValue}
@@ -71,8 +71,8 @@ const AcademicYearConfigurationTable = () => {
           <div>{renderBooleanValue(item.isActive)}</div>
           <div className="flex w-full justify-center">
             <DataTableAction
-              viewLink={`/academic-year-configuration/${item.id}`}
-              editLink={`/academic-year-configuration/${item.id}/edit`}
+              viewLink={`/academic-year/${item.id}`}
+              editLink={`/academic-year/${item.id}/edit`}
               onDeleteConfirm={() => {
                 if (item.hasActiveStudentRecord) {
                   window.alert(

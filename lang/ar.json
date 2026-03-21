@@ -285,5 +285,26 @@
     "schoolDays": "أيام الدراسة",
     "breaksCount": "عدد الاستراحات",
     "actions": "الإجراءات"
+  },
+
+  "AcademicYearDetails": {
+    "notFoundTitle": "لم يتم العثور على العام الدراسي",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "العام الدراسي #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل العام الدراسي هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "fields": {
+      "academicYearName": "اسم العام الدراسي",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "registrationStartDate": "تاريخ بدء التسجيل",
+      "registrationEndDate": "تاريخ انتهاء التسجيل",
+      "allowGradeEditingAfterEnd": "السماح بتعديل الدرجات بعد النهاية",
+      "allowStudentFileEditingAfterEnd": "السماح بتعديل ملف الطالب بعد النهاية",
+      "semesters": "الفصول الدراسية",
+      "active": "نشط"
+    }
   }
 }

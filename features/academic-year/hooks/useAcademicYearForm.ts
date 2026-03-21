@@ -4,21 +4,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useAcademicYearConfigurationStore } from "../store/useAcademicYearConfigurationStore";
-import type { AcademicYearConfigurationRow } from "../types";
+import { useAcademicYearStore } from "../store/useAcademicYearStore";
+import type { AcademicYearRow } from "../types";
 import {
-  addAcademicYearConfigurationSchema,
-  type AddAcademicYearConfigurationFormValues,
-} from "../validation/addAcademicYearConfigurationSchema";
+  AcademicYearSchema,
+  type AcademicYearFormValues,
+} from "../validation/AcademicYearSchema";
 
-type UseAcademicYearConfigurationFormOptions = {
+type UseAcademicYearFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
 };
 
-const getDefaultValues = (
-  row?: AcademicYearConfigurationRow,
-): AddAcademicYearConfigurationFormValues => ({
+const getDefaultValues = (row?: AcademicYearRow): AcademicYearFormValues => ({
   academicYearName: row?.academicYearName ?? "",
   startDate: row?.startDate ?? "",
   endDate: row?.endDate ?? "",
@@ -31,15 +29,15 @@ const getDefaultValues = (
   isActive: row?.isActive ?? false,
 });
 
-export const useAcademicYearConfigurationForm = ({
+export const useAcademicYearForm = ({
   mode = "create",
   rowId,
-}: UseAcademicYearConfigurationFormOptions = {}) => {
+}: UseAcademicYearFormOptions = {}) => {
   const router = useRouter();
-  const rows = useAcademicYearConfigurationStore((state) => state.rows);
-  const addRow = useAcademicYearConfigurationStore((state) => state.addRow);
-  const updateRow = useAcademicYearConfigurationStore((state) => state.updateRow);
-  const existingRow = useAcademicYearConfigurationStore((state) =>
+  const rows = useAcademicYearStore((state) => state.rows);
+  const addRow = useAcademicYearStore((state) => state.addRow);
+  const updateRow = useAcademicYearStore((state) => state.updateRow);
+  const existingRow = useAcademicYearStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
       : undefined,
@@ -53,8 +51,8 @@ export const useAcademicYearConfigurationForm = ({
     control,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<AddAcademicYearConfigurationFormValues>({
-    resolver: zodResolver(addAcademicYearConfigurationSchema),
+  } = useForm<AcademicYearFormValues>({
+    resolver: zodResolver(AcademicYearSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -88,7 +86,7 @@ export const useAcademicYearConfigurationForm = ({
     });
   };
 
-  const onSubmit = async (values: AddAcademicYearConfigurationFormValues) => {
+  const onSubmit = async (values: AcademicYearFormValues) => {
     try {
       setServerError(null);
 
@@ -97,7 +95,7 @@ export const useAcademicYearConfigurationForm = ({
         return;
       }
 
-      const nextRow: AcademicYearConfigurationRow = {
+      const nextRow: AcademicYearRow = {
         id:
           mode === "edit" && existingRow
             ? existingRow.id
@@ -117,13 +115,13 @@ export const useAcademicYearConfigurationForm = ({
 
       if (mode === "edit") {
         updateRow(nextRow);
-        router.push(`/academic-year-configuration/${nextRow.id}`);
+        router.push(`/academic-year/${nextRow.id}`);
         return;
       }
 
       addRow(nextRow);
       reset(getDefaultValues());
-      router.push("/academic-year-configuration");
+      router.push("/academic-year");
     } catch {
       setServerError(
         "Unable to save the academic year configuration. Please try again.",

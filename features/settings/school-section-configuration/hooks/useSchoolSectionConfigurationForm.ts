@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -42,10 +42,14 @@ export const useSchoolSectionConfigurationForm = ({
   const router = useRouter();
   const rows = useSchoolSectionConfigurationStore((state) => state.rows);
   const addRow = useSchoolSectionConfigurationStore((state) => state.addRow);
-  const updateRow = useSchoolSectionConfigurationStore((state) => state.updateRow);
+  const updateRow = useSchoolSectionConfigurationStore(
+    (state) => state.updateRow,
+  );
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
-  const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const educationalStages = useEducationalStageConfigurationStore(
+    (state) => state.rows,
+  );
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const existingRow = useSchoolSectionConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -90,7 +94,9 @@ export const useSchoolSectionConfigurationForm = ({
 
     if (
       existingRow &&
-      !options.some((option) => option.value === String(existingRow.schoolClassId))
+      !options.some(
+        (option) => option.value === String(existingRow.schoolClassId),
+      )
     ) {
       options.push({
         label: `School Class #${existingRow.schoolClassId}`,
@@ -176,7 +182,8 @@ export const useSchoolSectionConfigurationForm = ({
         id:
           mode === "edit" && existingRow
             ? existingRow.id
-            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) +
+              1,
         sectionName: values.sectionName,
         schoolClassId: parsedSchoolClassId,
         defaultCapacity: values.defaultCapacity,

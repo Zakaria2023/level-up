@@ -285,5 +285,26 @@
     "schoolDays": "School Days",
     "breaksCount": "Breaks Count",
     "actions": "Actions"
+  },
+
+  "AcademicYearDetails": {
+    "notFoundTitle": "Academic Year Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "Academic Year #{{id}}",
+    "subtitle": "Review the stored values for this academic year record.",
+    "back": "Back",
+    "edit": "Edit",
+    "fields": {
+      "academicYearName": "Academic Year Name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "registrationStartDate": "Registration Start Date",
+      "registrationEndDate": "Registration End Date",
+      "allowGradeEditingAfterEnd": "Allow Grade Editing After End",
+      "allowStudentFileEditingAfterEnd": "Allow Student File Editing After End",
+      "semesters": "Semesters",
+      "active": "Active"
+    }
   }
 }

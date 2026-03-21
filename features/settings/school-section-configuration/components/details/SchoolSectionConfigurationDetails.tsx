@@ -3,7 +3,7 @@
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
 import Link from "next/link";
-import { useAcademicYearConfigurationStore } from "../../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -36,10 +36,10 @@ export const SchoolSectionConfigurationDetails = ({
       ? state.rows.find((item) => item.id === schoolClass.educationalStageId)
       : undefined,
   );
-  const academicYearName = useAcademicYearConfigurationStore((state) =>
+  const academicYearName = useAcademicYearStore((state) =>
     educationalStage
       ? state.rows.find((item) => item.id === educationalStage.academicYearId)
-          ?.academicYearName
+        ?.academicYearName
       : undefined,
   );
   const supervisorName = resolveSupervisorLabel(
@@ -93,14 +93,14 @@ export const SchoolSectionConfigurationDetails = ({
             row,
             schoolClass
               ? formatSchoolClassLabel(
-                  schoolClass.className,
-                  educationalStage
-                    ? formatEducationalStageLabel(
-                        educationalStage.stageName,
-                        resolveAcademicYearLabel(academicYearName),
-                      )
-                    : undefined,
-                )
+                schoolClass.className,
+                educationalStage
+                  ? formatEducationalStageLabel(
+                    educationalStage.stageName,
+                    resolveAcademicYearLabel(academicYearName),
+                  )
+                  : undefined,
+              )
               : undefined,
             supervisorName,
           ).map((field) => (

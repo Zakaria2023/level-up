@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import { SEMESTER_EVALUATION_TYPE_OPTIONS } from "../constants";
 import { useSemesterConfigurationStore } from "../store/useSemesterConfigurationStore";
 import type { SemesterConfigurationRow } from "../types";
@@ -39,7 +39,7 @@ export const useSemesterConfigurationForm = ({
   const rows = useSemesterConfigurationStore((state) => state.rows);
   const addRow = useSemesterConfigurationStore((state) => state.addRow);
   const updateRow = useSemesterConfigurationStore((state) => state.updateRow);
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const existingRow = useSemesterConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -67,7 +67,9 @@ export const useSemesterConfigurationForm = ({
 
     if (
       existingRow &&
-      !options.some((option) => option.value === String(existingRow.academicYearId))
+      !options.some(
+        (option) => option.value === String(existingRow.academicYearId),
+      )
     ) {
       options.push({
         label: `Academic Year #${existingRow.academicYearId}`,
@@ -138,7 +140,8 @@ export const useSemesterConfigurationForm = ({
         id:
           mode === "edit" && existingRow
             ? existingRow.id
-            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) +
+              1,
         semesterName: values.semesterName,
         academicYearId: parsedAcademicYearId,
         semesterStartDate: values.semesterStartDate,

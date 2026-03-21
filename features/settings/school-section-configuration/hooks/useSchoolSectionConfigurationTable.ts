@@ -2,7 +2,7 @@
 
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -34,10 +34,14 @@ const toSearchableValues = (
 
 export const useSchoolSectionConfigurationTable = () => {
   const rows = useSchoolSectionConfigurationStore((state) => state.rows);
-  const deleteRow = useSchoolSectionConfigurationStore((state) => state.deleteRow);
+  const deleteRow = useSchoolSectionConfigurationStore(
+    (state) => state.deleteRow,
+  );
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
-  const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const educationalStages = useEducationalStageConfigurationStore(
+    (state) => state.rows,
+  );
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
@@ -73,7 +77,10 @@ export const useSchoolSectionConfigurationTable = () => {
     [educationalStageMap, schoolClasses],
   );
   const supervisorMap = useMemo(
-    () => new Map(SECTION_SUPERVISOR_OPTIONS.map((item) => [item.value, item.label])),
+    () =>
+      new Map(
+        SECTION_SUPERVISOR_OPTIONS.map((item) => [item.value, item.label]),
+      ),
     [],
   );
 

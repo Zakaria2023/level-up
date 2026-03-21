@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -12,10 +12,7 @@ import {
 import { useEducationalStageConfigurationStore } from "../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
 import { formatSchoolClassLabel } from "../../school-class-configuration/constants";
 import { useSchoolClassConfigurationStore } from "../../school-class-configuration/store/useSchoolClassConfigurationStore";
-import {
-  SUBJECT_TEACHER_OPTIONS,
-  SUBJECT_TYPE_OPTIONS,
-} from "../constants";
+import { SUBJECT_TEACHER_OPTIONS, SUBJECT_TYPE_OPTIONS } from "../constants";
 import { useSubjectConfigurationStore } from "../store/useSubjectConfigurationStore";
 import type {
   SubjectClassSetting,
@@ -82,8 +79,10 @@ export const useSubjectConfigurationForm = ({
   const addRow = useSubjectConfigurationStore((state) => state.addRow);
   const updateRow = useSubjectConfigurationStore((state) => state.updateRow);
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
-  const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const educationalStages = useEducationalStageConfigurationStore(
+    (state) => state.rows,
+  );
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const existingRow = useSubjectConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -105,11 +104,14 @@ export const useSubjectConfigurationForm = ({
     defaultValues: getDefaultValues(existingRow),
   });
 
-  const { fields: classSettingFields, append: appendClassSetting, remove: removeClassSetting } =
-    useFieldArray({
-      control,
-      name: "classSettings",
-    });
+  const {
+    fields: classSettingFields,
+    append: appendClassSetting,
+    remove: removeClassSetting,
+  } = useFieldArray({
+    control,
+    name: "classSettings",
+  });
   const {
     fields: gradeBreakdownFields,
     append: appendGradeBreakdown,
@@ -177,10 +179,14 @@ export const useSubjectConfigurationForm = ({
   }, [existingRow, mode, reset]);
 
   const setSubjectType = (value: string) => {
-    setValue("subjectType", value as AddSubjectConfigurationFormValues["subjectType"], {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
+    setValue(
+      "subjectType",
+      value as AddSubjectConfigurationFormValues["subjectType"],
+      {
+        shouldDirty: true,
+        shouldValidate: true,
+      },
+    );
   };
 
   const setTeacherIds = (values: string[]) => {
@@ -198,7 +204,8 @@ export const useSubjectConfigurationForm = ({
   };
 
   const addClassSetting = () => appendClassSetting(createEmptyClassSetting());
-  const addGradeBreakdown = () => appendGradeBreakdown(createEmptyGradeBreakdown());
+  const addGradeBreakdown = () =>
+    appendGradeBreakdown(createEmptyGradeBreakdown());
 
   const resetForm = () => {
     setServerError(null);
@@ -226,7 +233,8 @@ export const useSubjectConfigurationForm = ({
       if (duplicateSubject) {
         setError("subjectName", {
           type: "manual",
-          message: "Subject name already exists. Duplicate subject names are not allowed.",
+          message:
+            "Subject name already exists. Duplicate subject names are not allowed.",
         });
         return;
       }
@@ -235,7 +243,8 @@ export const useSubjectConfigurationForm = ({
         id:
           mode === "edit" && existingRow
             ? existingRow.id
-            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) +
+              1,
         subjectName: values.subjectName,
         subjectType: values.subjectType,
         classSettings: values.classSettings.map((setting) => ({
@@ -262,7 +271,9 @@ export const useSubjectConfigurationForm = ({
       reset(getDefaultValues());
       router.push("/subject-configuration");
     } catch {
-      setServerError("Unable to save the subject configuration. Please try again.");
+      setServerError(
+        "Unable to save the subject configuration. Please try again.",
+      );
     }
   };
 

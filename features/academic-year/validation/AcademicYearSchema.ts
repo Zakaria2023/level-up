@@ -1,10 +1,7 @@
 import { z } from "zod";
 
-export const addAcademicYearConfigurationSchema = z.object({
-  academicYearName: z
-    .string()
-    .trim()
-    .min(1, "Academic year name is required."),
+export const AcademicYearSchema = z.object({
+  academicYearName: z.string().trim().min(1, "Academic year name is required."),
   startDate: z.string().trim().min(1, "Start date is required."),
   endDate: z.string().trim().min(1, "End date is required."),
   registrationStartDate: z
@@ -21,6 +18,4 @@ export const addAcademicYearConfigurationSchema = z.object({
   isActive: z.boolean(),
 });
 
-export type AddAcademicYearConfigurationFormValues = z.infer<
-  typeof addAcademicYearConfigurationSchema
->;
+export type AcademicYearFormValues = z.infer<typeof AcademicYearSchema>;

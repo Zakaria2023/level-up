@@ -11,8 +11,8 @@ import {
   FiChevronDown,
   FiGitBranch,
   FiGrid,
-  FiLayers,
   FiHome,
+  FiLayers,
   FiLogOut,
   FiMapPin,
   FiUsers,
@@ -40,8 +40,8 @@ const homeLink: NavItem = {
 };
 
 const academicYearConfigurationLink: NavItem = {
-  href: "/academic-year-configuration",
-  label: "Academic Year Configuration",
+  href: "/academic-year",
+  label: "Academic Year",
 };
 
 const semesterConfigurationLink: NavItem = {

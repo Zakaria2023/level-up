@@ -3,7 +3,7 @@
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
 import Link from "next/link";
-import { useAcademicYearConfigurationStore } from "../../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../../academic-year/store/useAcademicYearStore";
 import { toDetailFields } from "../../constants";
 import { useSemesterConfigurationStore } from "../../store/useSemesterConfigurationStore";
 
@@ -17,7 +17,7 @@ export const SemesterConfigurationDetails = ({
   const row = useSemesterConfigurationStore((state) =>
     state.rows.find((item) => item.id === rowId),
   );
-  const academicYearName = useAcademicYearConfigurationStore((state) =>
+  const academicYearName = useAcademicYearStore((state) =>
     row
       ? state.rows.find((item) => item.id === row.academicYearId)?.academicYearName
       : undefined,

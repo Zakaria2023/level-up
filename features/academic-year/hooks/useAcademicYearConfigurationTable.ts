@@ -1,11 +1,11 @@
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
-import { useAcademicYearConfigurationStore } from "../store/useAcademicYearConfigurationStore";
-import { AcademicYearConfigurationRow } from "../types";
+import { useAcademicYearStore } from "../store/useAcademicYearStore";
+import { AcademicYearRow } from "../types";
 
 const PAGE_SIZE = 5;
 
-const toSearchableValues = (row: AcademicYearConfigurationRow) => [
+const toSearchableValues = (row: AcademicYearRow) => [
   row.academicYearName,
   row.startDate,
   row.endDate,
@@ -18,8 +18,8 @@ const toSearchableValues = (row: AcademicYearConfigurationRow) => [
 ];
 
 export const useAcademicYearConfigurationTable = () => {
-  const rows = useAcademicYearConfigurationStore((state) => state.rows);
-  const deleteRow = useAcademicYearConfigurationStore((state) => state.deleteRow);
+  const rows = useAcademicYearStore((state) => state.rows);
+  const deleteRow = useAcademicYearStore((state) => state.deleteRow);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);

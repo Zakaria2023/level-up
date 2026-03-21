@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import { useEducationalStageConfigurationStore } from "../store/useEducationalStageConfigurationStore";
 import type { EducationalStageConfigurationRow } from "../types";
 import {
@@ -34,8 +34,10 @@ export const useEducationalStageConfigurationForm = ({
   const router = useRouter();
   const rows = useEducationalStageConfigurationStore((state) => state.rows);
   const addRow = useEducationalStageConfigurationStore((state) => state.addRow);
-  const updateRow = useEducationalStageConfigurationStore((state) => state.updateRow);
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const updateRow = useEducationalStageConfigurationStore(
+    (state) => state.updateRow,
+  );
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const existingRow = useEducationalStageConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -85,7 +87,9 @@ export const useEducationalStageConfigurationForm = ({
     value: String(row.id),
   }));
 
-  const onSubmit = async (values: AddEducationalStageConfigurationFormValues) => {
+  const onSubmit = async (
+    values: AddEducationalStageConfigurationFormValues,
+  ) => {
     try {
       setServerError(null);
 
@@ -105,7 +109,8 @@ export const useEducationalStageConfigurationForm = ({
         id:
           mode === "edit" && existingRow
             ? existingRow.id
-            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) +
+              1,
         academicYearId: parsedAcademicYearId,
         stageName: values.stageName,
         requiredEnrollmentAge: values.requiredEnrollmentAge,

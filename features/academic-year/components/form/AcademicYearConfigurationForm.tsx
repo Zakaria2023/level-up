@@ -2,11 +2,11 @@
 
 import ServerError from "@/components/feedback/ServerError";
 import { DashboardCard } from "@/components/ui/DashboardCard";
-import MultiSelectDropdown from "@/components/ui/MultiSelectDropdown";
 import Input from "@/components/ui/Input";
+import MultiSelectDropdown from "@/components/ui/MultiSelectDropdown";
 import Link from "next/link";
 import { ACADEMIC_YEAR_SEMESTER_OPTIONS } from "../../constants";
-import { useAcademicYearConfigurationForm } from "../../hooks/useAcademicYearConfigurationForm";
+import { useAcademicYearForm } from "../../hooks/useAcademicYearForm";
 
 type AcademicYearConfigurationFormProps = {
   mode?: "create" | "edit";
@@ -36,7 +36,7 @@ export const AcademicYearConfigurationForm = ({
     existingRow,
     semesters,
     setSemesters,
-  } = useAcademicYearConfigurationForm({
+  } = useAcademicYearForm({
     mode,
     rowId,
   });
@@ -56,8 +56,8 @@ export const AcademicYearConfigurationForm = ({
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit" && rowId
-      ? `/academic-year-configuration/${rowId}`
-      : "/academic-year-configuration");
+      ? `/academic-year/${rowId}`
+      : "/academic-year");
 
   if (mode === "edit" && !existingRow) {
     return (
@@ -68,7 +68,7 @@ export const AcademicYearConfigurationForm = ({
       >
         <div className="flex justify-end">
           <Link
-            href="/academic-year-configuration"
+            href="/academic-year"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             Back to Table

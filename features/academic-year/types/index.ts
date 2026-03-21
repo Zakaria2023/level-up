@@ -1,4 +1,4 @@
-export type AcademicYearConfigurationRow = {
+export type AcademicYearRow = {
   id: number;
   academicYearName: string;
   startDate: string;

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
@@ -38,11 +38,13 @@ export const useSchoolClassConfigurationForm = ({
   const router = useRouter();
   const rows = useSchoolClassConfigurationStore((state) => state.rows);
   const addRow = useSchoolClassConfigurationStore((state) => state.addRow);
-  const updateRow = useSchoolClassConfigurationStore((state) => state.updateRow);
+  const updateRow = useSchoolClassConfigurationStore(
+    (state) => state.updateRow,
+  );
   const educationalStages = useEducationalStageConfigurationStore(
     (state) => state.rows,
   );
-  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
+  const academicYears = useAcademicYearStore((state) => state.rows);
   const existingRow = useSchoolClassConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -78,7 +80,9 @@ export const useSchoolClassConfigurationForm = ({
 
     if (
       existingRow &&
-      !options.some((option) => option.value === String(existingRow.educationalStageId))
+      !options.some(
+        (option) => option.value === String(existingRow.educationalStageId),
+      )
     ) {
       options.push({
         label: `Educational Stage #${existingRow.educationalStageId}`,
@@ -127,7 +131,10 @@ export const useSchoolClassConfigurationForm = ({
 
       const parsedEducationalStageId = Number(values.educationalStageId);
 
-      if (!Number.isFinite(parsedEducationalStageId) || parsedEducationalStageId <= 0) {
+      if (
+        !Number.isFinite(parsedEducationalStageId) ||
+        parsedEducationalStageId <= 0
+      ) {
         setServerError("Please select a valid educational stage.");
         return;
       }
@@ -153,7 +160,8 @@ export const useSchoolClassConfigurationForm = ({
         id:
           mode === "edit" && existingRow
             ? existingRow.id
-            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) +
+              1,
         className: values.className,
         educationalStageId: parsedEducationalStageId,
         minimumPassingGrade: values.minimumPassingGrade,
