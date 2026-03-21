@@ -10,8 +10,8 @@ import {
   resolveAcademicYearLabel,
 } from "../../../educational-stage/constants";
 import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
-import { useSchoolClassConfigurationStore } from "../store/useSchoolClassConfigurationStore";
-import type { SchoolClassConfigurationRow } from "../types";
+import { useSchoolClassStore } from "../store/useSchoolClassStore";
+import type { SchoolClassRow } from "../types";
 import {
   addSchoolClassConfigurationSchema,
   type AddSchoolClassConfigurationFormValues,
@@ -23,7 +23,7 @@ type UseSchoolClassConfigurationFormOptions = {
 };
 
 const getDefaultValues = (
-  row?: SchoolClassConfigurationRow,
+  row?: SchoolClassRow,
 ): AddSchoolClassConfigurationFormValues => ({
   className: row?.className ?? "",
   educationalStageId: row ? String(row.educationalStageId) : "",
@@ -36,14 +36,12 @@ export const useSchoolClassConfigurationForm = ({
   rowId,
 }: UseSchoolClassConfigurationFormOptions = {}) => {
   const router = useRouter();
-  const rows = useSchoolClassConfigurationStore((state) => state.rows);
-  const addRow = useSchoolClassConfigurationStore((state) => state.addRow);
-  const updateRow = useSchoolClassConfigurationStore(
-    (state) => state.updateRow,
-  );
+  const rows = useSchoolClassStore((state) => state.rows);
+  const addRow = useSchoolClassStore((state) => state.addRow);
+  const updateRow = useSchoolClassStore((state) => state.updateRow);
   const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);
-  const existingRow = useSchoolClassConfigurationStore((state) =>
+  const existingRow = useSchoolClassStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
       : undefined,
@@ -154,7 +152,7 @@ export const useSchoolClassConfigurationForm = ({
         return;
       }
 
-      const nextRow: SchoolClassConfigurationRow = {
+      const nextRow: SchoolClassRow = {
         id:
           mode === "edit" && existingRow
             ? existingRow.id

@@ -1,7 +1,8 @@
 import { renderBooleanValue } from "@/lib/utils/helpers";
-import type { SchoolClassConfigurationRow } from "../types";
+import { TFunction } from "i18next";
+import type { SchoolClassRow } from "../types";
 
-export const SCHOOL_CLASS_CONFIGURATION_ROWS: SchoolClassConfigurationRow[] = [
+export const SCHOOL_CLASS_ROWS: SchoolClassRow[] = [
   {
     id: 1,
     className: "Grade 1",
@@ -18,26 +19,29 @@ export const formatSchoolClassLabel = (
   className: string,
   educationalStageName?: string,
 ) =>
-  educationalStageName?.trim() ? `${className} - ${educationalStageName}` : className;
+  educationalStageName?.trim()
+    ? `${className} - ${educationalStageName}`
+    : className;
 
 export const toDetailFields = (
-  row: SchoolClassConfigurationRow,
+  row: SchoolClassRow,
+  t: TFunction,
   educationalStageName?: string,
 ) => [
   {
-    label: "Class Name",
+    label: t("SchoolClassDetails.fields.className"),
     value: row.className,
   },
   {
-    label: "Educational Stage",
+    label: t("SchoolClassDetails.fields.educationalStage"),
     value: resolveEducationalStageLabel(educationalStageName),
   },
   {
-    label: "Minimum Passing Grade",
+    label: t("SchoolClassDetails.fields.minimumPassingGrade"),
     value: `${row.minimumPassingGrade}%`,
   },
   {
-    label: "Active",
+    label: t("SchoolClassDetails.fields.active"),
     value: renderBooleanValue(row.isActive),
   },
 ];

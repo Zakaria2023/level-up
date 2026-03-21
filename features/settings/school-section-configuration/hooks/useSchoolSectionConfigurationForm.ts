@@ -1,5 +1,7 @@
 "use client";
 
+import { formatSchoolClassLabel } from "@/features/school-class/constants";
+import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClassStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -10,8 +12,6 @@ import {
   resolveAcademicYearLabel,
 } from "../../../educational-stage/constants";
 import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
-import { formatSchoolClassLabel } from "../../school-class-configuration/constants";
-import { useSchoolClassConfigurationStore } from "../../school-class-configuration/store/useSchoolClassConfigurationStore";
 import { SECTION_SUPERVISOR_OPTIONS } from "../constants";
 import { useSchoolSectionConfigurationStore } from "../store/useSchoolSectionConfigurationStore";
 import type { SchoolSectionConfigurationRow } from "../types";
@@ -45,7 +45,7 @@ export const useSchoolSectionConfigurationForm = ({
   const updateRow = useSchoolSectionConfigurationStore(
     (state) => state.updateRow,
   );
-  const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
+  const schoolClasses = useSchoolClassStore((state) => state.rows);
   const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);
   const existingRow = useSchoolSectionConfigurationStore((state) =>

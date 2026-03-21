@@ -2,6 +2,8 @@
 
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
+import { formatSchoolClassLabel } from "@/features/school-class/constants";
+import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClassStore";
 import Link from "next/link";
 import { useAcademicYearStore } from "../../../../academic-year/store/useAcademicYearStore";
 import {
@@ -9,8 +11,6 @@ import {
   resolveAcademicYearLabel,
 } from "../../../../educational-stage/constants";
 import { useEducationalStageStore } from "../../../../educational-stage/store/useEducationalStageStore";
-import { formatSchoolClassLabel } from "../../../school-class-configuration/constants";
-import { useSchoolClassConfigurationStore } from "../../../school-class-configuration/store/useSchoolClassConfigurationStore";
 import {
   resolveSupervisorLabel,
   SECTION_SUPERVISOR_OPTIONS,
@@ -28,7 +28,7 @@ export const SchoolSectionConfigurationDetails = ({
   const row = useSchoolSectionConfigurationStore((state) =>
     state.rows.find((item) => item.id === rowId),
   );
-  const schoolClass = useSchoolClassConfigurationStore((state) =>
+  const schoolClass = useSchoolClassStore((state) =>
     row ? state.rows.find((item) => item.id === row.schoolClassId) : undefined,
   );
   const educationalStage = useEducationalStageStore((state) =>

@@ -60,8 +60,8 @@ const educationalStageConfigurationLink: NavItem = {
 };
 
 const schoolClassConfigurationLink: NavItem = {
-  href: "/school-class-configuration",
-  label: "School Class Configuration",
+  href: "/school-class",
+  label: "School Class",
 };
 
 const schoolSectionConfigurationLink: NavItem = {

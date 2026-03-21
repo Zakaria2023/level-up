@@ -1,5 +1,7 @@
 "use client";
 
+import { formatSchoolClassLabel } from "@/features/school-class/constants";
+import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClassStore";
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
 import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
@@ -8,8 +10,6 @@ import {
   resolveAcademicYearLabel,
 } from "../../../educational-stage/constants";
 import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
-import { formatSchoolClassLabel } from "../../school-class-configuration/constants";
-import { useSchoolClassConfigurationStore } from "../../school-class-configuration/store/useSchoolClassConfigurationStore";
 import {
   resolveSchoolClassLabel,
   resolveTeacherLabel,
@@ -43,7 +43,7 @@ const toSearchableValues = (
 export const useSubjectConfigurationTable = () => {
   const rows = useSubjectConfigurationStore((state) => state.rows);
   const deleteRow = useSubjectConfigurationStore((state) => state.deleteRow);
-  const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
+  const schoolClasses = useSchoolClassStore((state) => state.rows);
   const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");

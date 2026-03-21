@@ -9,13 +9,13 @@ import {
 } from "../../../educational-stage/constants";
 import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
 import { resolveEducationalStageLabel } from "../constants";
-import { useSchoolClassConfigurationStore } from "../store/useSchoolClassConfigurationStore";
-import { SchoolClassConfigurationRow } from "../types";
+import { useSchoolClassStore } from "../store/useSchoolClassStore";
+import { SchoolClassRow } from "../types";
 
 const PAGE_SIZE = 5;
 
 const toSearchableValues = (
-  row: SchoolClassConfigurationRow,
+  row: SchoolClassRow,
   educationalStageName: string,
 ) => [
   row.className,
@@ -25,10 +25,8 @@ const toSearchableValues = (
 ];
 
 export const useSchoolClassConfigurationTable = () => {
-  const rows = useSchoolClassConfigurationStore((state) => state.rows);
-  const deleteRow = useSchoolClassConfigurationStore(
-    (state) => state.deleteRow,
-  );
+  const rows = useSchoolClassStore((state) => state.rows);
+  const deleteRow = useSchoolClassStore((state) => state.deleteRow);
   const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");

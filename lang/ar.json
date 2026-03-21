@@ -599,5 +599,21 @@
     "teachingLanguage": "لغة التدريس",
     "isMixedStage": "مرحلة مختلطة",
     "actions": "الإجراءات"
+  },
+
+  "SchoolClassDetails": {
+    "notFoundTitle": "لم يتم العثور على إعداد صف المدرسة",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "إعداد صف المدرسة #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل إعداد صف المدرسة هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "fields": {
+      "className": "اسم الصف",
+      "educationalStage": "المرحلة التعليمية",
+      "minimumPassingGrade": "الحد الأدنى لدرجة النجاح",
+      "active": "نشط"
+    }
   }
 }

@@ -599,5 +599,21 @@
     "teachingLanguage": "Teaching Language",
     "isMixedStage": "Is Mixed Stage",
     "actions": "Actions"
+  },
+
+  "SchoolClassDetails": {
+    "notFoundTitle": "School Class Configuration Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "School Class Configuration #{{id}}",
+    "subtitle": "Review the stored values for this school class configuration record.",
+    "back": "Back",
+    "edit": "Edit",
+    "fields": {
+      "className": "Class Name",
+      "educationalStage": "Educational Stage",
+      "minimumPassingGrade": "Minimum Passing Grade",
+      "active": "Active"
+    }
   }
 }

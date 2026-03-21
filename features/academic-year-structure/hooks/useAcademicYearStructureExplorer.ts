@@ -6,9 +6,9 @@ import {
   resolveAcademicYearLabel,
 } from "@/features/educational-stage/constants";
 import { useEducationalStageStore } from "@/features/educational-stage/store/useEducationalStageStore";
+import { formatSchoolClassLabel } from "@/features/school-class/constants";
+import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClassStore";
 import { useSemesterStore } from "@/features/semester/store/useSemesterStore";
-import { formatSchoolClassLabel } from "@/features/settings/school-class-configuration/constants";
-import { useSchoolClassConfigurationStore } from "@/features/settings/school-class-configuration/store/useSchoolClassConfigurationStore";
 import { SECTION_SUPERVISOR_OPTIONS } from "@/features/settings/school-section-configuration/constants";
 import { useSchoolSectionConfigurationStore } from "@/features/settings/school-section-configuration/store/useSchoolSectionConfigurationStore";
 import { SUBJECT_TEACHER_OPTIONS } from "@/features/settings/subject-configuration/constants";
@@ -24,9 +24,7 @@ export const useAcademicYearStructureExplorer =
     const academicYears = useAcademicYearStore((state) => state.rows);
     const semesters = useSemesterStore((state) => state.rows);
     const educationalStages = useEducationalStageStore((state) => state.rows);
-    const schoolClasses = useSchoolClassConfigurationStore(
-      (state) => state.rows,
-    );
+    const schoolClasses = useSchoolClassStore((state) => state.rows);
     const schoolSections = useSchoolSectionConfigurationStore(
       (state) => state.rows,
     );
