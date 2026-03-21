@@ -8,7 +8,7 @@ import Link from "next/link";
 import { ACADEMIC_YEAR_SEMESTER_OPTIONS } from "../../constants";
 import { useAcademicYearForm } from "../../hooks/useAcademicYearForm";
 
-type AcademicYearConfigurationFormProps = {
+type AcademicYearFormProps = {
   mode?: "create" | "edit";
   rowId?: number;
   title?: string;
@@ -17,14 +17,14 @@ type AcademicYearConfigurationFormProps = {
   cancelHref?: string;
 };
 
-export const AcademicYearConfigurationForm = ({
+export const AcademicYearForm = ({
   mode = "create",
   rowId,
   title,
   subtitle,
   submitLabel,
   cancelHref,
-}: AcademicYearConfigurationFormProps = {}) => {
+}: AcademicYearFormProps = {}) => {
   const {
     register,
     handleSubmit,
@@ -36,6 +36,7 @@ export const AcademicYearConfigurationForm = ({
     existingRow,
     semesters,
     setSemesters,
+    t,
   } = useAcademicYearForm({
     mode,
     rowId,
@@ -44,26 +45,27 @@ export const AcademicYearConfigurationForm = ({
   const resolvedTitle =
     title ??
     (mode === "edit"
-      ? "Edit Academic Year Configuration"
-      : "Add Academic Year Configuration");
+      ? t("AcademicYearForm.editTitle")
+      : t("AcademicYearForm.createTitle"));
+
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected academic year configuration record."
-      : "Create a new academic year configuration record and add it to the table.");
+      ? t("AcademicYearForm.editSubtitle")
+      : t("AcademicYearForm.createSubtitle"));
+
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Configuration");
+    submitLabel ?? (mode === "edit" ? t("AcademicYearForm.saveChanges") : t("AcademicYearForm.save"));
+
   const resolvedCancelHref =
     cancelHref ??
-    (mode === "edit" && rowId
-      ? `/academic-year/${rowId}`
-      : "/academic-year");
+    (mode === "edit" && rowId ? `/academic-year/${rowId}` : "/academic-year");
 
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Academic Year Configuration Not Found"
-        subtitle="The requested record could not be loaded for editing."
+        title={t("AcademicYearForm.notFoundTitle")}
+        subtitle={t("AcademicYearForm.notFoundSubtitle")}
         className="max-w-120"
       >
         <div className="flex justify-end">
@@ -71,7 +73,7 @@ export const AcademicYearConfigurationForm = ({
             href="/academic-year"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Back to Table
+            {t("AcademicYearForm.backToTable")}
           </Link>
         </div>
       </DashboardCard>
@@ -88,10 +90,10 @@ export const AcademicYearConfigurationForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Academic Year Name"
+            label={t("AcademicYearForm.academicYearName")}
             requiredMark
             inputType="text"
-            placeholder="2025 / 2026"
+            placeholder={t("AcademicYearForm.academicYearNamePlaceholder")}
             error={errors.academicYearName?.message}
             disabled={isSubmitting}
             {...register("academicYearName")}
@@ -100,13 +102,13 @@ export const AcademicYearConfigurationForm = ({
           <div>
             <input type="hidden" {...register("semesters")} />
             <MultiSelectDropdown
-              label="Semesters"
+              label={t("AcademicYearForm.semesters")}
               values={semesters}
               onChange={setSemesters}
               options={ACADEMIC_YEAR_SEMESTER_OPTIONS}
-              placeholder="Select semesters"
+              placeholder={t("AcademicYearForm.selectSemesters")}
               searchable
-              searchPlaceholder="Search semesters"
+              searchPlaceholder={t("AcademicYearForm.searchSemesters")}
               error={errors.semesters?.message}
               disabled={isSubmitting}
             />
@@ -115,7 +117,7 @@ export const AcademicYearConfigurationForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Start Date"
+            label={t("AcademicYearForm.startDate")}
             requiredMark
             inputType="date"
             error={errors.startDate?.message}
@@ -124,7 +126,7 @@ export const AcademicYearConfigurationForm = ({
           />
 
           <Input
-            label="End Date"
+            label={t("AcademicYearForm.endDate")}
             requiredMark
             inputType="date"
             error={errors.endDate?.message}
@@ -135,7 +137,7 @@ export const AcademicYearConfigurationForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Registration Start Date"
+            label={t("AcademicYearForm.registrationStartDate")}
             requiredMark
             inputType="date"
             error={errors.registrationStartDate?.message}
@@ -144,7 +146,7 @@ export const AcademicYearConfigurationForm = ({
           />
 
           <Input
-            label="Registration End Date"
+            label={t("AcademicYearForm.registrationEndDate")}
             requiredMark
             inputType="date"
             error={errors.registrationEndDate?.message}
@@ -155,7 +157,7 @@ export const AcademicYearConfigurationForm = ({
 
         <div>
           <p className="mb-3 text-[16px] font-semibold text-[#0E6B7A]">
-            Configuration Toggles
+            {t("AcademicYearForm.toggles")}
           </p>
 
           <div className="grid gap-3 md:grid-cols-2">
@@ -166,7 +168,7 @@ export const AcademicYearConfigurationForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("allowGradeEditingAfterEnd")}
               />
-              Allow Grade Editing After End
+              {t("AcademicYearForm.allowGradeEditingAfterEnd")}
             </label>
 
             <label className="inline-flex items-center gap-3 rounded-xl border border-[#B8C9D8] bg-white px-4 py-3 text-[15px] font-medium text-[#244E62]">
@@ -176,13 +178,15 @@ export const AcademicYearConfigurationForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("allowStudentFileEditingAfterEnd")}
               />
-              Allow Student File Editing After End
+              {t("AcademicYearForm.allowStudentFileEditingAfterEnd")}
             </label>
           </div>
         </div>
 
         <div className="rounded-[20px] border border-(--border-color) bg-[#F8FDFF] p-4">
-          <p className="text-[16px] font-semibold text-[#0E6B7A]">Active</p>
+          <p className="text-[16px] font-semibold text-[#0E6B7A]">
+            {t("AcademicYearForm.active")}
+          </p>
           <label className="mt-3 inline-flex items-center gap-3 rounded-xl border border-[#B8C9D8] bg-white px-4 py-3 text-[15px] font-medium text-[#244E62]">
             <input
               type="checkbox"
@@ -190,11 +194,10 @@ export const AcademicYearConfigurationForm = ({
               className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
               {...register("isActive")}
             />
-            Active Academic Year
+            {t("AcademicYearForm.activeAcademicYear")}
           </label>
           <p className="mt-3 text-sm leading-6 text-[#5D7B81]">
-            This option allows you to register new students, create classes, and
-            add financial installments for students.
+            {t("AcademicYearForm.activeDescription")}
           </p>
         </div>
 
@@ -207,7 +210,7 @@ export const AcademicYearConfigurationForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Reset
+            {t("AcademicYearForm.reset")}
           </button>
 
           <Link
@@ -215,7 +218,7 @@ export const AcademicYearConfigurationForm = ({
             onClick={resetForm}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-8 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Cancel
+            {t("AcademicYearForm.cancel")}
           </Link>
 
           <button
@@ -223,7 +226,7 @@ export const AcademicYearConfigurationForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Saving..." : resolvedSubmitLabel}
+            {isSubmitting ? t("AcademicYearForm.saving") : resolvedSubmitLabel}
           </button>
         </div>
       </form>

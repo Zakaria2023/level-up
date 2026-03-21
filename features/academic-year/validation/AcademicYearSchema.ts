@@ -1,21 +1,50 @@
+"use client";
+
 import { z } from "zod";
 
-export const AcademicYearSchema = z.object({
-  academicYearName: z.string().trim().min(1, "Academic year name is required."),
-  startDate: z.string().trim().min(1, "Start date is required."),
-  endDate: z.string().trim().min(1, "End date is required."),
-  registrationStartDate: z
-    .string()
-    .trim()
-    .min(1, "Registration start date is required."),
-  registrationEndDate: z
-    .string()
-    .trim()
-    .min(1, "Registration end date is required."),
-  allowGradeEditingAfterEnd: z.boolean(),
-  allowStudentFileEditingAfterEnd: z.boolean(),
-  semesters: z.string().trim().min(1, "Semesters are required."),
-  isActive: z.boolean(),
-});
+export const createAcademicYearSchema = (t: (key: string) => string) =>
+  z.object({
+    academicYearName: z
+      .string()
+      .trim()
+      .min(1, t("AcademicYearSchema.errors.academicYearNameRequired")),
 
-export type AcademicYearFormValues = z.infer<typeof AcademicYearSchema>;
+    startDate: z
+      .string()
+      .trim()
+      .min(1, t("AcademicYearSchema.errors.startDateRequired")),
+
+    endDate: z
+      .string()
+      .trim()
+      .min(1, t("AcademicYearSchema.errors.endDateRequired")),
+
+    registrationStartDate: z
+      .string()
+      .trim()
+      .min(1, t("AcademicYearSchema.errors.registrationStartDateRequired")),
+
+    registrationEndDate: z
+      .string()
+      .trim()
+      .min(1, t("AcademicYearSchema.errors.registrationEndDateRequired")),
+
+    allowGradeEditingAfterEnd: z.boolean(),
+
+    allowStudentFileEditingAfterEnd: z.boolean(),
+
+    semesters: z
+      .string()
+      .trim()
+      .min(1, t("AcademicYearSchema.errors.semestersRequired")),
+
+    isActive: z.boolean(),
+  });
+
+export type AcademicYearFormValues = z.infer<
+  ReturnType<typeof createAcademicYearSchema>
+>;
+
+export type AcademicYearInput = z.input<
+  ReturnType<typeof createAcademicYearSchema>
+>;

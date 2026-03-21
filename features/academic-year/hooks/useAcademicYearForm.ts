@@ -4,10 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useAcademicYearStore } from "../store/useAcademicYearStore";
 import type { AcademicYearRow } from "../types";
 import {
-  AcademicYearSchema,
+  createAcademicYearSchema,
   type AcademicYearFormValues,
 } from "../validation/AcademicYearSchema";
 
@@ -33,6 +34,8 @@ export const useAcademicYearForm = ({
   mode = "create",
   rowId,
 }: UseAcademicYearFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useAcademicYearStore((state) => state.rows);
   const addRow = useAcademicYearStore((state) => state.addRow);
@@ -43,6 +46,8 @@ export const useAcademicYearForm = ({
       : undefined,
   );
   const [serverError, setServerError] = useState<string | null>(null);
+
+  const AcademicYearSchema = createAcademicYearSchema(t);
 
   const {
     register,
@@ -141,5 +146,6 @@ export const useAcademicYearForm = ({
     mode,
     semesters,
     setSemesters,
+    t,
   };
 };
