@@ -2,6 +2,7 @@
 
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
+import { isImagePreviewUrl, renderBooleanValue } from "@/lib/utils/helpers";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { FiFileText } from "react-icons/fi";
@@ -45,15 +46,6 @@ const tableHeaders = [
 ];
 
 const PAGE_SIZE = 5;
-
-const isImagePreviewUrl = (previewUrl?: string) =>
-  Boolean(
-    previewUrl &&
-    (previewUrl.startsWith("data:image/") ||
-      /\.(png|jpe?g|webp|gif|svg)$/i.test(previewUrl))
-  );
-
-const renderBooleanValue = (value: boolean) => (value ? "Enabled" : "Disabled");
 
 const FilePreview = ({ asset }: { asset: BasicInformationAsset }) => {
   if (asset.previewUrl && isImagePreviewUrl(asset.previewUrl)) {
