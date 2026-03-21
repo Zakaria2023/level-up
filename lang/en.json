@@ -148,5 +148,46 @@
     "website": "Website",
     "socialMediaLinks": "Social Media Links",
     "actions": "Actions"
+  },
+
+  "ContactInformationForm": {
+    "createTitle": "Add Contact Information",
+    "editTitle": "Edit Contact Information",
+    "createSubtitle": "Create a new contact-information record and add it to the table.",
+    "editSubtitle": "Update the selected contact-information record.",
+    "saveContactInformation": "Save Contact Information",
+    "saveChanges": "Save Changes",
+    "notFoundTitle": "Contact Information Not Found",
+    "notFoundSubtitle": "The requested record could not be loaded for editing.",
+    "backToTable": "Back to Table",
+    "country": "Country",
+    "countryPlaceholder": "Syria",
+    "city": "City",
+    "cityPlaceholder": "Damascus",
+    "detailedAddress": "Detailed Address",
+    "detailedAddressPlaceholder": "Enter the full address",
+    "primaryPhoneNumber": "Primary Phone Number",
+    "primaryPhoneNumberPlaceholder": "+963 11 123 4567",
+    "primaryEmail": "Primary Email",
+    "primaryEmailPlaceholder": "info@levelup.edu",
+    "website": "Website",
+    "websitePlaceholder": "https://levelup.edu",
+    "socialMediaLinks": "Social Media Links",
+    "socialMediaLinksPlaceholder": "Paste social media links or handles",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "saving": "Saving..."
+  },
+  "ContactInformationSchema": {
+    "errors": {
+      "countryRequired": "Country is required.",
+      "cityRequired": "City is required.",
+      "detailedAddressRequired": "Detailed address is required.",
+      "primaryPhoneNumberRequired": "Primary phone number is required.",
+      "primaryEmailRequired": "Primary email is required.",
+      "primaryEmailInvalid": "Please enter a valid email address.",
+      "websiteRequired": "Website is required.",
+      "socialMediaLinksRequired": "Social media links are required."
+    }
   }
 }

@@ -32,20 +32,30 @@ export const ContactInformationForm = ({
     onSubmit,
     resetForm,
     existingRow,
+    t,
   } = useContactInformationForm({
     mode,
     rowId,
   });
 
   const resolvedTitle =
-    title ?? (mode === "edit" ? "Edit Contact Information" : "Add Contact Information");
+    title ??
+    (mode === "edit"
+      ? t("ContactInformationForm.editTitle")
+      : t("ContactInformationForm.createTitle"));
+
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected contact-information record."
-      : "Create a new contact-information record and add it to the table.");
+      ? t("ContactInformationForm.editSubtitle")
+      : t("ContactInformationForm.createSubtitle"));
+
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Contact Information");
+    submitLabel ??
+    (mode === "edit"
+      ? t("ContactInformationForm.saveChanges")
+      : t("ContactInformationForm.saveContactInformation"));
+
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit" && rowId
@@ -55,8 +65,8 @@ export const ContactInformationForm = ({
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Contact Information Not Found"
-        subtitle="The requested record could not be loaded for editing."
+        title={t("ContactInformationForm.notFoundTitle")}
+        subtitle={t("ContactInformationForm.notFoundSubtitle")}
         className="max-w-120"
       >
         <div className="flex justify-end">
@@ -64,7 +74,7 @@ export const ContactInformationForm = ({
             href="/settings/contact-information"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Back to Table
+            {t("ContactInformationForm.backToTable")}
           </Link>
         </div>
       </DashboardCard>
@@ -81,20 +91,20 @@ export const ContactInformationForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Country"
+            label={t("ContactInformationForm.country")}
             requiredMark
             inputType="text"
-            placeholder="Syria"
+            placeholder={t("ContactInformationForm.countryPlaceholder")}
             error={errors.country?.message}
             disabled={isSubmitting}
             {...register("country")}
           />
 
           <Input
-            label="City"
+            label={t("ContactInformationForm.city")}
             requiredMark
             inputType="text"
-            placeholder="Damascus"
+            placeholder={t("ContactInformationForm.cityPlaceholder")}
             error={errors.city?.message}
             disabled={isSubmitting}
             {...register("city")}
@@ -102,11 +112,11 @@ export const ContactInformationForm = ({
         </div>
 
         <Input
-          label="Detailed Address"
+          label={t("ContactInformationForm.detailedAddress")}
           requiredMark
           as="textarea"
           inputType="text"
-          placeholder="Enter the full address"
+          placeholder={t("ContactInformationForm.detailedAddressPlaceholder")}
           error={errors.detailedAddress?.message}
           disabled={isSubmitting}
           {...register("detailedAddress")}
@@ -114,20 +124,20 @@ export const ContactInformationForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Primary Phone Number"
+            label={t("ContactInformationForm.primaryPhoneNumber")}
             requiredMark
             inputType="tel"
-            placeholder="+963 11 123 4567"
+            placeholder={t("ContactInformationForm.primaryPhoneNumberPlaceholder")}
             error={errors.primaryPhoneNumber?.message}
             disabled={isSubmitting}
             {...register("primaryPhoneNumber")}
           />
 
           <Input
-            label="Primary Email"
+            label={t("ContactInformationForm.primaryEmail")}
             requiredMark
             inputType="email"
-            placeholder="info@levelup.edu"
+            placeholder={t("ContactInformationForm.primaryEmailPlaceholder")}
             error={errors.primaryEmail?.message}
             disabled={isSubmitting}
             {...register("primaryEmail")}
@@ -136,21 +146,21 @@ export const ContactInformationForm = ({
 
         <div className="space-y-4">
           <Input
-            label="Website"
+            label={t("ContactInformationForm.website")}
             requiredMark
             inputType="text"
-            placeholder="https://levelup.edu"
+            placeholder={t("ContactInformationForm.websitePlaceholder")}
             error={errors.website?.message}
             disabled={isSubmitting}
             {...register("website")}
           />
 
           <Input
-            label="Social Media Links"
+            label={t("ContactInformationForm.socialMediaLinks")}
             requiredMark
             as="textarea"
             inputType="text"
-            placeholder="Paste social media links or handles"
+            placeholder={t("ContactInformationForm.socialMediaLinksPlaceholder")}
             error={errors.socialMediaLinks?.message}
             disabled={isSubmitting}
             rows={5}
@@ -167,7 +177,7 @@ export const ContactInformationForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Reset
+            {t("ContactInformationForm.reset")}
           </button>
 
           <Link
@@ -175,7 +185,7 @@ export const ContactInformationForm = ({
             onClick={resetForm}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-8 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Cancel
+            {t("ContactInformationForm.cancel")}
           </Link>
 
           <button
@@ -183,7 +193,9 @@ export const ContactInformationForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Saving..." : resolvedSubmitLabel}
+            {isSubmitting
+              ? t("ContactInformationForm.saving")
+              : resolvedSubmitLabel}
           </button>
         </div>
       </form>

@@ -4,12 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useContactInformationStore } from "../store/useContactInformationStore";
 import type { ContactInformationRow } from "../types";
 import {
-  addContactInformationSchema,
-  type AddContactInformationFormValues,
-} from "../validation/addContactInformationSchema";
+  ContactInformationFormValues,
+  createContactInformationSchema,
+} from "../validation/ContactInformationSchema";
 
 type UseContactInformationFormOptions = {
   mode?: "create" | "edit";
@@ -18,7 +19,7 @@ type UseContactInformationFormOptions = {
 
 const getDefaultValues = (
   row?: ContactInformationRow,
-): AddContactInformationFormValues => ({
+): ContactInformationFormValues => ({
   country: row?.country ?? "",
   city: row?.city ?? "",
   detailedAddress: row?.detailedAddress ?? "",
@@ -32,6 +33,8 @@ export const useContactInformationForm = ({
   mode = "create",
   rowId,
 }: UseContactInformationFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useContactInformationStore((state) => state.rows);
   const addRow = useContactInformationStore((state) => state.addRow);
@@ -43,13 +46,15 @@ export const useContactInformationForm = ({
   );
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const contactInformationSchema = createContactInformationSchema(t);
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<AddContactInformationFormValues>({
-    resolver: zodResolver(addContactInformationSchema),
+  } = useForm<ContactInformationFormValues>({
+    resolver: zodResolver(contactInformationSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -66,7 +71,7 @@ export const useContactInformationForm = ({
     reset(getDefaultValues(existingRow));
   };
 
-  const onSubmit = async (values: AddContactInformationFormValues) => {
+  const onSubmit = async (values: ContactInformationFormValues) => {
     try {
       setServerError(null);
 
@@ -100,7 +105,9 @@ export const useContactInformationForm = ({
       reset(getDefaultValues());
       router.push("/settings/contact-information");
     } catch {
-      setServerError("Unable to save the contact information. Please try again.");
+      setServerError(
+        "Unable to save the contact information. Please try again.",
+      );
     }
   };
 
@@ -114,5 +121,6 @@ export const useContactInformationForm = ({
     resetForm,
     existingRow,
     mode,
+    t,
   };
 };

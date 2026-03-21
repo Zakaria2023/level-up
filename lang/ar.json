@@ -148,5 +148,46 @@
     "website": "الموقع الإلكتروني",
     "socialMediaLinks": "روابط وسائل التواصل الاجتماعي",
     "actions": "الإجراءات"
+  },
+
+  "ContactInformationForm": {
+    "createTitle": "إضافة معلومات التواصل",
+    "editTitle": "تعديل معلومات التواصل",
+    "createSubtitle": "أنشئ سجلاً جديداً لمعلومات التواصل وأضفه إلى الجدول.",
+    "editSubtitle": "قم بتحديث سجل معلومات التواصل المحدد.",
+    "saveContactInformation": "حفظ معلومات التواصل",
+    "saveChanges": "حفظ التغييرات",
+    "notFoundTitle": "لم يتم العثور على معلومات التواصل",
+    "notFoundSubtitle": "تعذر تحميل السجل المطلوب للتعديل.",
+    "backToTable": "العودة إلى الجدول",
+    "country": "الدولة",
+    "countryPlaceholder": "سوريا",
+    "city": "المدينة",
+    "cityPlaceholder": "دمشق",
+    "detailedAddress": "العنوان التفصيلي",
+    "detailedAddressPlaceholder": "أدخل العنوان الكامل",
+    "primaryPhoneNumber": "رقم الهاتف الأساسي",
+    "primaryPhoneNumberPlaceholder": "+963 11 123 4567",
+    "primaryEmail": "البريد الإلكتروني الأساسي",
+    "primaryEmailPlaceholder": "info@levelup.edu",
+    "website": "الموقع الإلكتروني",
+    "websitePlaceholder": "https://levelup.edu",
+    "socialMediaLinks": "روابط وسائل التواصل الاجتماعي",
+    "socialMediaLinksPlaceholder": "ألصق روابط أو معرفات وسائل التواصل الاجتماعي",
+    "reset": "إعادة تعيين",
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ..."
+  },
+  "ContactInformationSchema": {
+    "errors": {
+      "countryRequired": "الدولة مطلوبة.",
+      "cityRequired": "المدينة مطلوبة.",
+      "detailedAddressRequired": "العنوان التفصيلي مطلوب.",
+      "primaryPhoneNumberRequired": "رقم الهاتف الأساسي مطلوب.",
+      "primaryEmailRequired": "البريد الإلكتروني الأساسي مطلوب.",
+      "primaryEmailInvalid": "يرجى إدخال بريد إلكتروني صحيح.",
+      "websiteRequired": "الموقع الإلكتروني مطلوب.",
+      "socialMediaLinksRequired": "روابط وسائل التواصل الاجتماعي مطلوبة."
+    }
   }
 }
