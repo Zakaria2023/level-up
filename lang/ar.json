@@ -615,5 +615,40 @@
       "minimumPassingGrade": "الحد الأدنى لدرجة النجاح",
       "active": "نشط"
     }
+  },
+
+  "SchoolClassForm": {
+    "createTitle": "إضافة إعداد صف مدرسي",
+    "editTitle": "تعديل إعداد الصف المدرسي",
+    "createSubtitle": "أنشئ سجلاً جديداً لإعداد الصف المدرسي وأضفه إلى الجدول.",
+    "editSubtitle": "قم بتحديث سجل إعداد الصف المدرسي المحدد.",
+    "saveConfiguration": "حفظ الإعداد",
+    "saveChanges": "حفظ التغييرات",
+    "notFoundTitle": "لم يتم العثور على إعداد الصف المدرسي",
+    "notFoundSubtitle": "تعذر تحميل السجل المطلوب للتعديل.",
+    "backToTable": "العودة إلى الجدول",
+    "className": "اسم الصف",
+    "classNamePlaceholder": "الصف الأول",
+    "educationalStage": "المرحلة التعليمية",
+    "selectEducationalStage": "اختر المرحلة التعليمية",
+    "searchEducationalStage": "ابحث في المرحلة التعليمية",
+    "noEducationalStageMessage": "أضف إعداد مرحلة تعليمية أولاً حتى تتمكن من ربط الصف المدرسي بها.",
+    "minimumPassingGrade": "الحد الأدنى لدرجة النجاح",
+    "minimumPassingGradePlaceholder": "50",
+    "activation": "التفعيل",
+    "activeClass": "صف نشط",
+    "activeDescription": "يتيح لك هذا الخيار تسجيل طلاب جدد وإضافة الأقساط المالية للطلاب.",
+    "reset": "إعادة تعيين",
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ..."
+  },
+  "SchoolClassSchema": {
+    "errors": {
+      "classNameRequired": "اسم الصف مطلوب.",
+      "educationalStageRequired": "المرحلة التعليمية مطلوبة.",
+      "minimumPassingGradeRequired": "الحد الأدنى لدرجة النجاح مطلوب.",
+      "minimumPassingGradeMin": "لا يمكن أن يكون الحد الأدنى لدرجة النجاح أقل من 0.",
+      "minimumPassingGradeMax": "لا يمكن أن يتجاوز الحد الأدنى لدرجة النجاح 100."
+    }
   }
 }

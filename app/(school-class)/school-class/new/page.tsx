@@ -1,8 +1,8 @@
-import { SchoolClassConfigurationForm } from "@/features/school-class/components/form/SchoolClassConfigurationForm";
+import { SchoolClassForm } from "@/features/school-class/components/form/SchoolClassForm";
 
 const NewSchoolClassPage = () => (
   <div className="flex min-h-screen items-center justify-center bg-[#F6F8FB] px-4 py-10 sm:px-6">
-    <SchoolClassConfigurationForm />
+    <SchoolClassForm />
   </div>
 );
 

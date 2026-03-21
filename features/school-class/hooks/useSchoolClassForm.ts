@@ -1,40 +1,41 @@
 "use client";
 
+import { useAcademicYearStore } from "@/features/academic-year/store/useAcademicYearStore";
+import {
+  formatEducationalStageLabel,
+  resolveAcademicYearLabel,
+} from "@/features/educational-stage/constants";
+import { useEducationalStageStore } from "@/features/educational-stage/store/useEducationalStageStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
-import {
-  formatEducationalStageLabel,
-  resolveAcademicYearLabel,
-} from "../../../educational-stage/constants";
-import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
+import { useTranslation } from "react-i18next";
 import { useSchoolClassStore } from "../store/useSchoolClassStore";
 import type { SchoolClassRow } from "../types";
 import {
-  addSchoolClassConfigurationSchema,
-  type AddSchoolClassConfigurationFormValues,
-} from "../validation/addSchoolClassConfigurationSchema";
+  createSchoolClassSchema,
+  SchoolClassFormValues,
+} from "../validation/SchoolClassSchema";
 
-type UseSchoolClassConfigurationFormOptions = {
+type UseSchoolClassFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
 };
 
-const getDefaultValues = (
-  row?: SchoolClassRow,
-): AddSchoolClassConfigurationFormValues => ({
+const getDefaultValues = (row?: SchoolClassRow): SchoolClassFormValues => ({
   className: row?.className ?? "",
   educationalStageId: row ? String(row.educationalStageId) : "",
   minimumPassingGrade: row?.minimumPassingGrade ?? 50,
   isActive: row?.isActive ?? false,
 });
 
-export const useSchoolClassConfigurationForm = ({
+export const useSchoolClassForm = ({
   mode = "create",
   rowId,
-}: UseSchoolClassConfigurationFormOptions = {}) => {
+}: UseSchoolClassFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useSchoolClassStore((state) => state.rows);
   const addRow = useSchoolClassStore((state) => state.addRow);
@@ -48,6 +49,8 @@ export const useSchoolClassConfigurationForm = ({
   );
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const SchoolClassSchema = createSchoolClassSchema(t);
+
   const {
     register,
     handleSubmit,
@@ -57,8 +60,8 @@ export const useSchoolClassConfigurationForm = ({
     setError,
     clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm<AddSchoolClassConfigurationFormValues>({
-    resolver: zodResolver(addSchoolClassConfigurationSchema),
+  } = useForm<SchoolClassFormValues>({
+    resolver: zodResolver(SchoolClassSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -115,7 +118,7 @@ export const useSchoolClassConfigurationForm = ({
     reset(getDefaultValues(existingRow));
   };
 
-  const onSubmit = async (values: AddSchoolClassConfigurationFormValues) => {
+  const onSubmit = async (values: SchoolClassFormValues) => {
     try {
       setServerError(null);
       clearErrors();
@@ -193,5 +196,6 @@ export const useSchoolClassConfigurationForm = ({
     setEducationalStageId,
     educationalStageOptions,
     hasEducationalStageOptions: educationalStageOptions.length > 0,
+    t,
   };
 };

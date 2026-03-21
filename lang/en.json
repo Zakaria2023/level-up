@@ -615,5 +615,40 @@
       "minimumPassingGrade": "Minimum Passing Grade",
       "active": "Active"
     }
+  },
+
+  "SchoolClassForm": {
+    "createTitle": "Add School Class Configuration",
+    "editTitle": "Edit School Class Configuration",
+    "createSubtitle": "Create a new school class configuration record and add it to the table.",
+    "editSubtitle": "Update the selected school class configuration record.",
+    "saveConfiguration": "Save Configuration",
+    "saveChanges": "Save Changes",
+    "notFoundTitle": "School Class Configuration Not Found",
+    "notFoundSubtitle": "The requested record could not be loaded for editing.",
+    "backToTable": "Back to Table",
+    "className": "Class Name",
+    "classNamePlaceholder": "Grade 1",
+    "educationalStage": "Educational Stage",
+    "selectEducationalStage": "Select educational stage",
+    "searchEducationalStage": "Search educational stage",
+    "noEducationalStageMessage": "Add an educational stage configuration first so you can link a school class to it.",
+    "minimumPassingGrade": "Minimum Passing Grade",
+    "minimumPassingGradePlaceholder": "50",
+    "activation": "Activation",
+    "activeClass": "Active Class",
+    "activeDescription": "This option allows you to register new students and add financial installments for students.",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "saving": "Saving..."
+  },
+  "SchoolClassSchema": {
+    "errors": {
+      "classNameRequired": "Class name is required.",
+      "educationalStageRequired": "Educational stage is required.",
+      "minimumPassingGradeRequired": "Minimum passing grade is required.",
+      "minimumPassingGradeMin": "Minimum passing grade cannot be below 0.",
+      "minimumPassingGradeMax": "Minimum passing grade cannot exceed 100."
+    }
   }
 }
