@@ -1,4 +1,5 @@
 import { renderBooleanValue } from "@/lib/utils/helpers";
+import { TFunction } from "i18next";
 import type { BasicInformationRow } from "../types";
 
 const supportedTimeZones =
@@ -45,45 +46,45 @@ export const BASIC_INFORMATION_ROWS: BasicInformationRow[] = [
   },
 ];
 
-export const toDetailFields = (row: BasicInformationRow) => [
+export const toDetailFields = (
+  row: BasicInformationRow,
+  t: TFunction,
+  lang: string,
+) => [
   {
-    label: "School Name (Arabic)",
-    value: row.schoolNameArabic,
+    label: t("BasicInformationDetails.fields.schoolName"),
+    value: lang === "ar" ? row.schoolNameArabic : row.schoolNameEnglish,
   },
   {
-    label: "School Name (English)",
-    value: row.schoolNameEnglish,
-  },
-  {
-    label: "Year of Establishment",
+    label: t("BasicInformationDetails.fields.yearOfEstablishment"),
     value: row.yearOfEstablishment,
   },
   {
-    label: "Currency",
+    label: t("BasicInformationDetails.fields.currency"),
     value: row.currency,
   },
   {
-    label: "Time Zone",
+    label: t("BasicInformationDetails.fields.timeZone"),
     value: row.timeZone,
   },
   {
-    label: "Commercial Register Number",
+    label: t("BasicInformationDetails.fields.commercialRegisterNumber"),
     value: row.commercialRegisterNumber,
   },
   {
-    label: "System Language",
+    label: t("BasicInformationDetails.fields.systemLanguage"),
     value: row.systemLanguage,
   },
   {
-    label: "Allow Multiple Currencies",
+    label: t("BasicInformationDetails.fields.allowMultipleCurrencies"),
     value: renderBooleanValue(row.allowMultipleCurrencies),
   },
   {
-    label: "Show Logo on Invoices",
+    label: t("BasicInformationDetails.fields.showLogoOnInvoices"),
     value: renderBooleanValue(row.showLogoOnInvoices),
   },
   {
-    label: "Enable Notifications",
+    label: t("BasicInformationDetails.fields.enableNotifications"),
     value: renderBooleanValue(row.notificationsEnabled),
   },
 ];

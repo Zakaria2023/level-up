@@ -90,5 +90,28 @@
     "reset": "Reset",
     "cancel": "Cancel",
     "saving": "Saving..."
+  },
+
+  "BasicInformationDetails": {
+    "notFoundTitle": "Basic Information Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "Basic Information #{{id}}",
+    "subtitle": "Review the stored values for this basic-information record.",
+    "back": "Back",
+    "edit": "Edit",
+    "schoolLogo": "School Logo",
+    "schoolSeal": "School Seal",
+    "fields": {
+      "schoolName": "School Name",
+      "yearOfEstablishment": "Year of Establishment",
+      "currency": "Currency",
+      "timeZone": "Time Zone",
+      "commercialRegisterNumber": "Commercial Register Number",
+      "systemLanguage": "System Language",
+      "allowMultipleCurrencies": "Allow Multiple Currencies",
+      "showLogoOnInvoices": "Show Logo on Invoices",
+      "enableNotifications": "Enable Notifications"
+    }
   }
 }

@@ -90,5 +90,28 @@
     "reset": "إعادة تعيين",
     "cancel": "إلغاء",
     "saving": "جارٍ الحفظ..."
+  },
+
+  "BasicInformationDetails": {
+    "notFoundTitle": "لم يتم العثور على المعلومات الأساسية",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "المعلومات الأساسية #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل المعلومات الأساسية هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "schoolLogo": "شعار المدرسة",
+    "schoolSeal": "ختم المدرسة",
+    "fields": {
+      "schoolName": "اسم المدرسة",
+      "yearOfEstablishment": "سنة التأسيس",
+      "currency": "العملة",
+      "timeZone": "المنطقة الزمنية",
+      "commercialRegisterNumber": "رقم السجل التجاري",
+      "systemLanguage": "لغة النظام",
+      "allowMultipleCurrencies": "السماح بتعدد العملات",
+      "showLogoOnInvoices": "إظهار الشعار في الفواتير",
+      "enableNotifications": "تفعيل الإشعارات"
+    }
   }
 }
