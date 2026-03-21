@@ -35,7 +35,7 @@ export const FilePreview = <TAsset extends PreviewableFileAsset>({
         <FiFileText className="text-lg" />
       </span>
       <div className="min-w-0">
-        <p className="truncate text-sm font-semibold text-(--foreground)">
+        <p className="text-sm font-semibold text-(--foreground)">
           {asset.name}
         </p>
         {asset.previewUrl ? (

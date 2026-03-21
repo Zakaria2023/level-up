@@ -30,7 +30,7 @@ export const AssetPreview = <TAsset extends PreviewableAsset>({
             className="object-cover"
           />
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-(--foreground)">
+            <p className="text-sm font-semibold text-(--foreground)">
               {asset.name}
             </p>
             <p className="mt-1 text-xs text-(--muted-text)">Image file</p>

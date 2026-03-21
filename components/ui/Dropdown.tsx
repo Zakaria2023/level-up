@@ -140,12 +140,12 @@ export default function Dropdown({
         >
           <span
             className={clsx(
-              "flex min-w-0 items-center gap-2 truncate",
+              "flex min-w-0 items-center gap-2",
               selectedOption ? "text-[#0B1220]" : "text-[#99A8B8]"
             )}
           >
             {selectedOption?.icon}
-            <span className="truncate">
+            <span>
               {selectedOption?.label ?? placeholder}
             </span>
           </span>

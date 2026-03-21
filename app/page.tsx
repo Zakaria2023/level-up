@@ -1,7 +1,5 @@
+import DashboardHome from "@/features/dashboard/components/DashboardHome";
+
 export default function Home() {
-  return (
-    <div>
-      Home
-    </div>
-  );
+  return <DashboardHome />;
 }

@@ -4,7 +4,7 @@ import { logoutAction } from "@/lib/cookies/logout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { FiChevronDown, FiLogOut } from "react-icons/fi";
+import { FiChevronDown, FiHome, FiLogOut } from "react-icons/fi";
 import { SlSettings } from "react-icons/sl";
 
 interface Props {
@@ -20,6 +20,11 @@ const settingsLinks: NavItem[] = [
   { href: "/settings/basic-information", label: "Basic Information" },
   { href: "/settings/contact-information", label: "Contact Information" },
 ];
+
+const homeLink: NavItem = {
+  href: "/",
+  label: "Home",
+};
 
 const isRouteActive = (pathname: string, href: string) => {
   if (href === "/") return pathname === "/";
@@ -57,6 +62,7 @@ const SidebarSubLink = ({
 export const Sidebar = ({ onNavigate }: Props) => {
   const pathname = usePathname();
   const currentPath = pathname ?? "/";
+  const homeActive = currentPath === "/";
   const settingsActive = currentPath.startsWith("/settings");
   const [settingsOpen, setSettingsOpen] = useState(settingsActive);
   const isSettingsOpen = settingsOpen || settingsActive;
@@ -75,6 +81,22 @@ export const Sidebar = ({ onNavigate }: Props) => {
 
       <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
         <div className="space-y-1.5">
+          <Link
+            href={homeLink.href}
+            onClick={onNavigate}
+            className={[
+              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              homeActive
+                ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+                : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+            ].join(" ")}
+          >
+            <span className={homeActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"}>
+              <FiHome size={16} />
+            </span>
+            <span>{homeLink.label}</span>
+          </Link>
+
           <div className="space-y-1.5">
             <button
               type="button"
