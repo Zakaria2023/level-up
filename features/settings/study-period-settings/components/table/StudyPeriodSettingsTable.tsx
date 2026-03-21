@@ -3,27 +3,19 @@
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
 import { renderBooleanValue } from "@/lib/utils/helpers";
+import { useTranslation } from "react-i18next";
 import {
   summarizePeriodNames,
   summarizeSchoolDays,
 } from "../../constants";
 import { useStudyPeriodSettingsTable } from "../../hooks/useStudyPeriodSettingsTable";
 
-const studyPeriodSettingsHeaders = [
-  <span key="periodsCount">periodsCount</span>,
-  <span key="attendanceTracking">attendanceTracking</span>,
-  <span key="periodNames">periodNames</span>,
-  <span key="schoolDays">schoolDays</span>,
-  <span key="breaksCount">breaksCount</span>,
-  <span key="actions" className="block w-full text-center">
-    actions
-  </span>,
-];
-
 const trimValue = (value: string, maxLength: number) =>
   value.length > maxLength ? `${value.slice(0, maxLength)}...` : value;
 
 const StudyPeriodSettingsTable = () => {
+  const { t } = useTranslation();
+
   const {
     paginatedRows,
     deleteRow,
@@ -37,26 +29,39 @@ const StudyPeriodSettingsTable = () => {
     currentPage,
   } = useStudyPeriodSettingsTable();
 
+  const studyPeriodSettingsHeaders = [
+    <span key="periodsCount">{t("StudyPeriodSettingsTable.periodsCount")}</span>,
+    <span key="attendanceTracking">
+      {t("StudyPeriodSettingsTable.attendanceTracking")}
+    </span>,
+    <span key="periodNames">{t("StudyPeriodSettingsTable.periodNames")}</span>,
+    <span key="schoolDays">{t("StudyPeriodSettingsTable.schoolDays")}</span>,
+    <span key="breaksCount">{t("StudyPeriodSettingsTable.breaksCount")}</span>,
+    <span key="actions" className="block w-full text-center">
+      {t("StudyPeriodSettingsTable.actions")}
+    </span>,
+  ];
+
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[140px_180px_minmax(260px,1.4fr)_minmax(260px,1.4fr)_140px_120px]"
       headers={studyPeriodSettingsHeaders}
-      pageHeading="Study Period Settings"
+      pageHeading={t("StudyPeriodSettingsTable.pageHeading")}
       addLinkHref="/settings/study-period-settings/new"
-      addLinkLabel="Add Study Period Settings"
+      addLinkLabel={t("StudyPeriodSettingsTable.addStudyPeriodSettings")}
       enableSearch
       searchValue={searchValue}
       onSearchChange={(value) => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search study period settings"
-      emptyText="No study period settings rows match your search."
+      searchPlaceholder={t("StudyPeriodSettingsTable.searchPlaceholder")}
+      emptyText={t("StudyPeriodSettingsTable.emptyText")}
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-          {filteredRows.length} records
+          {filteredRows.length} {t("StudyPeriodSettingsTable.records")}
         </div>
       }
       renderRow={(item) => (

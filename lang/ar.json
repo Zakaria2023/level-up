@@ -271,5 +271,19 @@
       "periodsRequired": "أضف فترة واحدة على الأقل.",
       "periodsCountMatch": "يجب أن يطابق عدد الفترات عدد الصفوف التي تم إنشاؤها."
     }
+  },
+
+  "StudyPeriodSettingsTable": {
+    "pageHeading": "إعدادات الفترات الدراسية",
+    "addStudyPeriodSettings": "إضافة إعدادات الفترات الدراسية",
+    "searchPlaceholder": "ابحث في إعدادات الفترات الدراسية",
+    "emptyText": "لا توجد سجلات لإعدادات الفترات الدراسية تطابق بحثك.",
+    "records": "سجل",
+    "periodsCount": "عدد الفترات",
+    "attendanceTracking": "تتبع الحضور",
+    "periodNames": "أسماء الفترات",
+    "schoolDays": "أيام الدراسة",
+    "breaksCount": "عدد الاستراحات",
+    "actions": "الإجراءات"
   }
 }

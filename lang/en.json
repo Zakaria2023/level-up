@@ -271,5 +271,19 @@
       "periodsRequired": "Add at least one period.",
       "periodsCountMatch": "Periods count must match the generated period rows."
     }
+  },
+
+  "StudyPeriodSettingsTable": {
+    "pageHeading": "Study Period Settings",
+    "addStudyPeriodSettings": "Add Study Period Settings",
+    "searchPlaceholder": "Search study period settings",
+    "emptyText": "No study period settings rows match your search.",
+    "records": "records",
+    "periodsCount": "Periods Count",
+    "attendanceTracking": "Attendance Tracking",
+    "periodNames": "Period Names",
+    "schoolDays": "School Days",
+    "breaksCount": "Breaks Count",
+    "actions": "Actions"
   }
 }
