@@ -955,5 +955,24 @@
     "contactInformation": "Contact Information",
     "studyPeriodSettings": "Study Period Settings",
     "logout": "Logout"
+  },
+
+  "Navbar": {
+    "openNavigationMenu": "Open navigation menu",
+    "pageTitles": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "basicInformation": "Basic Information",
+      "contactInformation": "Contact Information",
+      "studyPeriodSettings": "Study Period Settings",
+      "academicYear": "Academic Year",
+      "semester": "Semester",
+      "academicYearStructure": "Academic Year Structure",
+      "educationalStage": "Educational Stage",
+      "schoolClass": "School Class",
+      "schoolSection": "School Section",
+      "subject": "Subject",
+      "hall": "Hall"
+    }
   }
 }

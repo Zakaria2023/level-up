@@ -1,5 +1,6 @@
 "use client";
 
+import useCurrentLang from "@/hooks/useCurrentLang";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   cloneElement,
@@ -90,6 +91,8 @@ function Trigger({ children }: { children: ReactElement<TriggerChildProps> }) {
 }
 
 function Content() {
+  const lang = useCurrentLang()
+
   const { open, setOpen } = useDrawer();
 
   useEffect(() => {
@@ -127,7 +130,7 @@ function Content() {
               onClick={handleClose}
             />
             <motion.aside
-              className="fixed inset-y-0 left-0 z-50 w-67.5 border-r border-(--sidebar-border) bg-(--sidebar-bg) shadow-[0_28px_60px_rgba(7,57,64,0.32)] lg:hidden"
+              className={`fixed inset-y-0 ${lang === "ar" ? "right-0" : "left-0"} z-50 w-67.5 border-r border-(--sidebar-border) bg-(--sidebar-bg) shadow-[0_28px_60px_rgba(7,57,64,0.32)] lg:hidden`}
               initial={{ x: -280 }}
               animate={{ x: 0 }}
               exit={{ x: -280 }}

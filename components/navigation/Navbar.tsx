@@ -1,23 +1,24 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { FiMenu } from "react-icons/fi";
 import LangToggle from "./LangToggle";
 import MobileSidebarDrawer from "./MobileSidebarDrawer";
 
-const pageTitleMap: Record<string, string> = {
-  settings: "Settings",
-  "settings/basic-information": "Basic Information",
-  "settings/contact-information": "Contact Information",
-  "settings/study-period-settings": "Study Period Settings",
-  "academic-year": "Academic Year",
-  "semester": "Semester",
-  "academic-year-structure": "Academic Year Structure",
-  "educational-stage": "Educational Stage",
-  "school-class": "School Class",
-  "school-section": "School Section",
-  "subject": "Subject",
-  "hall": "Hall",
+const pageTitleKeyMap: Record<string, string> = {
+  settings: "Navbar.pageTitles.settings",
+  "settings/basic-information": "Navbar.pageTitles.basicInformation",
+  "settings/contact-information": "Navbar.pageTitles.contactInformation",
+  "settings/study-period-settings": "Navbar.pageTitles.studyPeriodSettings",
+  "academic-year": "Navbar.pageTitles.academicYear",
+  semester: "Navbar.pageTitles.semester",
+  "academic-year-structure": "Navbar.pageTitles.academicYearStructure",
+  "educational-stage": "Navbar.pageTitles.educationalStage",
+  "school-class": "Navbar.pageTitles.schoolClass",
+  "school-section": "Navbar.pageTitles.schoolSection",
+  subject: "Navbar.pageTitles.subject",
+  hall: "Navbar.pageTitles.hall",
 };
 
 const toTitleCase = (value: string) =>
@@ -27,17 +28,21 @@ const toTitleCase = (value: string) =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
 
-const resolveTitleKeyOrFallback = (pathname: string | null) => {
+const resolveTitle = (
+  pathname: string | null,
+  t: (key: string) => string,
+) => {
   if (!pathname || pathname === "/") {
-    return "Dashboard";
+    return t("Navbar.pageTitles.dashboard");
   }
 
   const segments = pathname.split("/").filter(Boolean);
   const nestedPath = segments.slice(0, 2).join("/");
-  const pageTitle = pageTitleMap[nestedPath] ?? pageTitleMap[segments[0] ?? ""];
+  const pageTitleKey =
+    pageTitleKeyMap[nestedPath] ?? pageTitleKeyMap[segments[0] ?? ""];
 
-  if (pageTitle) {
-    return pageTitle;
+  if (pageTitleKey) {
+    return t(pageTitleKey);
   }
 
   return toTitleCase(segments.at(-1) ?? "");
@@ -49,7 +54,9 @@ type NavbarProps = {
 
 export const Navbar = ({ initialLang = "en" }: NavbarProps) => {
   const pathname = usePathname();
-  const pageTitle = resolveTitleKeyOrFallback(pathname);
+  const { t } = useTranslation();
+
+  const pageTitle = resolveTitle(pathname, t);
 
   return (
     <header className="sticky top-0 z-30 border-b border-(--sidebar-border) bg-(--sidebar-bg) px-3 py-3 shadow-[0_14px_30px_rgba(7,57,64,0.12)] sm:px-5 md:px-6">
@@ -61,7 +68,7 @@ export const Navbar = ({ initialLang = "en" }: NavbarProps) => {
                 <button
                   type="button"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-(--sidebar-border) bg-(--sidebar-panel) text-[#effdff] transition hover:bg-[#136f7b] lg:hidden"
-                  aria-label="Open navigation menu"
+                  aria-label={t("Navbar.openNavigationMenu")}
                 >
                   <FiMenu size={20} />
                 </button>

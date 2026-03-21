@@ -954,5 +954,24 @@
     "contactInformation": "معلومات التواصل",
     "studyPeriodSettings": "إعدادات الفترات الدراسية",
     "logout": "تسجيل الخروج"
+  },
+
+  "Navbar": {
+    "openNavigationMenu": "فتح قائمة التنقل",
+    "pageTitles": {
+      "dashboard": "لوحة التحكم",
+      "settings": "الإعدادات",
+      "basicInformation": "المعلومات الأساسية",
+      "contactInformation": "معلومات التواصل",
+      "studyPeriodSettings": "إعدادات الفترات الدراسية",
+      "academicYear": "العام الدراسي",
+      "semester": "الفصل الدراسي",
+      "academicYearStructure": "هيكل العام الدراسي",
+      "educationalStage": "المرحلة التعليمية",
+      "schoolClass": "الصف المدرسي",
+      "schoolSection": "الشعبة المدرسية",
+      "subject": "المادة",
+      "hall": "القاعة"
+    }
   }
 }
