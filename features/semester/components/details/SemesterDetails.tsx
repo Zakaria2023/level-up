@@ -4,7 +4,7 @@ import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { useAcademicYearStore } from "../../../../academic-year/store/useAcademicYearStore";
+import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import { toDetailFields } from "../../constants";
 import { useSemesterStore } from "../../store/useSemesterStore";
 

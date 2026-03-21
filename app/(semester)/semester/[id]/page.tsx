@@ -1,4 +1,4 @@
-import SemesterDetails from "@/features/settings/semester/components/details/SemesterDetails";
+import SemesterDetails from "@/features/semester/components/details/SemesterDetails";
 import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;

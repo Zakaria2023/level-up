@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
+import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import { resolveAcademicYearLabel } from "../constants";
 import { useSemesterStore } from "../store/useSemesterStore";
 import { SemesterRow } from "../types";

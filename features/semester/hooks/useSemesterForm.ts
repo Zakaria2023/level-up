@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
+import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import { SEMESTER_EVALUATION_TYPE_OPTIONS } from "../constants";
 import { useSemesterStore } from "../store/useSemesterStore";
 import type { SemesterRow } from "../types";

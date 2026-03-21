@@ -1,4 +1,4 @@
-import { SemesterForm } from "@/features/settings/semester/components/form/SemesterForm";
+import { SemesterForm } from "@/features/semester/components/form/SemesterForm";
 import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;

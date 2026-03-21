@@ -1,4 +1,4 @@
-import SemesterTable from "@/features/settings/semester/components/table/SemesterTable";
+import SemesterTable from "@/features/semester/components/table/SemesterTable";
 
 const SemesterPage = () => <SemesterTable />;
 
