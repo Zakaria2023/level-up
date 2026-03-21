@@ -863,5 +863,23 @@
       "teachingLanguageRequired": "لغة التدريس مطلوبة.",
       "gradeBreakdownTotal": "يجب أن يكون مجموع نسب توزيع الدرجات 100٪."
     }
+  },
+
+  "HallDetails": {
+    "notFoundTitle": "لم يتم العثور على القاعة",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "القاعة #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل القاعة هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "fields": {
+      "hallName": "اسم القاعة",
+      "hallNumber": "رقم القاعة",
+      "capacity": "السعة",
+      "hallType": "نوع القاعة",
+      "buildingName": "اسم المبنى",
+      "floorNumber": "رقم الطابق"
+    }
   }
 }

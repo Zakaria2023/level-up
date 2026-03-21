@@ -863,5 +863,23 @@
       "teachingLanguageRequired": "Teaching language is required.",
       "gradeBreakdownTotal": "Grade breakdown percentages must total 100%."
     }
+  },
+
+  "HallDetails": {
+    "notFoundTitle": "Hall Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "Hall #{{id}}",
+    "subtitle": "Review the stored values for this hall record.",
+    "back": "Back",
+    "edit": "Edit",
+    "fields": {
+      "hallName": "Hall Name",
+      "hallNumber": "Hall Number",
+      "capacity": "Capacity",
+      "hallType": "Hall Type",
+      "buildingName": "Building Name",
+      "floorNumber": "Floor Number"
+    }
   }
 }

@@ -1,4 +1,5 @@
-import type { HallConfigurationRow, HallType } from "../types";
+import { TFunction } from "i18next";
+import type { HallRow, HallType } from "../types";
 
 export const HALL_TYPE_OPTIONS: { label: string; value: HallType }[] = [
   { label: "Classroom", value: "Classroom" },
@@ -8,7 +9,7 @@ export const HALL_TYPE_OPTIONS: { label: string; value: HallType }[] = [
   { label: "Sports", value: "Sports" },
 ];
 
-export const HALL_CONFIGURATION_ROWS: HallConfigurationRow[] = [
+export const HALL_ROWS: HallRow[] = [
   {
     id: 1,
     hallName: "Science Lab A",
@@ -34,29 +35,29 @@ export const formatHallLocation = (
   return `${buildingName} - Floor ${floorNumber ?? 0}`;
 };
 
-export const toDetailFields = (row: HallConfigurationRow) => [
+export const toDetailFields = (row: HallRow, t: TFunction) => [
   {
-    label: "Hall Name",
+    label: t("HallDetails.fields.hallName"),
     value: row.hallName,
   },
   {
-    label: "Hall Number",
+    label: t("HallDetails.fields.hallNumber"),
     value: row.hallNumber,
   },
   {
-    label: "Capacity",
+    label: t("HallDetails.fields.capacity"),
     value: String(row.capacity),
   },
   {
-    label: "Hall Type",
+    label: t("HallDetails.fields.hallType"),
     value: resolveHallTypeLabel(row.hallType),
   },
   {
-    label: "Building Name",
+    label: t("HallDetails.fields.buildingName"),
     value: row.buildingName,
   },
   {
-    label: "Floor Number",
+    label: t("HallDetails.fields.floorNumber"),
     value: String(row.floorNumber),
   },
 ];

@@ -5,7 +5,7 @@ export type HallType =
   | "Theater"
   | "Sports";
 
-export type HallConfigurationRow = {
+export type HallRow = {
   id: number;
   hallName: string;
   hallNumber: string;

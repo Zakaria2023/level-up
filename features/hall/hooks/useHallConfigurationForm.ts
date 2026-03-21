@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { HALL_TYPE_OPTIONS } from "../constants";
-import { useHallConfigurationStore } from "../store/useHallConfigurationStore";
-import type { HallConfigurationRow } from "../types";
+import { useHallStore } from "../store/useHallStore";
+import type { HallRow } from "../types";
 import {
   addHallConfigurationSchema,
   type AddHallConfigurationFormValues,
@@ -17,9 +17,7 @@ type UseHallConfigurationFormOptions = {
   rowId?: number;
 };
 
-const getDefaultValues = (
-  row?: HallConfigurationRow,
-): AddHallConfigurationFormValues => ({
+const getDefaultValues = (row?: HallRow): AddHallConfigurationFormValues => ({
   hallName: row?.hallName ?? "",
   hallNumber: row?.hallNumber ?? "",
   capacity: row?.capacity ?? 30,
@@ -33,10 +31,10 @@ export const useHallConfigurationForm = ({
   rowId,
 }: UseHallConfigurationFormOptions = {}) => {
   const router = useRouter();
-  const rows = useHallConfigurationStore((state) => state.rows);
-  const addRow = useHallConfigurationStore((state) => state.addRow);
-  const updateRow = useHallConfigurationStore((state) => state.updateRow);
-  const existingRow = useHallConfigurationStore((state) =>
+  const rows = useHallStore((state) => state.rows);
+  const addRow = useHallStore((state) => state.addRow);
+  const updateRow = useHallStore((state) => state.updateRow);
+  const existingRow = useHallStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
       : undefined,
@@ -105,35 +103,37 @@ export const useHallConfigurationForm = ({
       if (duplicateHallNumber) {
         setError("hallNumber", {
           type: "manual",
-          message: "Hall number already exists. Duplicate hall numbers are not allowed.",
+          message:
+            "Hall number already exists. Duplicate hall numbers are not allowed.",
         });
         return;
       }
 
-      const nextRow: HallConfigurationRow = {
+      const nextRow: HallRow = {
         id:
           mode === "edit" && existingRow
             ? existingRow.id
-            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) +
+              1,
         hallName: values.hallName,
         hallNumber: values.hallNumber,
         capacity: values.capacity,
-        hallType: values.hallType as HallConfigurationRow["hallType"],
+        hallType: values.hallType as HallRow["hallType"],
         buildingName: values.buildingName,
         floorNumber: values.floorNumber,
       };
 
       if (mode === "edit") {
         updateRow(nextRow);
-        router.push(`/hall-configuration/${nextRow.id}`);
+        router.push(`/hall/${nextRow.id}`);
         return;
       }
 
       addRow(nextRow);
       reset(getDefaultValues());
-      router.push("/hall-configuration");
+      router.push("/hall");
     } catch {
-      setServerError("Unable to save the hall configuration. Please try again.");
+      setServerError("Unable to save the hall. Please try again.");
     }
   };
 

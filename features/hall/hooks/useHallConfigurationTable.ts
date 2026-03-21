@@ -2,12 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { formatHallLocation, resolveHallTypeLabel } from "../constants";
-import { useHallConfigurationStore } from "../store/useHallConfigurationStore";
-import { HallConfigurationRow } from "../types";
+import { useHallStore } from "../store/useHallStore";
+import { HallRow } from "../types";
 
 const PAGE_SIZE = 5;
 
-const toSearchableValues = (row: HallConfigurationRow) => [
+const toSearchableValues = (row: HallRow) => [
   row.hallName,
   row.hallNumber,
   String(row.capacity),
@@ -18,8 +18,8 @@ const toSearchableValues = (row: HallConfigurationRow) => [
 ];
 
 export const useHallConfigurationTable = () => {
-  const rows = useHallConfigurationStore((state) => state.rows);
-  const deleteRow = useHallConfigurationStore((state) => state.deleteRow);
+  const rows = useHallStore((state) => state.rows);
+  const deleteRow = useHallStore((state) => state.deleteRow);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);

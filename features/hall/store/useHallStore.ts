@@ -2,20 +2,20 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { HALL_CONFIGURATION_ROWS } from "../constants";
-import type { HallConfigurationRow } from "../types";
+import { HALL_ROWS } from "../constants";
+import type { HallRow } from "../types";
 
-type HallConfigurationStore = {
-  rows: HallConfigurationRow[];
-  addRow: (newRow: HallConfigurationRow) => void;
-  updateRow: (updatedRow: HallConfigurationRow) => void;
+type HallStore = {
+  rows: HallRow[];
+  addRow: (newRow: HallRow) => void;
+  updateRow: (updatedRow: HallRow) => void;
   deleteRow: (id: number) => void;
 };
 
-export const useHallConfigurationStore = create<HallConfigurationStore>()(
+export const useHallStore = create<HallStore>()(
   persist(
     (set) => ({
-      rows: HALL_CONFIGURATION_ROWS,
+      rows: HALL_ROWS,
       addRow: (newRow) =>
         set((state) => ({
           rows: [newRow, ...state.rows],
@@ -32,7 +32,7 @@ export const useHallConfigurationStore = create<HallConfigurationStore>()(
         })),
     }),
     {
-      name: "hall-configuration-storage",
+      name: "hall-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         rows: state.rows,

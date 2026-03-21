@@ -36,8 +36,8 @@ const HallConfigurationTable = () => {
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[minmax(220px,1.3fr)_minmax(170px,1fr)_minmax(150px,0.9fr)_minmax(200px,1.1fr)_minmax(240px,1.4fr)_120px]"
       headers={hallConfigurationTableHeaders}
-      pageHeading="Hall Configuration"
-      addLinkHref="/hall-configuration/new"
+      pageHeading="Hall"
+      addLinkHref="/hall/new"
       addLinkLabel="Add Hall"
       enableSearch
       searchValue={searchValue}
@@ -45,8 +45,8 @@ const HallConfigurationTable = () => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search hall configuration"
-      emptyText="No hall configuration rows match your search."
+      searchPlaceholder="Search hall"
+      emptyText="No hall rows match your search."
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
           {filteredRows.length} records
@@ -61,8 +61,8 @@ const HallConfigurationTable = () => {
           <div>{formatHallLocation(item.buildingName, item.floorNumber)}</div>
           <div className="flex w-full justify-center">
             <DataTableAction
-              viewLink={`/hall-configuration/${item.id}`}
-              editLink={`/hall-configuration/${item.id}/edit`}
+              viewLink={`/hall/${item.id}`}
+              editLink={`/hall/${item.id}/edit`}
               onDeleteConfirm={() => deleteRow(item.id)}
             />
           </div>

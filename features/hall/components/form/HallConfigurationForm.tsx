@@ -42,27 +42,27 @@ export const HallConfigurationForm = ({
   });
 
   const resolvedTitle =
-    title ?? (mode === "edit" ? "Edit Hall Configuration" : "Add Hall Configuration");
+    title ?? (mode === "edit" ? "Edit Hall" : "Add Hall");
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected hall configuration record."
-      : "Create a new hall configuration record and add it to the table.");
+      ? "Update the selected hall record."
+      : "Create a new hall record and add it to the table.");
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Configuration");
+    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save");
   const resolvedCancelHref =
-    cancelHref ?? (mode === "edit" && rowId ? `/hall-configuration/${rowId}` : "/hall-configuration");
+    cancelHref ?? (mode === "edit" && rowId ? `/hall/${rowId}` : "/hall");
 
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Hall Configuration Not Found"
+        title="Hall Not Found"
         subtitle="The requested record could not be loaded for editing."
         className="max-w-120"
       >
         <div className="flex justify-end">
           <Link
-            href="/hall-configuration"
+            href="/hall"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             Back to Table
