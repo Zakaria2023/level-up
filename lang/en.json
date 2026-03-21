@@ -680,5 +680,19 @@
       "sectionSupervisor": "Section Supervisor",
       "active": "Active"
     }
+  },
+
+  "SchoolSectionTable": {
+    "pageHeading": "School Section",
+    "addSchoolSection": "Add School Section",
+    "searchPlaceholder": "Search school section",
+    "emptyText": "No school section rows match your search.",
+    "records": "records",
+    "sectionName": "Section Name",
+    "schoolClass": "School Class",
+    "defaultCapacity": "Default Capacity",
+    "supervisor": "Supervisor",
+    "isActive": "Active",
+    "actions": "Actions"
   }
 }

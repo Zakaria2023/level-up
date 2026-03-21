@@ -680,5 +680,19 @@
       "sectionSupervisor": "مشرف الشعبة",
       "active": "نشط"
     }
+  },
+
+  "SchoolSectionTable": {
+    "pageHeading": "الشعبة المدرسية",
+    "addSchoolSection": "إضافة شعبة مدرسية",
+    "searchPlaceholder": "ابحث في الشعبة المدرسية",
+    "emptyText": "لا توجد سجلات شعب مدرسية تطابق بحثك.",
+    "records": "سجل",
+    "sectionName": "اسم الشعبة",
+    "schoolClass": "الصف المدرسي",
+    "defaultCapacity": "السعة الافتراضية",
+    "supervisor": "المشرف",
+    "isActive": "نشط",
+    "actions": "الإجراءات"
   }
 }

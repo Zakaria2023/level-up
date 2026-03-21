@@ -32,7 +32,7 @@ const toSearchableValues = (
   renderBooleanValue(row.isActive),
 ];
 
-export const useSchoolSectionConfigurationTable = () => {
+export const useSchoolSectionTable = () => {
   const rows = useSchoolSectionStore((state) => state.rows);
   const deleteRow = useSchoolSectionStore((state) => state.deleteRow);
   const schoolClasses = useSchoolClassStore((state) => state.rows);

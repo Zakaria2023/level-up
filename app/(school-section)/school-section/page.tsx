@@ -1,5 +1,5 @@
-import SchoolSectionConfigurationTable from "@/features/school-section/components/table/SchoolSectionConfigurationTable";
+import SchoolSectionTable from "@/features/school-section/components/table/SchoolSectionTable";
 
-const SchoolSectionPage = () => <SchoolSectionConfigurationTable />;
+const SchoolSectionPage = () => <SchoolSectionTable />;
 
 export default SchoolSectionPage;
