@@ -447,5 +447,88 @@
     "finalExamDate": "تاريخ الامتحان النهائي",
     "evaluationType": "نوع التقييم",
     "actions": "الإجراءات"
+  },
+
+  "AcademicYearStructureExplorer": {
+    "title": "هيكل العام الدراسي",
+    "subtitle": "اختر عاماً دراسياً لاستعراض تسلسله الزمني وخريطة التهيئة المدرسية الحالية.",
+    "dropdownLabel": "العام الدراسي",
+    "dropdownPlaceholder": "اختر العام الدراسي",
+    "dropdownSearchPlaceholder": "ابحث في العام الدراسي",
+    "range": "{{start}} إلى {{end}}",
+    "summaryValue": "{{semesters}}، {{stages}}، {{classes}}",
+    "counts": {
+      "semesterSingular": "فصل",
+      "semesterPlural": "فصول",
+      "stageSingular": "مرحلة",
+      "stagePlural": "مراحل",
+      "classSingular": "صف",
+      "classPlural": "صفوف",
+      "sectionSingular": "شعبة",
+      "sectionPlural": "شعب",
+      "subjectSingular": "مادة",
+      "subjectPlural": "مواد"
+    },
+    "pills": {
+      "selectedYear": "العام المحدد",
+      "timeline": "الخط الزمني",
+      "registration": "التسجيل",
+      "summary": "الملخص"
+    },
+    "centerCard": {
+      "academicYear": "العام الدراسي"
+    },
+    "timeline": {
+      "lessons": "الدروس",
+      "finalExam": "الامتحان النهائي",
+      "missingSemester": "هذا الفصل مذكور في سجل العام الدراسي، لكنه لا يملك إعداد فصل دراسي حتى الآن.",
+      "empty": "لا توجد إعدادات فصل دراسي مرتبطة بهذا العام الدراسي حتى الآن."
+    },
+    "stats": {
+      "educationalStages": "المراحل التعليمية",
+      "schoolClasses": "الصفوف المدرسية",
+      "schoolSections": "الشعب المدرسية",
+      "subjects": "المواد"
+    },
+    "stage": {
+      "educationalStage": "المرحلة التعليمية"
+    },
+    "class": {
+      "minimumPassingGrade": "الحد الأدنى لدرجة النجاح: {{value}}%",
+      "empty": "لا توجد صفوف مدرسية مرتبطة بهذه المرحلة حتى الآن."
+    },
+    "sections": {
+      "title": "الشعب",
+      "supervisor": "المشرف:",
+      "capacity": "السعة {{value}}",
+      "empty": "لا توجد شعب مرتبطة بهذا الصف حتى الآن."
+    },
+    "subjects": {
+      "title": "المواد",
+      "teachers": "المعلمون:",
+      "subjectMeta": "مادة {{subjectType}}، {{teachingLanguage}}",
+      "weeklyPeriods": "{{value}}/أسبوع",
+      "periodDuration": "{{value}} دقيقة",
+      "passGrade": "النجاح {{value}}%"
+    },
+    "alignment": {
+      "title": "مواءمة العام الدراسي",
+      "description": "يستخدم هذا الصف الهيكل الحالي المهيأ للعام الدراسي المحدد. الفصول المرتبطة:",
+      "noSemesterNames": "لا توجد أسماء فصول مرتبطة حتى الآن"
+    },
+    "structureMap": {
+      "title": "خريطة الهيكل",
+      "subtitle": "لا توجد مراحل تعليمية مهيأة حتى الآن.",
+      "description": "أضف المراحل التعليمية والصفوف والشعب والمواد لبناء شجرة هيكل العام الدراسي."
+    },
+    "emptyState": {
+      "title": "هيكل العام الدراسي",
+      "subtitle": "أضف سجلاً واحداً على الأقل لتهيئة العام الدراسي لاستعراض الهيكل.",
+      "description": "تحتاج صفحة هيكل العام الدراسي إلى أعوام دراسية وفصول ومراحل وصفوف وشعب ومواد لبناء المخطط."
+    },
+    "common": {
+      "notAssigned": "غير معيّن",
+      "unknownTeacher": "معلم غير معروف"
+    }
   }
 }

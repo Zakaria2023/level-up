@@ -79,9 +79,21 @@ const hallConfigurationLink: NavItem = {
   label: "Hall Configuration",
 };
 
+const normalizeRoute = (value: string) =>
+  value !== "/" && value.endsWith("/") ? value.slice(0, -1) : value;
+
 const isRouteActive = (pathname: string, href: string) => {
-  if (href === "/") return pathname === "/";
-  return pathname.startsWith(href);
+  const normalizedPathname = normalizeRoute(pathname);
+  const normalizedHref = normalizeRoute(href);
+
+  if (normalizedHref === "/") {
+    return normalizedPathname === "/";
+  }
+
+  return (
+    normalizedPathname === normalizedHref ||
+    normalizedPathname.startsWith(`${normalizedHref}/`)
+  );
 };
 
 const SidebarSubLink = ({

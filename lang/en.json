@@ -447,5 +447,88 @@
     "finalExamDate": "Final Exam Date",
     "evaluationType": "Evaluation Type",
     "actions": "Actions"
+  },
+
+  "AcademicYearStructureExplorer": {
+    "title": "Academic Year Structure",
+    "subtitle": "Select an academic year to explore its timeline and the current school configuration map.",
+    "dropdownLabel": "Academic Year",
+    "dropdownPlaceholder": "Select academic year",
+    "dropdownSearchPlaceholder": "Search academic year",
+    "range": "{{start}} to {{end}}",
+    "summaryValue": "{{semesters}}, {{stages}}, {{classes}}",
+    "counts": {
+      "semesterSingular": "semester",
+      "semesterPlural": "semesters",
+      "stageSingular": "stage",
+      "stagePlural": "stages",
+      "classSingular": "class",
+      "classPlural": "classes",
+      "sectionSingular": "section",
+      "sectionPlural": "sections",
+      "subjectSingular": "subject",
+      "subjectPlural": "subjects"
+    },
+    "pills": {
+      "selectedYear": "Selected Year",
+      "timeline": "Timeline",
+      "registration": "Registration",
+      "summary": "Summary"
+    },
+    "centerCard": {
+      "academicYear": "Academic Year"
+    },
+    "timeline": {
+      "lessons": "Lessons",
+      "finalExam": "Final Exam",
+      "missingSemester": "This semester is listed in the academic year record but does not have a semester configuration entry yet.",
+      "empty": "No semester configuration is linked to this academic year yet."
+    },
+    "stats": {
+      "educationalStages": "Educational Stages",
+      "schoolClasses": "School Classes",
+      "schoolSections": "School Sections",
+      "subjects": "Subjects"
+    },
+    "stage": {
+      "educationalStage": "Educational Stage"
+    },
+    "class": {
+      "minimumPassingGrade": "Minimum passing grade: {{value}}%",
+      "empty": "No school classes are linked to this stage yet."
+    },
+    "sections": {
+      "title": "Sections",
+      "supervisor": "Supervisor:",
+      "capacity": "Capacity {{value}}",
+      "empty": "No sections are linked to this class yet."
+    },
+    "subjects": {
+      "title": "Subjects",
+      "teachers": "Teachers:",
+      "subjectMeta": "{{subjectType}} subject, {{teachingLanguage}}",
+      "weeklyPeriods": "{{value}}/week",
+      "periodDuration": "{{value}} min",
+      "passGrade": "Pass {{value}}%"
+    },
+    "alignment": {
+      "title": "Academic-Year Alignment",
+      "description": "This class uses the current structure configured for the selected academic year. Related semesters:",
+      "noSemesterNames": "No semester names linked yet"
+    },
+    "structureMap": {
+      "title": "Structure Map",
+      "subtitle": "No educational stages are configured yet.",
+      "description": "Add educational stages, classes, sections, and subjects to build the academic year structure tree."
+    },
+    "emptyState": {
+      "title": "Academic Year Structure",
+      "subtitle": "Add at least one academic year configuration record to explore the structure.",
+      "description": "The academic year structure page needs academic years, semesters, stages, classes, sections, and subjects to build the diagram."
+    },
+    "common": {
+      "notAssigned": "Not assigned",
+      "unknownTeacher": "Unknown teacher"
+    }
   }
 }

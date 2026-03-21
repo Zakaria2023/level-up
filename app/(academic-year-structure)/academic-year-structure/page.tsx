@@ -1,4 +1,4 @@
-import AcademicYearStructureExplorer from "@/features/settings/academic-year-structure/components/AcademicYearStructureExplorer";
+import AcademicYearStructureExplorer from "@/features/academic-year-structure/components/AcademicYearStructureExplorer";
 
 const AcademicYearStructurePage = () => <AcademicYearStructureExplorer />;
 
