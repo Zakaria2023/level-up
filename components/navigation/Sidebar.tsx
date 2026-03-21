@@ -3,9 +3,8 @@
 import { logoutAction } from "@/lib/cookies/logout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  FiLogOut
-} from "react-icons/fi";
+import { useState } from "react";
+import { FiChevronDown, FiLogOut } from "react-icons/fi";
 import { SlSettings } from "react-icons/sl";
 
 interface Props {
@@ -15,11 +14,11 @@ interface Props {
 type NavItem = {
   href: string;
   label: string;
-  icon: React.ReactNode;
 };
 
-const mainLinks: NavItem[] = [
-  { href: "/settings", label: "Settings", icon: <SlSettings size={16} /> },
+const settingsLinks: NavItem[] = [
+  { href: "/settings/basic-information", label: "Basic Information" },
+  { href: "/settings/contact-information", label: "Contact Information" },
 ];
 
 const isRouteActive = (pathname: string, href: string) => {
@@ -27,22 +26,22 @@ const isRouteActive = (pathname: string, href: string) => {
   return pathname.startsWith(href);
 };
 
-const SidebarNavLink = ({
+const SidebarSubLink = ({
   label,
-  item,
+  href,
   active,
   onNavigate,
 }: {
   label: string;
-  item: Omit<NavItem, "label"> & { label?: never };
+  href: string;
   active: boolean;
   onNavigate?: () => void;
 }) => (
   <Link
-    href={item.href}
+    href={href}
     onClick={onNavigate}
     className={[
-      "relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
+      "relative ml-4 flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition",
       active
         ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
         : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
@@ -51,7 +50,6 @@ const SidebarNavLink = ({
     {active ? (
       <span className="absolute bottom-2 left-0 top-2 w-0.5 rounded-full bg-[#b9f1f6]" />
     ) : null}
-    <span className={active ? "text-[#c9f8fc]" : "text-[#8fdee7]"}>{item.icon}</span>
     <span>{label}</span>
   </Link>
 );
@@ -59,6 +57,9 @@ const SidebarNavLink = ({
 export const Sidebar = ({ onNavigate }: Props) => {
   const pathname = usePathname();
   const currentPath = pathname ?? "/";
+  const settingsActive = currentPath.startsWith("/settings");
+  const [settingsOpen, setSettingsOpen] = useState(settingsActive);
+  const isSettingsOpen = settingsOpen || settingsActive;
 
   return (
     <div className="flex h-full flex-col bg-(--sidebar-bg) text-white">
@@ -74,15 +75,46 @@ export const Sidebar = ({ onNavigate }: Props) => {
 
       <nav className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
         <div className="space-y-1.5">
-          {mainLinks.map((item) => (
-            <SidebarNavLink
-              key={item.href}
-              item={{ href: item.href, icon: item.icon }}
-              label={item.label}
-              active={isRouteActive(currentPath, item.href)}
-              onNavigate={onNavigate}
-            />
-          ))}
+          <div className="space-y-1.5">
+            <button
+              type="button"
+              onClick={() => setSettingsOpen((current) => !current)}
+              className={[
+                "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+                settingsActive
+                  ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+                  : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+              ].join(" ")}
+              aria-expanded={isSettingsOpen}
+              aria-controls="settings-submenu"
+            >
+              <span className={settingsActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"}>
+                <SlSettings size={16} />
+              </span>
+              <span className="flex-1">Settings</span>
+              <FiChevronDown
+                size={16}
+                className={[
+                  "transition-transform duration-200",
+                  isSettingsOpen ? "rotate-180" : "",
+                ].join(" ")}
+              />
+            </button>
+
+            {isSettingsOpen ? (
+              <div id="settings-submenu" className="space-y-1.5">
+                {settingsLinks.map((item) => (
+                  <SidebarSubLink
+                    key={item.href}
+                    href={item.href}
+                    label={item.label}
+                    active={isRouteActive(currentPath, item.href)}
+                    onNavigate={onNavigate}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </div>
         </div>
       </nav>
 

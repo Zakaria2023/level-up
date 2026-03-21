@@ -6,6 +6,8 @@ import MobileSidebarDrawer from "./MobileSidebarDrawer";
 
 const pageTitleMap: Record<string, string> = {
   settings: "Settings",
+  "settings/basic-information": "Basic Information",
+  "settings/contact-information": "Contact Information",
 };
 
 const toTitleCase = (value: string) =>
@@ -20,14 +22,15 @@ const resolveTitleKeyOrFallback = (pathname: string | null) => {
     return "Dashboard";
   }
 
-  const segment = pathname.split("/").filter(Boolean)[0] ?? "";
-  const pageTitle = pageTitleMap[segment];
+  const segments = pathname.split("/").filter(Boolean);
+  const nestedPath = segments.slice(0, 2).join("/");
+  const pageTitle = pageTitleMap[nestedPath] ?? pageTitleMap[segments[0] ?? ""];
 
   if (pageTitle) {
     return pageTitle;
   }
 
-  return toTitleCase(segment);
+  return toTitleCase(segments.at(-1) ?? "");
 };
 
 export const Navbar = () => {
