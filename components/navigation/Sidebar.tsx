@@ -1,9 +1,11 @@
 "use client";
 
+import useCurrentLang from "@/hooks/useCurrentLang";
 import { logoutAction } from "@/lib/cookies/logout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FiBook,
   FiBookOpen,
@@ -25,58 +27,58 @@ interface Props {
 
 type NavItem = {
   href: string;
-  label: string;
+  labelKey: string;
 };
 
 const settingsLinks: NavItem[] = [
-  { href: "/settings/basic-information", label: "Basic Information" },
-  { href: "/settings/contact-information", label: "Contact Information" },
-  { href: "/settings/study-period-settings", label: "Study Period Settings" },
+  { href: "/settings/basic-information", labelKey: "Sidebar.basicInformation" },
+  { href: "/settings/contact-information", labelKey: "Sidebar.contactInformation" },
+  { href: "/settings/study-period-settings", labelKey: "Sidebar.studyPeriodSettings" },
 ];
 
 const homeLink: NavItem = {
   href: "/",
-  label: "Home",
+  labelKey: "Sidebar.home",
 };
 
 const academicYearLink: NavItem = {
   href: "/academic-year",
-  label: "Academic Year",
+  labelKey: "Sidebar.academicYear",
 };
 
 const semesterLink: NavItem = {
   href: "/semester",
-  label: "Semester",
+  labelKey: "Sidebar.semester",
 };
 
 const academicYearStructureLink: NavItem = {
   href: "/academic-year-structure",
-  label: "Academic Year Structure",
+  labelKey: "Sidebar.academicYearStructure",
 };
 
 const educationalStageLink: NavItem = {
   href: "/educational-stage",
-  label: "Educational Stage",
+  labelKey: "Sidebar.educationalStage",
 };
 
 const schoolClassLink: NavItem = {
   href: "/school-class",
-  label: "School Class",
+  labelKey: "Sidebar.schoolClass",
 };
 
 const schoolSectionLink: NavItem = {
   href: "/school-section",
-  label: "School Section",
+  labelKey: "Sidebar.schoolSection",
 };
 
 const subjectLink: NavItem = {
   href: "/subject",
-  label: "Subject",
+  labelKey: "Sidebar.subject",
 };
 
 const hallLink: NavItem = {
-  href: "/hall-",
-  label: "Hall ",
+  href: "/hall",
+  labelKey: "Sidebar.hall",
 };
 
 const normalizeRoute = (value: string) =>
@@ -106,36 +108,37 @@ const SidebarSubLink = ({
   href: string;
   active: boolean;
   onNavigate?: () => void;
-}) => (
-  <Link
-    href={href}
-    onClick={onNavigate}
-    className={[
-      "relative ml-4 flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition",
-      active
-        ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
-        : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
-    ].join(" ")}
-  >
-    {active ? (
-      <span className="absolute bottom-2 left-0 top-2 w-0.5 rounded-full bg-[#b9f1f6]" />
-    ) : null}
-    <span>{label}</span>
-  </Link>
-);
+}) => {
+  const lang = useCurrentLang()
+
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      className={[
+        "relative ml-4 flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition",
+        active
+          ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+          : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+      ].join(" ")}
+    >
+      {active ? (
+        <span className={`absolute bottom-2 ${lang === "ar" ? "right-0" : "left-0"} top-2 w-0.5 rounded-full bg-[#b9f1f6]`} />
+      ) : null}
+      <span>{label}</span>
+    </Link>
+  )
+}
 
 export const Sidebar = ({ onNavigate }: Props) => {
   const pathname = usePathname();
+  const { t } = useTranslation();
+  const lang = useCurrentLang();
+
   const currentPath = pathname ?? "/";
   const homeActive = currentPath === "/";
-  const academicYearActive = isRouteActive(
-    currentPath,
-    academicYearLink.href
-  );
-  const semesterActive = isRouteActive(
-    currentPath,
-    semesterLink.href
-  );
+  const academicYearActive = isRouteActive(currentPath, academicYearLink.href);
+  const semesterActive = isRouteActive(currentPath, semesterLink.href);
   const academicYearStructureActive = isRouteActive(
     currentPath,
     academicYearStructureLink.href
@@ -144,22 +147,10 @@ export const Sidebar = ({ onNavigate }: Props) => {
     currentPath,
     educationalStageLink.href
   );
-  const schoolClassActive = isRouteActive(
-    currentPath,
-    schoolClassLink.href
-  );
-  const schoolSectionActive = isRouteActive(
-    currentPath,
-    schoolSectionLink.href
-  );
-  const subjectActive = isRouteActive(
-    currentPath,
-    subjectLink.href
-  );
-  const hallActive = isRouteActive(
-    currentPath,
-    hallLink.href
-  );
+  const schoolClassActive = isRouteActive(currentPath, schoolClassLink.href);
+  const schoolSectionActive = isRouteActive(currentPath, schoolSectionLink.href);
+  const subjectActive = isRouteActive(currentPath, subjectLink.href);
+  const hallActive = isRouteActive(currentPath, hallLink.href);
   const settingsSectionActive = settingsLinks.some((item) =>
     isRouteActive(currentPath, item.href)
   );
@@ -170,7 +161,6 @@ export const Sidebar = ({ onNavigate }: Props) => {
     <div className="flex h-full flex-col bg-(--sidebar-bg) text-white">
       <div className="border-b border-white/10 px-5 py-6">
         <div className="flex items-center gap-2">
-
           <h2 className="text-xl font-medium">
             <span className="text-[#f8f9fc]">Level</span>
             <span className="text-(--primary)">Up</span>
@@ -184,7 +174,7 @@ export const Sidebar = ({ onNavigate }: Props) => {
             href={homeLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               homeActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
@@ -193,14 +183,14 @@ export const Sidebar = ({ onNavigate }: Props) => {
             <span className={homeActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"}>
               <FiHome size={16} />
             </span>
-            <span>{homeLink.label}</span>
+            <span>{t(homeLink.labelKey)}</span>
           </Link>
 
           <Link
             href={academicYearLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               academicYearActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
@@ -213,34 +203,32 @@ export const Sidebar = ({ onNavigate }: Props) => {
             >
               <FiCalendar size={16} />
             </span>
-            <span>{academicYearLink.label}</span>
+            <span>{t(academicYearLink.labelKey)}</span>
           </Link>
 
           <Link
             href={semesterLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               semesterActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
-              className={
-                semesterActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
-              }
+              className={semesterActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"}
             >
               <FiBookOpen size={16} />
             </span>
-            <span>{semesterLink.label}</span>
+            <span>{t(semesterLink.labelKey)}</span>
           </Link>
 
           <Link
             href={academicYearStructureLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               academicYearStructureActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
@@ -253,14 +241,14 @@ export const Sidebar = ({ onNavigate }: Props) => {
             >
               <FiGitBranch size={16} />
             </span>
-            <span>{academicYearStructureLink.label}</span>
+            <span>{t(academicYearStructureLink.labelKey)}</span>
           </Link>
 
           <Link
             href={educationalStageLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               educationalStageActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
@@ -268,21 +256,19 @@ export const Sidebar = ({ onNavigate }: Props) => {
           >
             <span
               className={
-                educationalStageActive
-                  ? "text-[#c9f8fc]"
-                  : "text-[#8fdee7]"
+                educationalStageActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
               }
             >
               <FiLayers size={16} />
             </span>
-            <span>{educationalStageLink.label}</span>
+            <span>{t(educationalStageLink.labelKey)}</span>
           </Link>
 
           <Link
             href={schoolClassLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               schoolClassActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
@@ -295,14 +281,14 @@ export const Sidebar = ({ onNavigate }: Props) => {
             >
               <FiGrid size={16} />
             </span>
-            <span>{schoolClassLink.label}</span>
+            <span>{t(schoolClassLink.labelKey)}</span>
           </Link>
 
           <Link
             href={schoolSectionLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               schoolSectionActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
@@ -315,47 +301,41 @@ export const Sidebar = ({ onNavigate }: Props) => {
             >
               <FiUsers size={16} />
             </span>
-            <span>{schoolSectionLink.label}</span>
+            <span>{t(schoolSectionLink.labelKey)}</span>
           </Link>
 
           <Link
             href={subjectLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               subjectActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
-              className={
-                subjectActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
-              }
+              className={subjectActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"}
             >
               <FiBook size={16} />
             </span>
-            <span>{subjectLink.label}</span>
+            <span>{t(subjectLink.labelKey)}</span>
           </Link>
 
           <Link
             href={hallLink.href}
             onClick={onNavigate}
             className={[
-              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
               hallActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
-            <span
-              className={
-                hallActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
-              }
-            >
+            <span className={hallActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"}>
               <FiMapPin size={16} />
             </span>
-            <span>{hallLink.label}</span>
+            <span>{t(hallLink.labelKey)}</span>
           </Link>
 
           <div className="space-y-1.5">
@@ -363,7 +343,7 @@ export const Sidebar = ({ onNavigate }: Props) => {
               type="button"
               onClick={() => setSettingsOpen((current) => !current)}
               className={[
-                "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+                `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
                 settingsSectionActive
                   ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                   : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
@@ -376,7 +356,7 @@ export const Sidebar = ({ onNavigate }: Props) => {
               >
                 <SlSettings size={16} />
               </span>
-              <span className="flex-1">Settings</span>
+              <span className="flex-1">{t("Sidebar.settings")}</span>
               <FiChevronDown
                 size={16}
                 className={[
@@ -392,7 +372,7 @@ export const Sidebar = ({ onNavigate }: Props) => {
                   <SidebarSubLink
                     key={item.href}
                     href={item.href}
-                    label={item.label}
+                    label={t(item.labelKey)}
                     active={isRouteActive(currentPath, item.href)}
                     onNavigate={onNavigate}
                   />
@@ -408,10 +388,10 @@ export const Sidebar = ({ onNavigate }: Props) => {
           type="submit"
           onClick={onNavigate}
           className="flex h-11 w-full items-center gap-3 rounded-xl px-3 text-sm font-medium text-[#d3f4f7] transition hover:bg-[#136f7b] hover:text-white"
-          aria-label="Logout"
+          aria-label={t("Sidebar.logout")}
         >
           <FiLogOut size={17} />
-          <span>Logout</span>
+          <span>{t("Sidebar.logout")}</span>
         </button>
       </form>
     </div>

@@ -938,5 +938,22 @@
       "floorNumberMin": "Floor number cannot be negative.",
       "floorNumberMax": "Floor number cannot exceed 100."
     }
+  },
+
+  "Sidebar": {
+    "home": "Home",
+    "academicYear": "Academic Year",
+    "semester": "Semester",
+    "academicYearStructure": "Academic Year Structure",
+    "educationalStage": "Educational Stage",
+    "schoolClass": "School Class",
+    "schoolSection": "School Section",
+    "subject": "Subject",
+    "hall": "Hall",
+    "settings": "Settings",
+    "basicInformation": "Basic Information",
+    "contactInformation": "Contact Information",
+    "studyPeriodSettings": "Study Period Settings",
+    "logout": "Logout"
   }
 }

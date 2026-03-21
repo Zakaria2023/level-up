@@ -937,5 +937,22 @@
       "floorNumberMin": "لا يمكن أن يكون رقم الطابق سالباً.",
       "floorNumberMax": "لا يمكن أن يتجاوز رقم الطابق 100."
     }
+  },
+
+  "Sidebar": {
+    "home": "الرئيسية",
+    "academicYear": "العام الدراسي",
+    "semester": "الفصل الدراسي",
+    "academicYearStructure": "هيكل العام الدراسي",
+    "educationalStage": "المرحلة التعليمية",
+    "schoolClass": "الصف المدرسي",
+    "schoolSection": "الشعبة المدرسية",
+    "subject": "المادة",
+    "hall": "القاعة",
+    "settings": "الإعدادات",
+    "basicInformation": "المعلومات الأساسية",
+    "contactInformation": "معلومات التواصل",
+    "studyPeriodSettings": "إعدادات الفترات الدراسية",
+    "logout": "تسجيل الخروج"
   }
 }
