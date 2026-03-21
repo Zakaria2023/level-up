@@ -115,6 +115,12 @@ const PreviewCard = ({
             </a>
           </div>
         )
+      ) : fileName ? (
+        <div className="flex flex-col items-center gap-2 text-center">
+          <FiFileText className="text-3xl text-(--primary-strong)" />
+          <p className="text-sm font-semibold text-[#0D3B52]">{fileName}</p>
+          <p className="text-xs text-[#6C8794]">Current uploaded file</p>
+        </div>
       ) : (
         <p className="text-center text-xs text-[#6C8794]">{emptyText}</p>
       )}
@@ -122,7 +128,23 @@ const PreviewCard = ({
   </div>
 );
 
-export const AddBasicInformationForm = () => {
+type AddBasicInformationFormProps = {
+  mode?: "create" | "edit";
+  rowId?: number;
+  title?: string;
+  subtitle?: string;
+  submitLabel?: string;
+  cancelHref?: string;
+};
+
+export const AddBasicInformationForm = ({
+  mode = "create",
+  rowId,
+  title,
+  subtitle,
+  submitLabel,
+  cancelHref,
+}: AddBasicInformationFormProps = {}) => {
   const {
     register,
     schoolLogoRegistration,
@@ -141,12 +163,50 @@ export const AddBasicInformationForm = () => {
     sealFileName,
     logoPreviewUrl,
     sealPreviewUrl,
-  } = useAddBasicInformationForm();
+    existingRow,
+  } = useAddBasicInformationForm({
+    mode,
+    rowId,
+  });
+
+  const resolvedTitle =
+    title ?? (mode === "edit" ? "Edit Basic Information" : "Add Basic Information");
+  const resolvedSubtitle =
+    subtitle ??
+    (mode === "edit"
+      ? "Update the selected basic-information record."
+      : "Create a new basic-information record and add it to the table.");
+  const resolvedSubmitLabel =
+    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Basic Information");
+  const resolvedCancelHref =
+    cancelHref ??
+    (mode === "edit" && rowId
+      ? `/settings/basic-information/${rowId}`
+      : "/settings/basic-information");
+
+  if (mode === "edit" && !existingRow) {
+    return (
+      <DashboardCard
+        title="Basic Information Not Found"
+        subtitle="The requested record could not be loaded for editing."
+        className="max-w-120"
+      >
+        <div className="flex justify-end">
+          <Link
+            href="/settings/basic-information"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
+          >
+            Back to Table
+          </Link>
+        </div>
+      </DashboardCard>
+    );
+  }
 
   return (
     <DashboardCard
-      title="Add Basic Information"
-      subtitle="Create a new batch of basic-information rows and prepend them to the table."
+      title={resolvedTitle}
+      subtitle={resolvedSubtitle}
       className="max-w-240"
       contentClassName="px-4 pb-4 pt-4 md:px-5"
     >
@@ -325,7 +385,7 @@ export const AddBasicInformationForm = () => {
           </button>
 
           <Link
-            href="/settings/basic-information"
+            href={resolvedCancelHref}
             onClick={resetForm}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-8 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
@@ -337,7 +397,7 @@ export const AddBasicInformationForm = () => {
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Saving..." : "Save Basic Information"}
+            {isSubmitting ? "Saving..." : resolvedSubmitLabel}
           </button>
         </div>
       </form>

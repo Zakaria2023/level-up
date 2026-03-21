@@ -18,6 +18,9 @@ const hasImageFile = (value: unknown) => {
   return Boolean(file && file.type.startsWith("image/"));
 };
 
+const hasOptionalImageFile = (value: unknown) =>
+  !hasSelectedFile(value) || hasImageFile(value);
+
 export const addBasicInformationSchema = z.object({
   schoolNameArabic: z
     .string()
@@ -44,9 +47,9 @@ export const addBasicInformationSchema = z.object({
   notificationsEnabled: z.boolean(),
   schoolLogo: z
     .any()
-    .refine(hasSelectedFile, "School logo is required.")
-    .refine(hasImageFile, "School logo must be an image."),
-  schoolSeal: z.any().refine(hasSelectedFile, "School seal file is required."),
+    .optional()
+    .refine(hasOptionalImageFile, "School logo must be an image."),
+  schoolSeal: z.any().optional(),
 });
 
 export type AddBasicInformationFormValues = z.infer<

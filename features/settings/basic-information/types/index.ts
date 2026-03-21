@@ -9,10 +9,12 @@ export type BasicInformationRow = {
   schoolNameEnglish: string;
   yearOfEstablishment: string;
   currency: string;
+  timeZone: string;
   commercialRegisterNumber: string;
   systemLanguage: string;
   allowMultipleCurrencies: boolean;
   showLogoOnInvoices: boolean;
+  notificationsEnabled: boolean;
   schoolLogo: BasicInformationAsset;
   schoolSeal: BasicInformationAsset;
 };

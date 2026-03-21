@@ -1,6 +1,7 @@
 "use client";
 
 import DataTable from "@/components/data/DataTable";
+import DataTableAction from "@/components/data/DataTableAction";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { FiFileText } from "react-icons/fi";
@@ -38,6 +39,9 @@ const tableHeaders = [
   <span key="schoolSeal">
     schoolSeal
   </span>,
+  <span key="actions" className="block w-full text-center">
+    actions
+  </span>,
 ];
 
 const PAGE_SIZE = 5;
@@ -54,21 +58,15 @@ const renderBooleanValue = (value: boolean) => (value ? "Enabled" : "Disabled");
 const FilePreview = ({ asset }: { asset: BasicInformationAsset }) => {
   if (asset.previewUrl && isImagePreviewUrl(asset.previewUrl)) {
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-center">
         <Image
           src={asset.previewUrl}
           alt={asset.name}
-          width={44}
-          height={44}
+          width={100}
+          height={100}
           unoptimized
-          className="h-11 w-11 rounded-2xl border border-(--border-color) object-cover"
+          className="object-cover"
         />
-        <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-(--foreground)">
-            {asset.name}
-          </p>
-          <p className="text-xs text-(--muted-text)">Image file</p>
-        </div>
       </div>
     );
   }
@@ -104,16 +102,19 @@ const toSearchableValues = (row: BasicInformationRow) => [
   row.schoolNameEnglish,
   row.yearOfEstablishment,
   row.currency,
+  row.timeZone,
   row.commercialRegisterNumber,
   row.systemLanguage,
   renderBooleanValue(row.allowMultipleCurrencies),
   renderBooleanValue(row.showLogoOnInvoices),
+  renderBooleanValue(row.notificationsEnabled),
   row.schoolLogo.name,
   row.schoolSeal.name,
 ];
 
 const BasicInformationTable = () => {
   const rows = useBasicInformationStore((state) => state.rows);
+  const deleteRow = useBasicInformationStore((state) => state.deleteRow);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
@@ -144,7 +145,7 @@ const BasicInformationTable = () => {
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
-      gridColsClass="grid-cols-[minmax(220px,1.2fr)_minmax(220px,1.2fr)_190px_160px_220px_180px_190px_190px_200px_200px]"
+      gridColsClass="grid-cols-[minmax(220px,1.2fr)_minmax(220px,1.2fr)_190px_160px_220px_180px_190px_190px_200px_200px_120px]"
       headers={tableHeaders}
       pageHeading="Basic Information"
       addLinkHref="/settings/basic-information/new"
@@ -164,14 +165,14 @@ const BasicInformationTable = () => {
       }
       renderRow={(item) => (
         <>
-          <div >
-            <span >
+          <div>
+            <span>
               {item.schoolNameArabic}
             </span>
           </div>
 
-          <div >
-            <span >
+          <div>
+            <span>
               {item.schoolNameEnglish}
             </span>
           </div>
@@ -218,6 +219,14 @@ const BasicInformationTable = () => {
 
           <div>
             <FilePreview asset={item.schoolSeal} />
+          </div>
+
+          <div className="flex w-full justify-center">
+            <DataTableAction
+              viewLink={`/settings/basic-information/${item.id}`}
+              editLink={`/settings/basic-information/${item.id}/edit`}
+              onDeleteConfirm={() => deleteRow(item.id)}
+            />
           </div>
         </>
       )}

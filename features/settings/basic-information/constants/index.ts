@@ -28,10 +28,12 @@ export const BASIC_INFORMATION_ROWS: BasicInformationRow[] = [
     schoolNameEnglish: "Level Up School",
     yearOfEstablishment: "2014",
     currency: "USD",
+    timeZone: "Asia/Damascus",
     commercialRegisterNumber: "CR-20458-EDU",
     systemLanguage: "English",
     allowMultipleCurrencies: true,
     showLogoOnInvoices: true,
+    notificationsEnabled: true,
     schoolLogo: {
       name: "level-up-logo.webp",
       previewUrl: "/logo.webp",
