@@ -4,7 +4,7 @@ export const addEducationalStageConfigurationSchema = z.object({
   stageName: z.string().trim().min(1, "Stage name is required."),
   requiredEnrollmentAge: z
     .number({
-      invalid_type_error: "Required enrollment age is required.",
+      error: "Required enrollment age is required.",
     })
     .int("Required enrollment age must be a whole number.")
     .min(3, "Required enrollment age must be at least 3.")

@@ -25,12 +25,9 @@ export const addSemesterConfigurationSchema = z
       .trim()
       .min(1, "Actual lessons end date is required."),
     finalExamDate: z.string().trim().min(1, "Final exam date is required."),
-    evaluationType: z.preprocess(
-      (value) => (value === "" ? undefined : value),
-      z.enum(evaluationTypeValues, {
-        required_error: "Evaluation type is required.",
-      }),
-    ),
+    evaluationType: z.enum(evaluationTypeValues, {
+      error: "Evaluation type is required.",
+    }),
   })
   .superRefine((values, context) => {
     if (isBefore(values.semesterStartDate, values.semesterEndDate)) {

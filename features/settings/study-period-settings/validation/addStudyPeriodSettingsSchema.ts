@@ -94,7 +94,7 @@ export const addStudyPeriodSettingsSchema = z
   .object({
     periodsCount: z
       .number({
-        invalid_type_error: "Periods count is required.",
+        error: "Periods count is required.",
       })
       .int("Periods count must be a whole number.")
       .min(1, "At least one study period is required.")
