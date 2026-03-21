@@ -4,22 +4,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import { useEducationalStageStore } from "../store/useEducationalStageStore";
 import type { EducationalStageRow } from "../types";
 import {
-  addEducationalStageConfigurationSchema,
-  type AddEducationalStageConfigurationFormValues,
-} from "../validation/addEducationalStageConfigurationSchema";
+  createEducationalStageSchema,
+  EducationalStageFormValues,
+} from "../validation/EducationalStageSchema";
 
-type UseEducationalStageConfigurationFormOptions = {
+type UseEducationalStageFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
 };
 
 const getDefaultValues = (
   row?: EducationalStageRow,
-): AddEducationalStageConfigurationFormValues => ({
+): EducationalStageFormValues => ({
   academicYearId: row ? String(row.academicYearId) : "",
   stageName: row?.stageName ?? "",
   requiredEnrollmentAge: row?.requiredEnrollmentAge ?? 6,
@@ -27,10 +28,12 @@ const getDefaultValues = (
   isMixedStage: row?.isMixedStage ?? false,
 });
 
-export const useEducationalStageConfigurationForm = ({
+export const useEducationalStageForm = ({
   mode = "create",
   rowId,
-}: UseEducationalStageConfigurationFormOptions = {}) => {
+}: UseEducationalStageFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useEducationalStageStore((state) => state.rows);
   const addRow = useEducationalStageStore((state) => state.addRow);
@@ -43,6 +46,8 @@ export const useEducationalStageConfigurationForm = ({
   );
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const EducationalStageSchema = createEducationalStageSchema(t);
+
   const {
     register,
     handleSubmit,
@@ -50,8 +55,8 @@ export const useEducationalStageConfigurationForm = ({
     control,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<AddEducationalStageConfigurationFormValues>({
-    resolver: zodResolver(addEducationalStageConfigurationSchema),
+  } = useForm<EducationalStageFormValues>({
+    resolver: zodResolver(EducationalStageSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -85,9 +90,7 @@ export const useEducationalStageConfigurationForm = ({
     value: String(row.id),
   }));
 
-  const onSubmit = async (
-    values: AddEducationalStageConfigurationFormValues,
-  ) => {
+  const onSubmit = async (values: EducationalStageFormValues) => {
     try {
       setServerError(null);
 
@@ -143,5 +146,6 @@ export const useEducationalStageConfigurationForm = ({
     setAcademicYearId,
     academicYearOptions,
     hasAcademicYearOptions: academicYearOptions.length > 0,
+    t,
   };
 };

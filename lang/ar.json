@@ -547,5 +547,43 @@
       "teachingLanguage": "لغة التدريس",
       "mixedStage": "مرحلة مختلطة"
     }
+  },
+
+  "EducationalStageForm": {
+    "createTitle": "إضافة مرحلة تعليمية",
+    "editTitle": "تعديل المرحلة التعليمية",
+    "createSubtitle": "أنشئ سجلاً جديداً للمرحلة التعليمية وأضفه إلى الجدول.",
+    "editSubtitle": "قم بتحديث سجل المرحلة التعليمية المحدد.",
+    "save": "حفظ",
+    "saveChanges": "حفظ التغييرات",
+    "notFoundTitle": "لم يتم العثور على المرحلة التعليمية",
+    "notFoundSubtitle": "تعذر تحميل السجل المطلوب للتعديل.",
+    "backToTable": "العودة إلى الجدول",
+    "academicYear": "العام الدراسي",
+    "selectAcademicYear": "اختر العام الدراسي",
+    "searchAcademicYear": "ابحث في العام الدراسي",
+    "stageName": "اسم المرحلة",
+    "stageNamePlaceholder": "المرحلة الابتدائية",
+    "noAcademicYearMessage": "أضف عاماً دراسياً أولاً حتى تتمكن من ربط المرحلة التعليمية به.",
+    "requiredEnrollmentAge": "العمر المطلوب للتسجيل",
+    "requiredEnrollmentAgePlaceholder": "6",
+    "teachingLanguage": "لغة التدريس",
+    "teachingLanguagePlaceholder": "الإنجليزية",
+    "stageType": "نوع المرحلة",
+    "mixedStage": "مرحلة مختلطة",
+    "reset": "إعادة تعيين",
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ..."
+  },
+  "EducationalStageSchema": {
+    "errors": {
+      "academicYearRequired": "العام الدراسي مطلوب.",
+      "stageNameRequired": "اسم المرحلة مطلوب.",
+      "requiredEnrollmentAgeRequired": "العمر المطلوب للتسجيل مطلوب.",
+      "requiredEnrollmentAgeInteger": "يجب أن يكون العمر المطلوب للتسجيل رقماً صحيحاً.",
+      "requiredEnrollmentAgeMin": "يجب أن يكون العمر المطلوب للتسجيل 3 على الأقل.",
+      "requiredEnrollmentAgeMax": "لا يمكن أن يتجاوز العمر المطلوب للتسجيل 25.",
+      "teachingLanguageRequired": "لغة التدريس مطلوبة."
+    }
   }
 }

@@ -547,5 +547,43 @@
       "teachingLanguage": "Teaching Language",
       "mixedStage": "Mixed Stage"
     }
+  },
+
+  "EducationalStageForm": {
+    "createTitle": "Add Educational Stage",
+    "editTitle": "Edit Educational Stage",
+    "createSubtitle": "Create a new educational stage record and add it to the table.",
+    "editSubtitle": "Update the selected educational stage record.",
+    "save": "Save",
+    "saveChanges": "Save Changes",
+    "notFoundTitle": "Educational Stage Not Found",
+    "notFoundSubtitle": "The requested record could not be loaded for editing.",
+    "backToTable": "Back to Table",
+    "academicYear": "Academic Year",
+    "selectAcademicYear": "Select academic year",
+    "searchAcademicYear": "Search academic year",
+    "stageName": "Stage Name",
+    "stageNamePlaceholder": "Primary Stage",
+    "noAcademicYearMessage": "Add an academic year first so you can link an educational stage to it.",
+    "requiredEnrollmentAge": "Required Enrollment Age",
+    "requiredEnrollmentAgePlaceholder": "6",
+    "teachingLanguage": "Teaching Language",
+    "teachingLanguagePlaceholder": "English",
+    "stageType": "Stage Type",
+    "mixedStage": "Mixed Stage",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "saving": "Saving..."
+  },
+  "EducationalStageSchema": {
+    "errors": {
+      "academicYearRequired": "Academic year is required.",
+      "stageNameRequired": "Stage name is required.",
+      "requiredEnrollmentAgeRequired": "Required enrollment age is required.",
+      "requiredEnrollmentAgeInteger": "Required enrollment age must be a whole number.",
+      "requiredEnrollmentAgeMin": "Required enrollment age must be at least 3.",
+      "requiredEnrollmentAgeMax": "Required enrollment age cannot exceed 25.",
+      "teachingLanguageRequired": "Teaching language is required."
+    }
   }
 }

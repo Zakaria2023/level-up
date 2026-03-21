@@ -1,4 +1,4 @@
-import { EducationalStageConfigurationForm } from "@/features/educational-stage/components/form/EducationalStageConfigurationForm";
+import { EducationalStageForm } from "@/features/educational-stage/components/form/EducationalStageForm";
 import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;
@@ -20,7 +20,7 @@ const EducationalStageEditPage = async ({
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#F6F8FB] px-4 py-10 sm:px-6">
-      <EducationalStageConfigurationForm
+      <EducationalStageForm
         mode="edit"
         rowId={educationalStageId}
       />
