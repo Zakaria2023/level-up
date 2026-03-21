@@ -20,7 +20,7 @@ import type {
   SubjectRow,
 } from "../types";
 import {
-  addSubjectConfigurationSchema,
+  SubjectFormSchema,
   type SubjectFormValues,
 } from "../validation/SubjectSchema";
 
@@ -96,7 +96,7 @@ export const useSubjectForm = ({
     clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<SubjectFormValues>({
-    resolver: zodResolver(addSubjectConfigurationSchema),
+    resolver: zodResolver(SubjectFormSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 

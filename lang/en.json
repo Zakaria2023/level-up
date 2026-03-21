@@ -765,5 +765,24 @@
       "schoolClasses": "School Classes",
       "gradeBreakdown": "Grade Breakdown"
     }
+  },
+
+  "SubjectTable": {
+    "pageHeading": "Subject",
+    "addSubject": "Add Subject",
+    "searchPlaceholder": "Search subject",
+    "emptyText": "No subject rows match your search.",
+    "records": "records",
+    "subjectName": "Subject Name",
+    "subjectType": "Subject Type",
+    "schoolClasses": "School Classes",
+    "teachers": "Teachers",
+    "countsTowardAverage": "Counts Toward Average",
+    "minimumPassingGrade": "Minimum Passing Grade",
+    "gradeBreakdown": "Grade Breakdown",
+    "requiresLab": "Requires Lab",
+    "hasQuestionBank": "Has Question Bank",
+    "teachingLanguage": "Teaching Language",
+    "actions": "Actions"
   }
 }

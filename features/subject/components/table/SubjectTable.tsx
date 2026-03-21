@@ -3,6 +3,7 @@
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
 import { renderBooleanValue } from "@/lib/utils/helpers";
+import { useTranslation } from "react-i18next";
 import {
   summarizeClassSettings,
   summarizeGradeBreakdown,
@@ -13,23 +14,9 @@ import { useSubjectTable } from "../../hooks/useSubjectTable";
 const trimValue = (value: string, maxLength: number) =>
   value.length > maxLength ? `${value.slice(0, maxLength)}...` : value;
 
-const subjectConfigurationTableHeaders = [
-  <span key="subjectName">subjectName</span>,
-  <span key="subjectType">subjectType</span>,
-  <span key="schoolClasses">schoolClasses</span>,
-  <span key="teachers">teachers</span>,
-  <span key="countsTowardAverage">countsTowardAverage</span>,
-  <span key="minimumPassingGrade">minimumPassingGrade</span>,
-  <span key="gradeBreakdown">gradeBreakdown</span>,
-  <span key="requiresLab">requiresLab</span>,
-  <span key="hasQuestionBank">hasQuestionBank</span>,
-  <span key="teachingLanguage">teachingLanguage</span>,
-  <span key="actions" className="block w-full text-center">
-    actions
-  </span>,
-];
+const SubjectTable = () => {
+  const { t } = useTranslation();
 
-const SubjectConfigurationTable = () => {
   const {
     paginatedRows,
     deleteRow,
@@ -45,26 +32,42 @@ const SubjectConfigurationTable = () => {
     teacherMap,
   } = useSubjectTable();
 
+  const subjectTableHeaders = [
+    <span key="subjectName">{t("SubjectTable.subjectName")}</span>,
+    <span key="subjectType">{t("SubjectTable.subjectType")}</span>,
+    <span key="schoolClasses">{t("SubjectTable.schoolClasses")}</span>,
+    <span key="teachers">{t("SubjectTable.teachers")}</span>,
+    <span key="countsTowardAverage">{t("SubjectTable.countsTowardAverage")}</span>,
+    <span key="minimumPassingGrade">{t("SubjectTable.minimumPassingGrade")}</span>,
+    <span key="gradeBreakdown">{t("SubjectTable.gradeBreakdown")}</span>,
+    <span key="requiresLab">{t("SubjectTable.requiresLab")}</span>,
+    <span key="hasQuestionBank">{t("SubjectTable.hasQuestionBank")}</span>,
+    <span key="teachingLanguage">{t("SubjectTable.teachingLanguage")}</span>,
+    <span key="actions" className="block w-full text-center">
+      {t("SubjectTable.actions")}
+    </span>,
+  ];
+
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[minmax(220px,1.4fr)_minmax(160px,1fr)_minmax(280px,1.7fr)_minmax(240px,1.5fr)_minmax(180px,1.1fr)_minmax(180px,1.1fr)_minmax(280px,1.7fr)_minmax(150px,1fr)_minmax(170px,1.1fr)_minmax(180px,1.1fr)_120px]"
-      headers={subjectConfigurationTableHeaders}
-      pageHeading="Subject Configuration"
-      addLinkHref="/subject-configuration/new"
-      addLinkLabel="Add Subject"
+      headers={subjectTableHeaders}
+      pageHeading={t("SubjectTable.pageHeading")}
+      addLinkHref="/subject/new"
+      addLinkLabel={t("SubjectTable.addSubject")}
       enableSearch
       searchValue={searchValue}
       onSearchChange={(value) => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search subject configuration"
-      emptyText="No subject configuration rows match your search."
+      searchPlaceholder={t("SubjectTable.searchPlaceholder")}
+      emptyText={t("SubjectTable.emptyText")}
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-          {filteredRows.length} records
+          {filteredRows.length} {t("SubjectTable.records")}
         </div>
       }
       renderRow={(item) => (
@@ -81,8 +84,8 @@ const SubjectConfigurationTable = () => {
           <div>{item.teachingLanguage}</div>
           <div className="flex w-full justify-center">
             <DataTableAction
-              viewLink={`/subject-configuration/${item.id}`}
-              editLink={`/subject-configuration/${item.id}/edit`}
+              viewLink={`/subject/${item.id}`}
+              editLink={`/subject/${item.id}/edit`}
               onDeleteConfirm={() => deleteRow(item.id)}
             />
           </div>
@@ -100,4 +103,4 @@ const SubjectConfigurationTable = () => {
   );
 };
 
-export default SubjectConfigurationTable;
+export default SubjectTable;

@@ -1,5 +1,5 @@
-import SubjectConfigurationTable from "@/features/subject/components/table/SubjectConfigurationTable";
+import SubjectTable from "@/features/subject/components/table/SubjectTable";
 
-const SubjectPage = () => <SubjectConfigurationTable />;
+const SubjectPage = () => <SubjectTable />;
 
 export default SubjectPage;

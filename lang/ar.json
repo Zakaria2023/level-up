@@ -765,5 +765,24 @@
       "schoolClasses": "الصفوف المدرسية",
       "gradeBreakdown": "توزيع الدرجات"
     }
+  },
+
+  "SubjectTable": {
+    "pageHeading": "المادة",
+    "addSubject": "إضافة مادة",
+    "searchPlaceholder": "ابحث في المادة",
+    "emptyText": "لا توجد سجلات مواد تطابق بحثك.",
+    "records": "سجل",
+    "subjectName": "اسم المادة",
+    "subjectType": "نوع المادة",
+    "schoolClasses": "الصفوف المدرسية",
+    "teachers": "المعلمون",
+    "countsTowardAverage": "تُحتسب ضمن المعدل",
+    "minimumPassingGrade": "الحد الأدنى لدرجة النجاح",
+    "gradeBreakdown": "توزيع الدرجات",
+    "requiresLab": "تتطلب مختبراً",
+    "hasQuestionBank": "تحتوي على بنك أسئلة",
+    "teachingLanguage": "لغة التدريس",
+    "actions": "الإجراءات"
   }
 }

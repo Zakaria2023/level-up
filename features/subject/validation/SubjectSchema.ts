@@ -30,7 +30,7 @@ const subjectGradeBreakdownSchema = z.object({
     .max(100, "Activity percentage cannot exceed 100."),
 });
 
-export const addSubjectConfigurationSchema = z
+export const SubjectFormSchema = z
   .object({
     subjectName: z.string().trim().min(1, "Subject name is required."),
     subjectType: z.enum(subjectTypeValues, {
@@ -74,4 +74,4 @@ export const addSubjectConfigurationSchema = z
     }
   });
 
-export type SubjectFormValues = z.infer<typeof addSubjectConfigurationSchema>;
+export type SubjectFormValues = z.infer<typeof SubjectFormSchema>;
