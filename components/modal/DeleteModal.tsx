@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const backdropVariants: Variants = {
   hidden: { opacity: 0 },
@@ -43,6 +44,8 @@ export const DeleteModal = ({
   onClose,
   isSubmitting,
 }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <AnimatePresence>
       {open && (
@@ -63,12 +66,11 @@ export const DeleteModal = ({
             onClick={(event) => event.stopPropagation()}
           >
             <h2 className="mb-4 text-center text-lg font-semibold text-(--primary-strong)">
-              Delete item
+              {t("DeleteModal.title")}
             </h2>
 
             <p className="mb-8 text-center text-base leading-relaxed text-(--muted-text)">
-              Are you sure you want to delete this item? This action cannot be
-              undone.
+              {t("DeleteModal.description")}
             </p>
 
             <div className="flex items-center justify-center gap-4">
@@ -78,7 +80,7 @@ export const DeleteModal = ({
                 disabled={isSubmitting}
                 className="h-10 min-w-30 rounded-xl border border-(--border-color) bg-(--surface) px-5 text-sm font-semibold text-(--foreground) transition-colors duration-300 hover:border-(--primary) hover:bg-(--primary-soft) hover:text-(--primary-strong) disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Cancel
+                {t("DeleteModal.cancel")}
               </button>
 
               <button
@@ -90,7 +92,7 @@ export const DeleteModal = ({
                 disabled={isSubmitting}
                 className="h-10 min-w-30 rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-5 text-sm font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Delete
+                {t("DeleteModal.delete")}
               </button>
             </div>
           </motion.div>

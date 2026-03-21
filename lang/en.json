@@ -974,5 +974,12 @@
       "subject": "Subject",
       "hall": "Hall"
     }
+  },
+
+  "DeleteModal": {
+    "title": "Delete item",
+    "description": "Are you sure you want to delete this item? This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete"
   }
 }

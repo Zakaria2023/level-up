@@ -1,5 +1,6 @@
 "use client";
 
+import useCurrentLang from "@/hooks/useCurrentLang";
 import { useMemo, type CSSProperties } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
@@ -33,6 +34,8 @@ function Pagination({
   totalPages,
   isFetching = false,
 }: PaginationProps) {
+  const lang = useCurrentLang()
+
   const { pages, showStartEllipsis, showEndEllipsis } = useMemo(() => {
     const windowSize = 5;
     const current = page + 1;
@@ -86,12 +89,11 @@ function Pagination({
           aria-label="Previous page"
           disabled={atFirst || isFetching}
           onClick={() => setPage(page - 1)}
-          className={`${arrowChipBase} ${
-            atFirst || isFetching ? "cursor-not-allowed opacity-40" : ""
-          }`}
+          className={`${arrowChipBase} ${atFirst || isFetching ? "cursor-not-allowed opacity-40" : ""
+            }`}
           style={arrowStyle}
         >
-          <FiChevronLeft />
+          {lang === "ar" ? <FiChevronRight /> : <FiChevronLeft />}
         </button>
 
         {totalPages > 0 && (
@@ -161,12 +163,11 @@ function Pagination({
           aria-label="Next page"
           disabled={atLast || isFetching}
           onClick={() => setPage(page + 1)}
-          className={`${arrowChipBase} ${
-            atLast || isFetching ? "cursor-not-allowed opacity-40" : ""
-          }`}
+          className={`${arrowChipBase} ${atLast || isFetching ? "cursor-not-allowed opacity-40" : ""
+            }`}
           style={arrowStyle}
         >
-          <FiChevronRight />
+          {lang === "ar" ? <FiChevronLeft /> : <FiChevronRight />}
         </button>
       </div>
     </div>
