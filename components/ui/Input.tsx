@@ -9,7 +9,7 @@ interface Props {
   requiredMark?: boolean;
   placeholder?: string;
   error?: string;
-  inputType: "text" | "password" | "email" | "number" | "tel" | "date";
+  inputType: "text" | "password" | "email" | "number" | "tel" | "date" | "time";
   rightSide?: ReactNode;
   labelClassName?: string;
   as?: "input" | "textarea";

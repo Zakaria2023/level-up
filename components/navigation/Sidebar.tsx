@@ -25,6 +25,7 @@ type NavItem = {
 const settingsLinks: NavItem[] = [
   { href: "/settings/basic-information", label: "Basic Information" },
   { href: "/settings/contact-information", label: "Contact Information" },
+  { href: "/settings/study-period-settings", label: "Study Period Settings" },
 ];
 
 const homeLink: NavItem = {
@@ -91,12 +92,7 @@ export const Sidebar = ({ onNavigate }: Props) => {
     isRouteActive(currentPath, item.href)
   );
   const [settingsOpen, setSettingsOpen] = useState(settingsSectionActive);
-  const isSettingsOpen =
-    settingsSectionActive ||
-    (settingsOpen &&
-      !homeActive &&
-      !academicYearConfigurationActive &&
-      !semesterConfigurationActive);
+  const isSettingsOpen = settingsSectionActive || settingsOpen;
 
   return (
     <div className="flex h-full flex-col bg-(--sidebar-bg) text-white">
