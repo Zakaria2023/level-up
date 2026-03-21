@@ -18,5 +18,23 @@
     "hidePassword": "إخفاء كلمة المرور",
     "signingIn": "جاري تسجيل الدخول...",
     "signInToDashboard": "تسجيل الدخول إلى لوحة التحكم"
+  },
+
+  "BasicInformationTable": {
+    "pageHeading": "المعلومات الأساسية",
+    "addBasicInformation": "إضافة معلومات أساسية",
+    "searchPlaceholder": "ابحث في المعلومات الأساسية",
+    "emptyText": "لا توجد سجلات معلومات أساسية تطابق بحثك.",
+    "records": "سجل",
+    "schoolName": "اسم المدرسة",
+    "yearOfEstablishment": "سنة التأسيس",
+    "currency": "العملة",
+    "commercialRegisterNumber": "رقم السجل التجاري",
+    "systemLanguage": "لغة النظام",
+    "allowMultipleCurrencies": "السماح بتعدد العملات",
+    "showLogoOnInvoices": "إظهار الشعار في الفواتير",
+    "schoolLogo": "شعار المدرسة",
+    "schoolSeal": "ختم المدرسة",
+    "actions": "الإجراءات"
   }
 }

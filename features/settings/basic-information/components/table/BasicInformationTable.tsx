@@ -3,46 +3,15 @@
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
 import { FilePreview } from "@/components/ui/FilePreview";
+import useCurrentLang from "@/hooks/useCurrentLang";
 import { renderBooleanValue } from "@/lib/utils/helpers";
+import { useTranslation } from "react-i18next";
 import { useBasicInformationTable } from "../../hooks/useBasicInformationTable";
 
-const basicInformationTableHeaders = [
-  <span key="schoolNameArabic">
-    schoolNameArabic
-  </span>,
-  <span key="schoolNameEnglish">
-    schoolNameEnglish
-  </span>,
-  <span key="yearOfEstablishment">
-    yearOfEstablishment
-  </span>,
-  <span key="currency">
-    currency
-  </span>,
-  <span key="commercialRegisterNumber">
-    commercialRegisterNumber
-  </span>,
-  <span key="systemLanguage">
-    systemLanguage
-  </span>,
-  <span key="allowMultipleCurrencies">
-    allowMultipleCurrencies
-  </span>,
-  <span key="showLogoOnInvoices">
-    showLogoOnInvoices
-  </span>,
-  <span key="schoolLogo">
-    schoolLogo
-  </span>,
-  <span key="schoolSeal">
-    schoolSeal
-  </span>,
-  <span key="actions" className="block w-full text-center">
-    actions
-  </span>,
-];
-
 const BasicInformationTable = () => {
+  const lang = useCurrentLang();
+  const { t } = useTranslation();
+
   const {
     deleteRow,
     pageSize,
@@ -53,80 +22,71 @@ const BasicInformationTable = () => {
     setSearchValue,
     totalPages,
     filteredRows,
-    currentPage
+    currentPage,
   } = useBasicInformationTable();
+
+  const basicInformationTableHeaders = [
+    <span key="schoolName">{t("BasicInformationTable.schoolName")}</span>,
+    <span key="yearOfEstablishment">
+      {t("BasicInformationTable.yearOfEstablishment")}
+    </span>,
+    <span key="currency">{t("BasicInformationTable.currency")}</span>,
+    <span key="commercialRegisterNumber">
+      {t("BasicInformationTable.commercialRegisterNumber")}
+    </span>,
+    <span key="systemLanguage">{t("BasicInformationTable.systemLanguage")}</span>,
+    <span key="allowMultipleCurrencies">
+      {t("BasicInformationTable.allowMultipleCurrencies")}
+    </span>,
+    <span key="showLogoOnInvoices">
+      {t("BasicInformationTable.showLogoOnInvoices")}
+    </span>,
+    <span key="schoolLogo">{t("BasicInformationTable.schoolLogo")}</span>,
+    <span key="schoolSeal">{t("BasicInformationTable.schoolSeal")}</span>,
+    <span key="actions" className="block w-full text-center">
+      {t("BasicInformationTable.actions")}
+    </span>,
+  ];
 
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
-      gridColsClass="grid-cols-[minmax(220px,1.2fr)_minmax(220px,1.2fr)_190px_160px_220px_180px_190px_190px_200px_200px_120px]"
+      gridColsClass="grid-cols-[minmax(220px,1.2fr)_190px_160px_220px_180px_190px_190px_200px_200px_120px]"
       headers={basicInformationTableHeaders}
-      pageHeading="Basic Information"
+      pageHeading={t("BasicInformationTable.pageHeading")}
       addLinkHref="/settings/basic-information/new"
-      addLinkLabel="Add Basic Information"
+      addLinkLabel={t("BasicInformationTable.addBasicInformation")}
       enableSearch
       searchValue={searchValue}
       onSearchChange={(value) => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search basic information"
-      emptyText="No basic information rows match your search."
+      searchPlaceholder={t("BasicInformationTable.searchPlaceholder")}
+      emptyText={t("BasicInformationTable.emptyText")}
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-          {filteredRows.length} records
+          {filteredRows.length} {t("BasicInformationTable.records")}
         </div>
       }
       renderRow={(item) => (
         <>
           <div>
-            <span>
-              {item.schoolNameArabic}
-            </span>
+            {lang === "ar" ? item.schoolNameArabic : item.schoolNameEnglish}
           </div>
 
-          <div>
-            <span>
-              {item.schoolNameEnglish}
-            </span>
-          </div>
+          <div>{item.yearOfEstablishment}</div>
 
-          <div>
-            <span>
-              {item.yearOfEstablishment}
-            </span>
-          </div>
+          <div>{item.currency}</div>
 
-          <div>
-            <span>
-              {item.currency}
-            </span>
-          </div>
+          <div>{item.commercialRegisterNumber}</div>
 
-          <div>
-            <span>
-              {item.commercialRegisterNumber}
-            </span>
-          </div>
+          <div>{item.systemLanguage}</div>
 
-          <div>
-            <span>
-              {item.systemLanguage}
-            </span>
-          </div>
+          <div>{renderBooleanValue(item.allowMultipleCurrencies)}</div>
 
-          <div>
-            <span>
-              {renderBooleanValue(item.allowMultipleCurrencies)}
-            </span>
-          </div>
-
-          <div>
-            <span>
-              {renderBooleanValue(item.showLogoOnInvoices)}
-            </span>
-          </div>
+          <div>{renderBooleanValue(item.showLogoOnInvoices)}</div>
 
           <div>
             <FilePreview asset={item.schoolLogo} />

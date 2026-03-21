@@ -18,5 +18,23 @@
     "hidePassword": "Hide password",
     "signingIn": "Signing in...",
     "signInToDashboard": "Sign in to dashboard"
+  },
+
+  "BasicInformationTable": {
+    "pageHeading": "Basic Information",
+    "addBasicInformation": "Add Basic Information",
+    "searchPlaceholder": "Search basic information",
+    "emptyText": "No basic information rows match your search.",
+    "records": "records",
+    "schoolName": "School Name",
+    "yearOfEstablishment": "Year Of Establishment",
+    "currency": "Currency",
+    "commercialRegisterNumber": "Commercial Register Number",
+    "systemLanguage": "System Language",
+    "allowMultipleCurrencies": "Allow Multiple Currencies",
+    "showLogoOnInvoices": "Show Logo On Invoices",
+    "schoolLogo": "School Logo",
+    "schoolSeal": "School Seal",
+    "actions": "Actions"
   }
 }
