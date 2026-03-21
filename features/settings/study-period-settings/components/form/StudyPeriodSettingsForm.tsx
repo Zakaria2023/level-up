@@ -5,8 +5,9 @@ import { DashboardCard } from "@/components/ui/DashboardCard";
 import Input from "@/components/ui/Input";
 import MultiSelectDropdown from "@/components/ui/MultiSelectDropdown";
 import Link from "next/link";
+import { useMemo } from "react";
 import { Controller } from "react-hook-form";
-import { STUDY_PERIOD_DAY_OPTIONS } from "../../constants";
+import { STUDY_PERIOD_DAYS } from "../../constants";
 import { formatDuration } from "../../helpers";
 import { useStudyPeriodSettingsForm } from "../../hooks/useStudyPeriodSettingsForm";
 
@@ -48,6 +49,15 @@ export const StudyPeriodSettingsForm = ({
     mode,
     rowId,
   });
+
+  const schoolDayOptions = useMemo(
+    () =>
+      STUDY_PERIOD_DAYS.map((day) => ({
+        label: t(`StudyPeriodSettingsCommon.days.${day}`),
+        value: day,
+      })),
+    [t],
+  );
 
   const resolvedTitle =
     title ??
@@ -151,7 +161,7 @@ export const StudyPeriodSettingsForm = ({
 
                   <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
                     {t("StudyPeriodSettingsForm.durationLabel")}{" "}
-                    {formatDuration(getPeriodDuration(index))}
+                    {formatDuration(getPeriodDuration(index), t)}
                   </div>
                 </div>
 
@@ -179,7 +189,7 @@ export const StudyPeriodSettingsForm = ({
                           fieldControl.onChange(values);
                           setPeriodSchoolDays(index, values);
                         }}
-                        options={STUDY_PERIOD_DAY_OPTIONS}
+                        options={schoolDayOptions}
                         placeholder={t("StudyPeriodSettingsForm.selectSchoolDays")}
                         searchable
                         searchPlaceholder={t("StudyPeriodSettingsForm.searchSchoolDays")}
@@ -213,7 +223,7 @@ export const StudyPeriodSettingsForm = ({
                 <div className="mt-4 rounded-[18px] border border-(--border-color) bg-white p-4 text-sm text-(--muted-text)">
                   {t("StudyPeriodSettingsForm.automaticDuration")}{" "}
                   <span className="font-semibold text-(--foreground)">
-                    {formatDuration(getPeriodDuration(index))}
+                    {formatDuration(getPeriodDuration(index), t)}
                   </span>
                 </div>
 
@@ -277,7 +287,7 @@ export const StudyPeriodSettingsForm = ({
                     <div className="rounded-[18px] border border-(--border-color) bg-[#F8FDFF] p-4 text-sm text-(--muted-text)">
                       {t("StudyPeriodSettingsForm.automaticBreakDuration")}{" "}
                       <span className="font-semibold text-(--foreground)">
-                        {formatDuration(getBreakDuration(index))}
+                        {formatDuration(getBreakDuration(index), t)}
                       </span>
                     </div>
                   </div>

@@ -21,6 +21,7 @@ type AcademicYearStructureOverviewProps = {
   totalSections: number;
   totalSubjects: number;
   filteredSemesterCount: number;
+  showAcademicYearSelector?: boolean;
 };
 
 const countLabel = (
@@ -40,27 +41,34 @@ const AcademicYearStructureOverview = ({
   totalSections,
   totalSubjects,
   filteredSemesterCount,
+  showAcademicYearSelector = true,
 }: AcademicYearStructureOverviewProps) => {
   const { t } = useTranslation();
 
   return (
     <DashboardCard
       title={t("AcademicYearStructureExplorer.title")}
-      subtitle={t("AcademicYearStructureExplorer.subtitle")}
+      subtitle={
+        showAcademicYearSelector
+          ? t("AcademicYearStructureExplorer.subtitle")
+          : undefined
+      }
       action={
-        <div className="min-w-70">
-          <Dropdown
-            label={t("AcademicYearStructureExplorer.dropdownLabel")}
-            value={selectedAcademicYearId || undefined}
-            onChange={setSelectedAcademicYearId}
-            options={academicYearOptions}
-            placeholder={t("AcademicYearStructureExplorer.dropdownPlaceholder")}
-            searchable
-            searchPlaceholder={t(
-              "AcademicYearStructureExplorer.dropdownSearchPlaceholder",
-            )}
-          />
-        </div>
+        showAcademicYearSelector ? (
+          <div className="min-w-70">
+            <Dropdown
+              label={t("AcademicYearStructureExplorer.dropdownLabel")}
+              value={selectedAcademicYearId || undefined}
+              onChange={setSelectedAcademicYearId}
+              options={academicYearOptions}
+              placeholder={t("AcademicYearStructureExplorer.dropdownPlaceholder")}
+              searchable
+              searchPlaceholder={t(
+                "AcademicYearStructureExplorer.dropdownSearchPlaceholder",
+              )}
+            />
+          </div>
+        ) : undefined
       }
     >
       {selectedAcademicYear ? (

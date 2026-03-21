@@ -164,7 +164,7 @@ export const useStudyPeriodSettingsForm = ({
       setServerError(null);
 
       if (mode === "edit" && !existingRow) {
-        setServerError("Unable to find this study period settings record.");
+        setServerError(t("StudyPeriodSettingsForm.recordNotFoundError"));
         return;
       }
 
@@ -208,9 +208,7 @@ export const useStudyPeriodSettingsForm = ({
       reset(getDefaultValues());
       router.push("/settings/study-period-settings");
     } catch {
-      setServerError(
-        "Unable to save the study period settings. Please try again.",
-      );
+      setServerError(t("StudyPeriodSettingsForm.saveError"));
     }
   };
 

@@ -5,7 +5,15 @@ import AcademicYearStructureEmptyState from "./AcademicYearStructureEmptyState";
 import AcademicYearStructureOverview from "./AcademicYearStructureOverview";
 import AcademicYearStructureTree from "./AcademicYearStructureTree";
 
-export default function AcademicYearStructureExplorer() {
+type AcademicYearStructureExplorerProps = {
+  academicYearId?: number;
+  showAcademicYearSelector?: boolean;
+};
+
+export default function AcademicYearStructureExplorer({
+  academicYearId,
+  showAcademicYearSelector = true,
+}: AcademicYearStructureExplorerProps) {
   const {
     academicYears,
     academicYearOptions,
@@ -20,7 +28,7 @@ export default function AcademicYearStructureExplorer() {
     totalSubjects,
     supervisorLabelMap,
     teacherLabelMap,
-  } = useAcademicYearStructureExplorer();
+  } = useAcademicYearStructureExplorer({ academicYearId });
 
   if (!academicYears.length) {
     return <AcademicYearStructureEmptyState />;
@@ -38,6 +46,7 @@ export default function AcademicYearStructureExplorer() {
         totalClasses={totalClasses}
         totalSections={totalSections}
         totalSubjects={totalSubjects}
+        showAcademicYearSelector={showAcademicYearSelector}
         filteredSemesterCount={
           semesterTimeline.filter((item) => item.semester).length
         }

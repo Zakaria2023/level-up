@@ -2,12 +2,12 @@
 
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
-import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useTranslation } from "react-i18next";
 import {
   summarizePeriodNames,
   summarizeSchoolDays,
 } from "../../constants";
+import { formatStatusValue } from "../../helpers";
 import { useStudyPeriodSettingsTable } from "../../hooks/useStudyPeriodSettingsTable";
 
 const trimValue = (value: string, maxLength: number) =>
@@ -67,9 +67,9 @@ const StudyPeriodSettingsTable = () => {
       renderRow={(item) => (
         <>
           <div>{item.periodsCount}</div>
-          <div>{renderBooleanValue(item.attendanceTrackingEnabled)}</div>
+          <div>{formatStatusValue(item.attendanceTrackingEnabled, t)}</div>
           <div>{trimValue(summarizePeriodNames(item), 60)}</div>
-          <div>{trimValue(summarizeSchoolDays(item), 60)}</div>
+          <div>{trimValue(summarizeSchoolDays(item, t), 60)}</div>
           <div>{item.periods.filter((period) => period.hasBreakAfterPeriod).length}</div>
           <div className="flex w-full justify-center">
             <DataTableAction

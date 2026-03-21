@@ -1,25 +1,31 @@
 "use client";
 
-import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   summarizePeriodNames,
   summarizeSchoolDays,
 } from "../constants";
+import { formatStatusValue } from "../helpers";
 import { useStudyPeriodSettingsStore } from "../store/useStudyPeriodSettingsStore";
 import { StudyPeriodSettingsRow } from "../types";
 
 const PAGE_SIZE = 5;
 
-const toSearchableValues = (row: StudyPeriodSettingsRow) => [
+const toSearchableValues = (
+  row: StudyPeriodSettingsRow,
+  statusLabel: string,
+  schoolDaysLabel: string,
+) => [
   String(row.periodsCount),
-  renderBooleanValue(row.attendanceTrackingEnabled),
+  statusLabel,
   summarizePeriodNames(row),
-  summarizeSchoolDays(row),
+  schoolDaysLabel,
   String(row.periods.filter((period) => period.hasBreakAfterPeriod).length),
 ];
 
 export const useStudyPeriodSettingsTable = () => {
+  const { t } = useTranslation();
   const rows = useStudyPeriodSettingsStore((state) => state.rows);
   const deleteRow = useStudyPeriodSettingsStore((state) => state.deleteRow);
   const [searchValue, setSearchValue] = useState("");
@@ -33,12 +39,15 @@ export const useStudyPeriodSettingsTable = () => {
       return rows;
     }
 
-    return rows.filter((row) =>
-      toSearchableValues(row).some((value) =>
+    return rows.filter((row) => {
+      const statusLabel = formatStatusValue(row.attendanceTrackingEnabled, t);
+      const schoolDaysLabel = summarizeSchoolDays(row, t);
+
+      return toSearchableValues(row, statusLabel, schoolDaysLabel).some((value) =>
         value.toLowerCase().includes(normalizedSearch),
-      ),
-    );
-  }, [rows, searchValue]);
+      );
+    });
+  }, [rows, searchValue, t]);
 
   const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
   const currentPage = Math.min(page, totalPages - 1);

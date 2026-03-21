@@ -6,7 +6,6 @@
     "today": "Today",
     "currentTime": "Current Time"
   },
-
   "LoginForm": {
     "logoAlt": "Level Up logo",
     "title": "Login",
@@ -19,7 +18,6 @@
     "signingIn": "Signing in...",
     "signInToDashboard": "Sign in to dashboard"
   },
-
   "BasicInformationTable": {
     "pageHeading": "Basic Information",
     "addBasicInformation": "Add Basic Information",
@@ -37,7 +35,6 @@
     "schoolSeal": "School Seal",
     "actions": "Actions"
   },
-
   "BasicInformationSchema": {
     "errors": {
       "schoolNameArabicRequired": "Arabic school name is required.",
@@ -51,7 +48,6 @@
       "schoolLogoMustBeImage": "School logo must be an image."
     }
   },
-
   "BasicInformationForm": {
     "createTitle": "Add Basic Information",
     "editTitle": "Edit Basic Information",
@@ -91,7 +87,6 @@
     "cancel": "Cancel",
     "saving": "Saving..."
   },
-
   "BasicInformationDetails": {
     "notFoundTitle": "Basic Information Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -114,7 +109,6 @@
       "enableNotifications": "Enable Notifications"
     }
   },
-
   "ContactInformationDetails": {
     "notFoundTitle": "Contact Information Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -133,7 +127,6 @@
       "socialMediaLinks": "Social Media Links"
     }
   },
-
   "ContactInformationTable": {
     "pageHeading": "Contact Information",
     "addContactInformation": "Add Contact Information",
@@ -149,7 +142,6 @@
     "socialMediaLinks": "Social Media Links",
     "actions": "Actions"
   },
-
   "ContactInformationForm": {
     "createTitle": "Add Contact Information",
     "editTitle": "Edit Contact Information",
@@ -190,21 +182,20 @@
       "socialMediaLinksRequired": "Social media links are required."
     }
   },
-
   "StudyPeriodSettingsDetails": {
-    "notFoundTitle": "Study Period Settings Not Found",
+    "notFoundTitle": "Classes Settings Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
     "backToTable": "Back to Table",
-    "title": "Study Period Settings #{{id}}",
-    "subtitle": "Review the stored values for this study period settings record.",
+    "title": "Classes Settings #{{id}}",
+    "subtitle": "Review the stored values for this classes settings entry.",
     "back": "Back",
     "edit": "Edit",
-    "periodTitle": "Period {{index}}",
+    "periodTitle": "Class Period {{index}}",
     "noBreak": "No break",
     "breakDuration": "Break duration:",
     "fields": {
       "periodsCount": "Periods Count",
-      "attendanceTracking": "Attendance Tracking",
+      "attendanceTracking": "Attendance Recording",
       "periodsWithBreaks": "Periods With Breaks",
       "schoolDays": "School Days",
       "startTime": "Start Time",
@@ -216,33 +207,32 @@
       "breakEndTime": "Break End Time"
     }
   },
-
   "StudyPeriodSettingsForm": {
-    "createTitle": "Add Study Period Settings",
-    "editTitle": "Edit Study Period Settings",
-    "createSubtitle": "Create a new study period settings record and add it to the table.",
-    "editSubtitle": "Update the selected study period settings record.",
-    "saveSettings": "Save Settings",
+    "createTitle": "Add Classes Settings",
+    "editTitle": "Edit Classes Settings",
+    "createSubtitle": "Create a new classes settings record and add it to the table.",
+    "editSubtitle": "Update the selected classes settings record.",
+    "saveSettings": "Save Classes Settings",
     "saveChanges": "Save Changes",
-    "notFoundTitle": "Study Period Settings Not Found",
+    "notFoundTitle": "Classes Settings Not Found",
     "notFoundSubtitle": "The requested record could not be loaded for editing.",
     "backToTable": "Back to Table",
-    "studyPeriodCount": "Study Period Count",
+    "studyPeriodCount": "Periods Count",
     "studyPeriodCountPlaceholder": "6",
-    "attendanceTracking": "Attendance Tracking",
+    "attendanceTracking": "Attendance Recording",
     "enableAttendanceRecording": "Enable Attendance Recording",
-    "periodTitle": "Period {{index}}",
-    "periodSubtitle": "Configure the class period details and optional break.",
+    "periodTitle": "Class Period {{index}}",
+    "periodSubtitle": "Configure the class period details, school days, and optional break.",
     "durationLabel": "Duration:",
     "periodName": "Period Name",
-    "periodNamePlaceholder": "Period {{index}}",
+    "periodNamePlaceholder": "Class Period {{index}}",
     "schoolDays": "School Days",
     "selectSchoolDays": "Select school days",
     "searchSchoolDays": "Search school days",
     "startTime": "Start Time",
     "endTime": "End Time",
     "automaticDuration": "Automatic duration:",
-    "addBreakAfterPeriod": "Add a break after this period",
+    "addBreakAfterPeriod": "Add a break after this class period",
     "breakName": "Break Name",
     "breakNamePlaceholder": "Morning Break",
     "breakStartTime": "Break Start Time",
@@ -250,11 +240,13 @@
     "automaticBreakDuration": "Automatic break duration:",
     "reset": "Reset",
     "cancel": "Cancel",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "recordNotFoundError": "Unable to find this classes settings record.",
+    "saveError": "Unable to save the classes settings. Please try again."
   },
   "StudyPeriodSettingsSchema": {
     "errors": {
-      "periodNameRequired": "Period name is required.",
+      "periodNameRequired": "Class period name is required.",
       "schoolDaysRequired": "Select at least one school day.",
       "startTimeRequired": "Start time is required.",
       "endTimeRequired": "End time is required.",
@@ -266,27 +258,25 @@
       "breakStartTimeAfterPeriodEnd": "Break start time must be at or after the period end time.",
       "periodsCountRequired": "Periods count is required.",
       "periodsCountInteger": "Periods count must be a whole number.",
-      "periodsCountMin": "At least one study period is required.",
+      "periodsCountMin": "At least one class period is required.",
       "periodsCountMax": "Periods count cannot exceed 20.",
-      "periodsRequired": "Add at least one period.",
-      "periodsCountMatch": "Periods count must match the generated period rows."
+      "periodsRequired": "Add at least one class period.",
+      "periodsCountMatch": "Periods count must match the generated class-period rows."
     }
   },
-
   "StudyPeriodSettingsTable": {
-    "pageHeading": "Study Period Settings",
-    "addStudyPeriodSettings": "Add Study Period Settings",
-    "searchPlaceholder": "Search study period settings",
-    "emptyText": "No study period settings rows match your search.",
+    "pageHeading": "Classes Settings",
+    "addStudyPeriodSettings": "Add Classes Settings",
+    "searchPlaceholder": "Search classes settings",
+    "emptyText": "No classes settings rows match your search.",
     "records": "records",
     "periodsCount": "Periods Count",
-    "attendanceTracking": "Attendance Tracking",
+    "attendanceTracking": "Attendance Recording",
     "periodNames": "Period Names",
     "schoolDays": "School Days",
     "breaksCount": "Breaks Count",
     "actions": "Actions"
   },
-
   "AcademicYearDetails": {
     "notFoundTitle": "Academic Year Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -307,7 +297,6 @@
       "active": "Active"
     }
   },
-
   "AcademicYearForm": {
     "createTitle": "Add Academic Year",
     "editTitle": "Edit Academic Year",
@@ -347,7 +336,6 @@
       "semestersRequired": "Semesters are required."
     }
   },
-
   "AcademicYearTable": {
     "pageHeading": "Academic Year",
     "addAcademicYear": "Add Academic Year",
@@ -366,7 +354,6 @@
     "actions": "Actions",
     "deleteBlockedMessage": "This academic year cannot be deleted because it is linked to an active student record."
   },
-
   "SemesterDetails": {
     "notFoundTitle": "Semester Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -386,7 +373,6 @@
       "evaluationType": "Evaluation Type"
     }
   },
-
   "SemesterForm": {
     "createTitle": "Add Semester",
     "editTitle": "Edit Semester",
@@ -431,7 +417,6 @@
       "finalExamDateAfterLessonsEnd": "Final exam date must be on or after the actual lessons end date."
     }
   },
-
   "SemesterTable": {
     "pageHeading": "Semester",
     "addSemester": "Add Semester",
@@ -448,7 +433,6 @@
     "evaluationType": "Evaluation Type",
     "actions": "Actions"
   },
-
   "AcademicYearStructureExplorer": {
     "title": "Academic Year Structure",
     "subtitle": "Select an academic year to explore its timeline and the current school map.",
@@ -531,7 +515,6 @@
       "unknownTeacher": "Unknown teacher"
     }
   },
-
   "EducationalStageDetails": {
     "notFoundTitle": "Educational Stage Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -548,7 +531,6 @@
       "mixedStage": "Mixed Stage"
     }
   },
-
   "EducationalStageForm": {
     "createTitle": "Add Educational Stage",
     "editTitle": "Edit Educational Stage",
@@ -586,7 +568,6 @@
       "teachingLanguageRequired": "Teaching language is required."
     }
   },
-
   "EducationalStageTable": {
     "pageHeading": "Educational Stage",
     "addEducationalStage": "Add Educational Stage",
@@ -600,7 +581,6 @@
     "isMixedStage": "Is Mixed Stage",
     "actions": "Actions"
   },
-
   "SchoolClassDetails": {
     "notFoundTitle": "School Class Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -616,7 +596,6 @@
       "active": "Active"
     }
   },
-
   "SchoolClassForm": {
     "createTitle": "Add School Class",
     "editTitle": "Edit School Class",
@@ -651,7 +630,6 @@
       "minimumPassingGradeMax": "Minimum passing grade cannot exceed 100."
     }
   },
-
   "SchoolClassTable": {
     "pageHeading": "School Class",
     "addSchoolClass": "Add School Class",
@@ -664,7 +642,6 @@
     "isActive": "Is Active",
     "actions": "Actions"
   },
-
   "SchoolSectionDetails": {
     "notFoundTitle": "School Section Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -681,7 +658,6 @@
       "active": "Active"
     }
   },
-
   "SchoolSectionTable": {
     "pageHeading": "School Section",
     "addSchoolSection": "Add School Section",
@@ -695,7 +671,6 @@
     "isActive": "Active",
     "actions": "Actions"
   },
-
   "SchoolSectionForm": {
     "createTitle": "Add School Section",
     "editTitle": "Edit School Section",
@@ -708,7 +683,7 @@
     "backToTable": "Back to Table",
     "sectionName": "Section Name",
     "sectionNamePlaceholder": "Section A",
-    "parentSchoolClass": "Parent School Class",
+    "parentSchoolClass": "School Class",
     "selectSchoolClass": "Select school class",
     "searchSchoolClass": "Search school class",
     "noSchoolClassMessage": "Add a school class first so you can link a school section to it.",
@@ -735,7 +710,6 @@
       "supervisorRequired": "Section supervisor is required."
     }
   },
-
   "SubjectDetails": {
     "notFoundTitle": "Subject Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -766,7 +740,6 @@
       "gradeBreakdown": "Grade Breakdown"
     }
   },
-
   "SubjectTable": {
     "pageHeading": "Subject",
     "addSubject": "Add Subject",
@@ -785,7 +758,6 @@
     "teachingLanguage": "Teaching Language",
     "actions": "Actions"
   },
-
   "SubjectForm": {
     "createTitle": "Add Subject",
     "editTitle": "Edit Subject",
@@ -835,7 +807,25 @@
     "hasQuestionBank": "Has Question Bank",
     "reset": "Reset",
     "cancel": "Cancel",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "validationError": "Please complete the highlighted subject information, then try again.",
+    "guidance": {
+      "subjectName": "Enter a clear subject name, such as Mathematics or Science.",
+      "subjectType": "Select the subject type before saving this subject.",
+      "teacherIds": "Choose at least one teacher for this subject.",
+      "classSettings": "Add at least one class setup so this subject can be linked to a school class.",
+      "schoolClassId": "Select the school class for each class setup row.",
+      "weeklyPeriodsCount": "Enter how many times this subject is taught each week.",
+      "periodDurationMinutes": "Enter the duration of one lesson in minutes, for example 45.",
+      "gradeBreakdown": "Complete the grade breakdown and make sure the total percentage reaches exactly 100%.",
+      "activityName": "Enter a name for each grading activity, such as Homework or Final Exam.",
+      "percentage": "Enter the percentage for each activity and make sure the total equals 100%.",
+      "minimumPassingGrade": "Enter the minimum passing grade as a number from 0 to 100.",
+      "teachingLanguage": "Enter the teaching language for this subject, such as English or Arabic."
+    },
+    "recordNotFoundError": "Unable to find this subject record.",
+    "duplicateSubjectNameError": "Subject name already exists. Duplicate subject names are not allowed.",
+    "saveError": "Unable to save the subject. Please try again."
   },
   "SubjectSchema": {
     "errors": {
@@ -864,7 +854,6 @@
       "gradeBreakdownTotal": "Grade breakdown percentages must total 100%."
     }
   },
-
   "HallDetails": {
     "notFoundTitle": "Hall Not Found",
     "notFoundSubtitle": "The requested record could not be found in the current session.",
@@ -882,7 +871,6 @@
       "floorNumber": "Floor Number"
     }
   },
-
   "HallTable": {
     "pageHeading": "Hall",
     "addHall": "Add Hall",
@@ -896,7 +884,6 @@
     "location": "Location",
     "actions": "Actions"
   },
-
   "HallForm": {
     "createTitle": "Add Hall",
     "editTitle": "Edit Hall",
@@ -939,7 +926,6 @@
       "floorNumberMax": "Floor number cannot exceed 100."
     }
   },
-
   "Sidebar": {
     "home": "Home",
     "academicYear": "Academic Year",
@@ -953,10 +939,9 @@
     "settings": "Settings",
     "basicInformation": "Basic Information",
     "contactInformation": "Contact Information",
-    "studyPeriodSettings": "Study Period Settings",
+    "studyPeriodSettings": "Classes Settings",
     "logout": "Logout"
   },
-
   "Navbar": {
     "openNavigationMenu": "Open navigation menu",
     "pageTitles": {
@@ -964,7 +949,7 @@
       "settings": "Settings",
       "basicInformation": "Basic Information",
       "contactInformation": "Contact Information",
-      "studyPeriodSettings": "Study Period Settings",
+      "studyPeriodSettings": "Classes Settings",
       "academicYear": "Academic Year",
       "semester": "Semester",
       "academicYearStructure": "Academic Year Structure",
@@ -975,11 +960,30 @@
       "hall": "Hall"
     }
   },
-
   "DeleteModal": {
     "title": "Delete item",
     "description": "Are you sure you want to delete this item? This action cannot be undone.",
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+  "AssetPreview": {
+    "imageFile": "Image file",
+    "openPreview": "Open preview",
+    "fileUploaded": "File uploaded"
+  },
+  "StudyPeriodSettingsCommon": {
+    "durationValue": "{{value}} min",
+    "noDaysSelected": "No days selected",
+    "days": {
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday",
+      "Sunday": "Sunday"
+    },
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   }
 }

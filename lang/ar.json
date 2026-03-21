@@ -6,7 +6,6 @@
     "today": "اليوم",
     "currentTime": "الوقت الحالي"
   },
-
   "LoginForm": {
     "logoAlt": "شعار ليفل أب",
     "title": "تسجيل الدخول",
@@ -19,7 +18,6 @@
     "signingIn": "جاري تسجيل الدخول...",
     "signInToDashboard": "تسجيل الدخول إلى لوحة التحكم"
   },
-
   "BasicInformationTable": {
     "pageHeading": "المعلومات الأساسية",
     "addBasicInformation": "إضافة معلومات أساسية",
@@ -37,7 +35,6 @@
     "schoolSeal": "ختم المدرسة",
     "actions": "الإجراءات"
   },
-
   "BasicInformationSchema": {
     "errors": {
       "schoolNameArabicRequired": "اسم المدرسة بالعربية مطلوب.",
@@ -51,7 +48,6 @@
       "schoolLogoMustBeImage": "يجب أن يكون شعار المدرسة صورة."
     }
   },
-
   "BasicInformationForm": {
     "createTitle": "إضافة معلومات أساسية",
     "editTitle": "تعديل المعلومات الأساسية",
@@ -91,7 +87,6 @@
     "cancel": "إلغاء",
     "saving": "جارٍ الحفظ..."
   },
-
   "BasicInformationDetails": {
     "notFoundTitle": "لم يتم العثور على المعلومات الأساسية",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -114,7 +109,6 @@
       "enableNotifications": "تفعيل الإشعارات"
     }
   },
-
   "ContactInformationDetails": {
     "notFoundTitle": "لم يتم العثور على معلومات التواصل",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -133,7 +127,6 @@
       "socialMediaLinks": "روابط وسائل التواصل الاجتماعي"
     }
   },
-
   "ContactInformationTable": {
     "pageHeading": "معلومات التواصل",
     "addContactInformation": "إضافة معلومات تواصل",
@@ -149,7 +142,6 @@
     "socialMediaLinks": "روابط وسائل التواصل الاجتماعي",
     "actions": "الإجراءات"
   },
-
   "ContactInformationForm": {
     "createTitle": "إضافة معلومات التواصل",
     "editTitle": "تعديل معلومات التواصل",
@@ -190,103 +182,101 @@
       "socialMediaLinksRequired": "روابط وسائل التواصل الاجتماعي مطلوبة."
     }
   },
-
   "StudyPeriodSettingsDetails": {
-    "notFoundTitle": "لم يتم العثور على إعدادات الفترات الدراسية",
+    "notFoundTitle": "تعذر العثور على اعدادات الحصص الدراسية",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
     "backToTable": "العودة إلى الجدول",
-    "title": "إعدادات الفترات الدراسية #{{id}}",
-    "subtitle": "راجع القيم المخزنة لسجل إعدادات الفترات الدراسية هذا.",
+    "title": "اعدادات الحصص الدراسية #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل اعدادات الحصص الدراسية هذا.",
     "back": "رجوع",
     "edit": "تعديل",
-    "periodTitle": "الفترة {{index}}",
-    "noBreak": "لا يوجد استراحة",
+    "periodTitle": "الحصة {{index}}",
+    "noBreak": "لا توجد استراحة",
     "breakDuration": "مدة الاستراحة:",
     "fields": {
-      "periodsCount": "عدد الفترات",
-      "attendanceTracking": "تتبع الحضور",
-      "periodsWithBreaks": "الفترات التي تحتوي على استراحة",
-      "schoolDays": "أيام الدراسة",
-      "startTime": "وقت البدء",
-      "endTime": "وقت الانتهاء",
+      "periodsCount": "عدد الحصص",
+      "attendanceTracking": "تسجيل الحضور",
+      "periodsWithBreaks": "عدد الحصص التي تتضمن استراحة",
+      "schoolDays": "أيام الدوام",
+      "startTime": "وقت البداية",
+      "endTime": "وقت النهاية",
       "duration": "المدة",
-      "breakAfterPeriod": "استراحة بعد الفترة",
+      "breakAfterPeriod": "استراحة بعد الحصة",
       "breakName": "اسم الاستراحة",
-      "breakStartTime": "وقت بدء الاستراحة",
-      "breakEndTime": "وقت انتهاء الاستراحة"
+      "breakStartTime": "وقت بداية الاستراحة",
+      "breakEndTime": "وقت نهاية الاستراحة"
     }
   },
-
   "StudyPeriodSettingsForm": {
-    "createTitle": "إضافة إعدادات الفترات الدراسية",
-    "editTitle": "تعديل إعدادات الفترات الدراسية",
-    "createSubtitle": "أنشئ سجلاً جديداً لإعدادات الفترات الدراسية وأضفه إلى الجدول.",
-    "editSubtitle": "قم بتحديث سجل إعدادات الفترات الدراسية المحدد.",
-    "saveSettings": "حفظ الإعدادات",
+    "createTitle": "إضافة اعدادات الحصص الدراسية",
+    "editTitle": "تعديل اعدادات الحصص الدراسية",
+    "createSubtitle": "أنشئ سجلًا جديدًا لاعدادات الحصص الدراسية وأضفه إلى الجدول.",
+    "editSubtitle": "قم بتحديث سجل اعدادات الحصص الدراسية المحدد.",
+    "saveSettings": "حفظ اعدادات الحصص الدراسية",
     "saveChanges": "حفظ التغييرات",
-    "notFoundTitle": "لم يتم العثور على إعدادات الفترات الدراسية",
+    "notFoundTitle": "تعذر العثور على اعدادات الحصص الدراسية",
     "notFoundSubtitle": "تعذر تحميل السجل المطلوب للتعديل.",
     "backToTable": "العودة إلى الجدول",
-    "studyPeriodCount": "عدد الفترات الدراسية",
+    "studyPeriodCount": "عدد الحصص الدراسية",
     "studyPeriodCountPlaceholder": "6",
-    "attendanceTracking": "تتبع الحضور",
+    "attendanceTracking": "تسجيل الحضور",
     "enableAttendanceRecording": "تفعيل تسجيل الحضور",
-    "periodTitle": "الفترة {{index}}",
-    "periodSubtitle": "قم بإعداد تفاصيل الحصة الدراسية والاستراحة الاختيارية.",
+    "periodTitle": "الحصة {{index}}",
+    "periodSubtitle": "قم بإعداد تفاصيل الحصة الدراسية وأيام الدوام والاستراحة الاختيارية.",
     "durationLabel": "المدة:",
-    "periodName": "اسم الفترة",
-    "periodNamePlaceholder": "الفترة {{index}}",
-    "schoolDays": "أيام الدراسة",
-    "selectSchoolDays": "اختر أيام الدراسة",
-    "searchSchoolDays": "ابحث في أيام الدراسة",
-    "startTime": "وقت البدء",
-    "endTime": "وقت الانتهاء",
-    "automaticDuration": "المدة التلقائية:",
-    "addBreakAfterPeriod": "إضافة استراحة بعد هذه الفترة",
+    "periodName": "اسم الحصة",
+    "periodNamePlaceholder": "الحصة {{index}}",
+    "schoolDays": "الأيام التدريسية",
+    "selectSchoolDays": "اختر الأيام التدريسية",
+    "searchSchoolDays": "ابحث عن الأيام التدريسية",
+    "startTime": "وقت البداية",
+    "endTime": "وقت النهاية",
+    "automaticDuration": "مدة الحصة التلقائية:",
+    "addBreakAfterPeriod": "إضافة استراحة بعد هذه الحصة",
     "breakName": "اسم الاستراحة",
-    "breakNamePlaceholder": "استراحة الصباح",
-    "breakStartTime": "وقت بدء الاستراحة",
-    "breakEndTime": "وقت انتهاء الاستراحة",
+    "breakNamePlaceholder": "الاستراحة الصباحية",
+    "breakStartTime": "وقت بداية الاستراحة",
+    "breakEndTime": "وقت نهاية الاستراحة",
     "automaticBreakDuration": "مدة الاستراحة التلقائية:",
     "reset": "إعادة تعيين",
     "cancel": "إلغاء",
-    "saving": "جارٍ الحفظ..."
+    "saving": "جارٍ الحفظ...",
+    "recordNotFoundError": "تعذر العثور على سجل اعدادات الحصص الدراسية هذا.",
+    "saveError": "تعذر حفظ اعدادات الحصص الدراسية. يرجى المحاولة مرة أخرى."
   },
   "StudyPeriodSettingsSchema": {
     "errors": {
-      "periodNameRequired": "اسم الفترة مطلوب.",
-      "schoolDaysRequired": "اختر يوم دراسة واحداً على الأقل.",
-      "startTimeRequired": "وقت البدء مطلوب.",
-      "endTimeRequired": "وقت الانتهاء مطلوب.",
-      "endTimeAfterStart": "يجب أن يكون وقت الانتهاء بعد وقت البدء.",
+      "periodNameRequired": "اسم الحصة مطلوب.",
+      "schoolDaysRequired": "اختر يوم دوام واحدًا على الأقل.",
+      "startTimeRequired": "وقت البداية مطلوب.",
+      "endTimeRequired": "وقت النهاية مطلوب.",
+      "endTimeAfterStart": "يجب أن يكون وقت النهاية بعد وقت البداية.",
       "breakNameRequired": "اسم الاستراحة مطلوب عند تفعيل الاستراحة.",
-      "breakStartTimeRequired": "وقت بدء الاستراحة مطلوب عند تفعيل الاستراحة.",
-      "breakEndTimeRequired": "وقت انتهاء الاستراحة مطلوب عند تفعيل الاستراحة.",
-      "breakEndTimeAfterStart": "يجب أن يكون وقت انتهاء الاستراحة بعد وقت بدء الاستراحة.",
-      "breakStartTimeAfterPeriodEnd": "يجب أن يكون وقت بدء الاستراحة عند أو بعد نهاية الفترة.",
-      "periodsCountRequired": "عدد الفترات مطلوب.",
-      "periodsCountInteger": "يجب أن يكون عدد الفترات رقماً صحيحاً.",
-      "periodsCountMin": "مطلوب فترة دراسية واحدة على الأقل.",
-      "periodsCountMax": "لا يمكن أن يتجاوز عدد الفترات 20.",
-      "periodsRequired": "أضف فترة واحدة على الأقل.",
-      "periodsCountMatch": "يجب أن يطابق عدد الفترات عدد الصفوف التي تم إنشاؤها."
+      "breakStartTimeRequired": "وقت بداية الاستراحة مطلوب عند تفعيل الاستراحة.",
+      "breakEndTimeRequired": "وقت نهاية الاستراحة مطلوب عند تفعيل الاستراحة.",
+      "breakEndTimeAfterStart": "يجب أن يكون وقت نهاية الاستراحة بعد وقت بدايتها.",
+      "breakStartTimeAfterPeriodEnd": "يجب أن يكون وقت بداية الاستراحة مساويًا أو بعد نهاية الحصة.",
+      "periodsCountRequired": "عدد الحصص مطلوب.",
+      "periodsCountInteger": "يجب أن يكون عدد الحصص رقمًا صحيحًا.",
+      "periodsCountMin": "يجب إضافة حصة دراسية واحدة على الأقل.",
+      "periodsCountMax": "لا يمكن أن يتجاوز عدد الحصص 20.",
+      "periodsRequired": "أضف حصة دراسية واحدة على الأقل.",
+      "periodsCountMatch": "يجب أن يطابق عدد الحصص عدد الصفوف التي تم توليدها تلقائيًا."
     }
   },
-
   "StudyPeriodSettingsTable": {
-    "pageHeading": "إعدادات الفترات الدراسية",
-    "addStudyPeriodSettings": "إضافة إعدادات الفترات الدراسية",
-    "searchPlaceholder": "ابحث في إعدادات الفترات الدراسية",
-    "emptyText": "لا توجد سجلات لإعدادات الفترات الدراسية تطابق بحثك.",
+    "pageHeading": "اعدادات الحصص الدراسية",
+    "addStudyPeriodSettings": "إضافة اعدادات الحصص الدراسية",
+    "searchPlaceholder": "ابحث في اعدادات الحصص الدراسية",
+    "emptyText": "لا توجد سجلات اعدادات حصص دراسية تطابق بحثك.",
     "records": "سجل",
-    "periodsCount": "عدد الفترات",
-    "attendanceTracking": "تتبع الحضور",
-    "periodNames": "أسماء الفترات",
-    "schoolDays": "أيام الدراسة",
+    "periodsCount": "عدد الحصص",
+    "attendanceTracking": "تسجيل الحضور",
+    "periodNames": "أسماء الحصص",
+    "schoolDays": "أيام الدوام",
     "breaksCount": "عدد الاستراحات",
     "actions": "الإجراءات"
   },
-
   "AcademicYearDetails": {
     "notFoundTitle": "لم يتم العثور على العام الدراسي",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -307,7 +297,6 @@
       "active": "نشط"
     }
   },
-
   "AcademicYearForm": {
     "createTitle": "إضافة عام دراسي",
     "editTitle": "تعديل العام الدراسي",
@@ -347,7 +336,6 @@
       "semestersRequired": "الفصول الدراسية مطلوبة."
     }
   },
-
   "AcademicYearTable": {
     "pageHeading": "العام الدراسي",
     "addAcademicYear": "إضافة عام دراسي",
@@ -366,7 +354,6 @@
     "actions": "الإجراءات",
     "deleteBlockedMessage": "لا يمكن حذف هذا العام الدراسي لأنه مرتبط بسجل طالب نشط."
   },
-
   "SemesterDetails": {
     "notFoundTitle": "لم يتم العثور على الفصل الدراسي",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -386,7 +373,6 @@
       "evaluationType": "نوع التقييم"
     }
   },
-
   "SemesterForm": {
     "createTitle": "إضافة فصل دراسي",
     "editTitle": "تعديل الفصل الدراسي",
@@ -431,7 +417,6 @@
       "finalExamDateAfterLessonsEnd": "يجب أن يكون تاريخ الامتحان النهائي في أو بعد تاريخ انتهاء الدروس الفعلي."
     }
   },
-
   "SemesterTable": {
     "pageHeading": "الفصل الدراسي",
     "addSemester": "إضافة فصل دراسي",
@@ -448,7 +433,6 @@
     "evaluationType": "نوع التقييم",
     "actions": "الإجراءات"
   },
-
   "AcademicYearStructureExplorer": {
     "title": "هيكل العام الدراسي",
     "subtitle": "اختر عاماً دراسياً لاستعراض تسلسله الزمني وخريطة التهيئة المدرسية الحالية.",
@@ -531,7 +515,6 @@
       "unknownTeacher": "معلم غير معروف"
     }
   },
-
   "EducationalStageDetails": {
     "notFoundTitle": "لم يتم العثور على المرحلة التعليمية",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -548,7 +531,6 @@
       "mixedStage": "مرحلة مختلطة"
     }
   },
-
   "EducationalStageForm": {
     "createTitle": "إضافة مرحلة تعليمية",
     "editTitle": "تعديل المرحلة التعليمية",
@@ -586,7 +568,6 @@
       "teachingLanguageRequired": "لغة التدريس مطلوبة."
     }
   },
-
   "EducationalStageTable": {
     "pageHeading": "المرحلة التعليمية",
     "addEducationalStage": "إضافة مرحلة تعليمية",
@@ -600,7 +581,6 @@
     "isMixedStage": "مرحلة مختلطة",
     "actions": "الإجراءات"
   },
-
   "SchoolClassDetails": {
     "notFoundTitle": "لم يتم العثور على إعداد صف المدرسة",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -616,7 +596,6 @@
       "active": "نشط"
     }
   },
-
   "SchoolClassForm": {
     "createTitle": "إضافة إعداد صف مدرسي",
     "editTitle": "تعديل إعداد الصف المدرسي",
@@ -651,7 +630,6 @@
       "minimumPassingGradeMax": "لا يمكن أن يتجاوز الحد الأدنى لدرجة النجاح 100."
     }
   },
-
   "SchoolClassTable": {
     "pageHeading": "الصف المدرسي",
     "addSchoolClass": "إضافة صف مدرسي",
@@ -664,7 +642,6 @@
     "isActive": "نشط",
     "actions": "الإجراءات"
   },
-
   "SchoolSectionDetails": {
     "notFoundTitle": "لم يتم العثور على الشعبة المدرسية",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -681,7 +658,6 @@
       "active": "نشط"
     }
   },
-
   "SchoolSectionTable": {
     "pageHeading": "الشعبة المدرسية",
     "addSchoolSection": "إضافة شعبة مدرسية",
@@ -695,7 +671,6 @@
     "isActive": "نشط",
     "actions": "الإجراءات"
   },
-
   "SchoolSectionForm": {
     "createTitle": "إضافة شعبة مدرسية",
     "editTitle": "تعديل الشعبة المدرسية",
@@ -708,7 +683,7 @@
     "backToTable": "العودة إلى الجدول",
     "sectionName": "اسم الشعبة",
     "sectionNamePlaceholder": "الشعبة أ",
-    "parentSchoolClass": "الصف المدرسي الأب",
+    "parentSchoolClass": "الصف المدرسي ",
     "selectSchoolClass": "اختر الصف المدرسي",
     "searchSchoolClass": "ابحث في الصف المدرسي",
     "noSchoolClassMessage": "أضف صفاً مدرسياً أولاً حتى تتمكن من ربط شعبة مدرسية به.",
@@ -735,7 +710,6 @@
       "supervisorRequired": "مشرف الشعبة مطلوب."
     }
   },
-
   "SubjectDetails": {
     "notFoundTitle": "لم يتم العثور على المادة",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -766,7 +740,6 @@
       "gradeBreakdown": "توزيع الدرجات"
     }
   },
-
   "SubjectTable": {
     "pageHeading": "المادة",
     "addSubject": "إضافة مادة",
@@ -785,7 +758,6 @@
     "teachingLanguage": "لغة التدريس",
     "actions": "الإجراءات"
   },
-
   "SubjectForm": {
     "createTitle": "إضافة مادة",
     "editTitle": "تعديل المادة",
@@ -835,7 +807,25 @@
     "hasQuestionBank": "تحتوي على بنك أسئلة",
     "reset": "إعادة تعيين",
     "cancel": "إلغاء",
-    "saving": "جارٍ الحفظ..."
+    "saving": "جارٍ الحفظ...",
+    "validationError": "يرجى استكمال بيانات المادة المظللة ثم المحاولة مرة أخرى.",
+    "guidance": {
+      "subjectName": "أدخل اسمًا واضحًا للمادة، مثل الرياضيات أو العلوم.",
+      "subjectType": "اختر نوع المادة قبل حفظ هذا السجل.",
+      "teacherIds": "اختر معلّمًا واحدًا على الأقل لهذه المادة.",
+      "classSettings": "أضف إعداد صف واحدًا على الأقل حتى يتم ربط المادة بصف دراسي.",
+      "schoolClassId": "اختر الصف الدراسي في كل سطر من إعدادات الصفوف.",
+      "weeklyPeriodsCount": "أدخل عدد الحصص الأسبوعية لهذه المادة.",
+      "periodDurationMinutes": "أدخل مدة الحصة الواحدة بالدقائق، مثل 45 دقيقة.",
+      "gradeBreakdown": "أكمل توزيع الدرجات وتأكد من أن مجموع النسب يساوي 100٪ تمامًا.",
+      "activityName": "أدخل اسمًا لكل نشاط تقييمي، مثل الواجب أو الاختبار النهائي.",
+      "percentage": "أدخل النسبة المئوية لكل نشاط وتأكد من أن المجموع النهائي يساوي 100٪.",
+      "minimumPassingGrade": "أدخل الحد الأدنى لدرجة النجاح كرقم بين 0 و100.",
+      "teachingLanguage": "أدخل لغة تدريس هذه المادة، مثل العربية أو الإنجليزية."
+    },
+    "recordNotFoundError": "تعذر العثور على سجل هذه المادة.",
+    "duplicateSubjectNameError": "اسم المادة موجود بالفعل. لا يُسمح بتكرار أسماء المواد.",
+    "saveError": "تعذر حفظ المادة. يرجى المحاولة مرة أخرى."
   },
   "SubjectSchema": {
     "errors": {
@@ -864,7 +854,6 @@
       "gradeBreakdownTotal": "يجب أن يكون مجموع نسب توزيع الدرجات 100٪."
     }
   },
-
   "HallDetails": {
     "notFoundTitle": "لم يتم العثور على القاعة",
     "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
@@ -882,7 +871,6 @@
       "floorNumber": "رقم الطابق"
     }
   },
-
   "HallTable": {
     "pageHeading": "القاعة",
     "addHall": "إضافة قاعة",
@@ -938,7 +926,6 @@
       "floorNumberMax": "لا يمكن أن يتجاوز رقم الطابق 100."
     }
   },
-
   "Sidebar": {
     "home": "الرئيسية",
     "academicYear": "العام الدراسي",
@@ -952,10 +939,9 @@
     "settings": "الإعدادات",
     "basicInformation": "المعلومات الأساسية",
     "contactInformation": "معلومات التواصل",
-    "studyPeriodSettings": "إعدادات الفترات الدراسية",
+    "studyPeriodSettings": "اعدادات الحصص الدراسية",
     "logout": "تسجيل الخروج"
   },
-
   "Navbar": {
     "openNavigationMenu": "فتح قائمة التنقل",
     "pageTitles": {
@@ -963,7 +949,7 @@
       "settings": "الإعدادات",
       "basicInformation": "المعلومات الأساسية",
       "contactInformation": "معلومات التواصل",
-      "studyPeriodSettings": "إعدادات الفترات الدراسية",
+      "studyPeriodSettings": "اعدادات الحصص الدراسية",
       "academicYear": "العام الدراسي",
       "semester": "الفصل الدراسي",
       "academicYearStructure": "هيكل العام الدراسي",
@@ -974,11 +960,30 @@
       "hall": "القاعة"
     }
   },
-
   "DeleteModal": {
     "title": "حذف العنصر",
     "description": "هل أنت متأكد أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
     "cancel": "إلغاء",
     "delete": "حذف"
+  },
+  "AssetPreview": {
+    "imageFile": "ملف صورة",
+    "openPreview": "فتح المعاينة",
+    "fileUploaded": "تم رفع الملف"
+  },
+  "StudyPeriodSettingsCommon": {
+    "durationValue": "{{value}} دقيقة",
+    "noDaysSelected": "لم يتم اختيار أيام",
+    "days": {
+      "Monday": "الاثنين",
+      "Tuesday": "الثلاثاء",
+      "Wednesday": "الأربعاء",
+      "Thursday": "الخميس",
+      "Friday": "الجمعة",
+      "Saturday": "السبت",
+      "Sunday": "الأحد"
+    },
+    "enabled": "مفعل",
+    "disabled": "معطل"
   }
 }

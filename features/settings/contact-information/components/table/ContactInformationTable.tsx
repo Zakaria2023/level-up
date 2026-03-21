@@ -68,7 +68,7 @@ const ContactInformationTable = () => {
 
           <div>{item.detailedAddress}</div>
 
-          <div>{item.primaryPhoneNumber}</div>
+          <div dir="ltr">{item.primaryPhoneNumber}</div>
 
           <div>{item.primaryEmail}</div>
 

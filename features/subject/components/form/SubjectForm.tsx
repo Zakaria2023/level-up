@@ -20,6 +20,36 @@ type SubjectFormProps = {
   cancelHref?: string;
 };
 
+const resolveErrorMessage = (value: unknown): string | undefined => {
+  if (!value || typeof value !== "object") {
+    return undefined;
+  }
+
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const message = resolveErrorMessage(item);
+
+      if (message) {
+        return message;
+      }
+    }
+
+    return undefined;
+  }
+
+  const record = value as Record<string, unknown>;
+
+  if (typeof record.message === "string" && record.message.trim()) {
+    return record.message;
+  }
+
+  if (record.root) {
+    return resolveErrorMessage(record.root);
+  }
+
+  return undefined;
+};
+
 export const SubjectForm = ({
   mode = "create",
   rowId,
@@ -33,23 +63,17 @@ export const SubjectForm = ({
   const {
     register,
     control,
-    handleSubmit,
+    handleFormSubmit,
     errors,
     isSubmitting,
     serverError,
-    onSubmit,
     resetForm,
     existingRow,
-    subjectType,
-    setSubjectType,
     subjectTypeOptions,
-    teacherIds,
-    setTeacherIds,
     teacherOptions,
     schoolClassOptions,
     hasSchoolClassOptions,
     classSettingFields,
-    setClassSettingSchoolClassId,
     addClassSetting,
     removeClassSetting,
     gradeBreakdownFields,
@@ -91,11 +115,11 @@ export const SubjectForm = ({
     (total, item) => total + (item?.percentage ?? 0),
     0,
   );
+  const isGradeBreakdownTotalValid =
+    Math.abs(gradeBreakdownTotal - 100) <= 0.001;
 
-  const gradeBreakdownError =
-    typeof errors.gradeBreakdown?.message === "string"
-      ? errors.gradeBreakdown.message
-      : undefined;
+  const gradeBreakdownError = resolveErrorMessage(errors.gradeBreakdown);
+  const classSettingsError = resolveErrorMessage(errors.classSettings);
 
   if (mode === "edit" && !existingRow) {
     return (
@@ -123,7 +147,7 @@ export const SubjectForm = ({
       className="max-w-240"
       contentClassName="px-4 pb-4 pt-4 md:px-5"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleFormSubmit} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <Input
             label={t("SubjectForm.subjectName")}
@@ -131,22 +155,22 @@ export const SubjectForm = ({
             inputType="text"
             placeholder={t("SubjectForm.subjectNamePlaceholder")}
             error={errors.subjectName?.message}
-            disabled={inputsDisabled}
+            disabled={isSubmitting}
             {...register("subjectName")}
           />
 
           <Controller
             control={control}
             name="subjectType"
-            render={() => (
+            render={({ field }) => (
               <Dropdown
                 label={t("SubjectForm.subjectType")}
-                value={subjectType || undefined}
-                onChange={setSubjectType}
+                value={field.value || undefined}
+                onChange={field.onChange}
                 options={subjectTypeOptions}
                 placeholder={t("SubjectForm.selectSubjectType")}
                 error={errors.subjectType?.message}
-                disabled={inputsDisabled}
+                disabled={isSubmitting}
               />
             )}
           />
@@ -155,11 +179,11 @@ export const SubjectForm = ({
         <Controller
           control={control}
           name="teacherIds"
-          render={() => (
+          render={({ field }) => (
             <MultiSelectDropdown
               label={t("SubjectForm.teachers")}
-              values={teacherIds}
-              onChange={setTeacherIds}
+              values={field.value ?? []}
+              onChange={field.onChange}
               options={teacherOptions}
               placeholder={t("SubjectForm.selectTeachers")}
               searchable
@@ -227,10 +251,7 @@ export const SubjectForm = ({
                       <Dropdown
                         label={t("SubjectForm.schoolClass")}
                         value={fieldControl.value || undefined}
-                        onChange={(value) => {
-                          fieldControl.onChange(value);
-                          setClassSettingSchoolClassId(index, value);
-                        }}
+                        onChange={fieldControl.onChange}
                         options={schoolClassOptions}
                         placeholder={t("SubjectForm.selectSchoolClass")}
                         searchable
@@ -272,6 +293,8 @@ export const SubjectForm = ({
               </div>
             ))}
           </div>
+
+          <FormError>{classSettingsError}</FormError>
         </div>
 
         <div className="rounded-3xl border border-(--border-color) bg-[#F8FDFF] p-4">
@@ -286,7 +309,14 @@ export const SubjectForm = ({
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
+              <div
+                className={[
+                  "inline-flex h-10 items-center rounded-xl px-4 text-sm font-semibold",
+                  isGradeBreakdownTotalValid
+                    ? "bg-(--primary-soft) text-(--primary-strong)"
+                    : "bg-red-500/10 text-red-500",
+                ].join(" ")}
+              >
                 {t("SubjectForm.totalPercentage", { total: gradeBreakdownTotal })}
               </div>
               <button
@@ -438,7 +468,7 @@ export const SubjectForm = ({
 
           <button
             type="submit"
-            disabled={inputsDisabled}
+            disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isSubmitting ? t("SubjectForm.saving") : resolvedSubmitLabel}

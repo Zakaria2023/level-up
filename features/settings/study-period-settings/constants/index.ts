@@ -1,19 +1,19 @@
-import { renderBooleanValue } from "@/lib/utils/helpers";
-import { TFunction } from "i18next";
-import { calculateDurationInMinutes, formatSchoolDays } from "../helpers";
+import type { TFunction } from "i18next";
+import {
+  calculateDurationInMinutes,
+  formatSchoolDays,
+  formatStatusValue,
+} from "../helpers";
 import type { StudyPeriodDay, StudyPeriodSettingsRow } from "../types";
 
-export const STUDY_PERIOD_DAY_OPTIONS: {
-  label: string;
-  value: StudyPeriodDay;
-}[] = [
-  { label: "Monday", value: "Monday" },
-  { label: "Tuesday", value: "Tuesday" },
-  { label: "Wednesday", value: "Wednesday" },
-  { label: "Thursday", value: "Thursday" },
-  { label: "Friday", value: "Friday" },
-  { label: "Saturday", value: "Saturday" },
-  { label: "Sunday", value: "Sunday" },
+export const STUDY_PERIOD_DAYS: StudyPeriodDay[] = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
 ];
 
 export const STUDY_PERIOD_SETTINGS_ROWS: StudyPeriodSettingsRow[] = [
@@ -69,7 +69,7 @@ export const toDetailFields = (row: StudyPeriodSettingsRow, t: TFunction) => [
   },
   {
     label: t("StudyPeriodSettingsDetails.fields.attendanceTracking"),
-    value: renderBooleanValue(row.attendanceTrackingEnabled),
+    value: formatStatusValue(row.attendanceTrackingEnabled, t),
   },
   {
     label: t("StudyPeriodSettingsDetails.fields.periodsWithBreaks"),
@@ -82,12 +82,15 @@ export const toDetailFields = (row: StudyPeriodSettingsRow, t: TFunction) => [
 export const summarizePeriodNames = (row: StudyPeriodSettingsRow) =>
   row.periods.map((period) => period.periodName).join(", ");
 
-export const summarizeSchoolDays = (row: StudyPeriodSettingsRow) => {
+export const summarizeSchoolDays = (
+  row: StudyPeriodSettingsRow,
+  t?: TFunction,
+) => {
   const uniqueDays = Array.from(
     new Set(row.periods.flatMap((period) => period.schoolDays)),
   ) as StudyPeriodDay[];
 
-  return formatSchoolDays(uniqueDays);
+  return formatSchoolDays(uniqueDays, t);
 };
 
 export const normalizeStudyPeriods = (row: StudyPeriodSettingsRow) => ({

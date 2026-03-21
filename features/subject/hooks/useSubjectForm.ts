@@ -5,7 +5,12 @@ import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClas
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import {
+  type FieldErrors,
+  useFieldArray,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import {
@@ -28,6 +33,118 @@ import {
 type UseSubjectFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
+};
+
+const getFriendlySubjectValidationMessage = (
+  formErrors: FieldErrors<SubjectFormValues>,
+  t: (key: string) => string,
+) => {
+  if (formErrors.subjectName) {
+    return t("SubjectForm.guidance.subjectName");
+  }
+
+  if (formErrors.subjectType) {
+    return t("SubjectForm.guidance.subjectType");
+  }
+
+  if (formErrors.teacherIds) {
+    return t("SubjectForm.guidance.teacherIds");
+  }
+
+  if (Array.isArray(formErrors.classSettings)) {
+    for (const item of formErrors.classSettings) {
+      const classSettingError = item as
+        | {
+            schoolClassId?: unknown;
+            weeklyPeriodsCount?: unknown;
+            periodDurationMinutes?: unknown;
+          }
+        | undefined;
+
+      if (classSettingError?.schoolClassId) {
+        return t("SubjectForm.guidance.schoolClassId");
+      }
+
+      if (classSettingError?.weeklyPeriodsCount) {
+        return t("SubjectForm.guidance.weeklyPeriodsCount");
+      }
+
+      if (classSettingError?.periodDurationMinutes) {
+        return t("SubjectForm.guidance.periodDurationMinutes");
+      }
+    }
+  }
+
+  if (findFirstErrorMessage(formErrors.classSettings)) {
+    return t("SubjectForm.guidance.classSettings");
+  }
+
+  if (Array.isArray(formErrors.gradeBreakdown)) {
+    for (const item of formErrors.gradeBreakdown) {
+      const gradeBreakdownError = item as
+        | {
+            activityName?: unknown;
+            percentage?: unknown;
+          }
+        | undefined;
+
+      if (gradeBreakdownError?.activityName) {
+        return t("SubjectForm.guidance.activityName");
+      }
+
+      if (gradeBreakdownError?.percentage) {
+        return t("SubjectForm.guidance.percentage");
+      }
+    }
+  }
+
+  if (findFirstErrorMessage(formErrors.gradeBreakdown)) {
+    return t("SubjectForm.guidance.gradeBreakdown");
+  }
+
+  if (formErrors.minimumPassingGrade) {
+    return t("SubjectForm.guidance.minimumPassingGrade");
+  }
+
+  if (formErrors.teachingLanguage) {
+    return t("SubjectForm.guidance.teachingLanguage");
+  }
+
+  return t("SubjectForm.validationError");
+};
+
+const findFirstErrorMessage = (value: unknown): string | undefined => {
+  if (!value || typeof value !== "object") {
+    return undefined;
+  }
+
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const message = findFirstErrorMessage(item);
+
+      if (message) {
+        return message;
+      }
+    }
+
+    return undefined;
+  }
+
+  const record = value as Record<string, unknown>;
+
+  if (typeof record.message === "string" && record.message.trim()) {
+    return record.message;
+  }
+
+  for (const nestedValue of Object.values(record)) {
+    const message = findFirstErrorMessage(nestedValue);
+
+    if (message) {
+      return message;
+    }
+  }
+
+  return undefined;
 };
 
 const createEmptyClassSetting = () => ({
@@ -96,7 +213,6 @@ export const useSubjectForm = ({
     control,
     handleSubmit,
     reset,
-    setValue,
     setError,
     clearErrors,
     formState: { errors, isSubmitting },
@@ -158,14 +274,6 @@ export const useSubjectForm = ({
     return options;
   }, [academicYears, educationalStages, schoolClasses, existingRow]);
 
-  const subjectType = useWatch({
-    control,
-    name: "subjectType",
-  });
-  const teacherIds = useWatch({
-    control,
-    name: "teacherIds",
-  });
   const gradeBreakdownValues = useWatch({
     control,
     name: "gradeBreakdown",
@@ -179,27 +287,6 @@ export const useSubjectForm = ({
     reset(getDefaultValues(existingRow));
   }, [existingRow, mode, reset]);
 
-  const setSubjectType = (value: string) => {
-    setValue("subjectType", value as SubjectFormValues["subjectType"], {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  };
-
-  const setTeacherIds = (values: string[]) => {
-    setValue("teacherIds", values, {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  };
-
-  const setClassSettingSchoolClassId = (index: number, value: string) => {
-    setValue(`classSettings.${index}.schoolClassId`, value, {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  };
-
   const addClassSetting = () => appendClassSetting(createEmptyClassSetting());
   const addGradeBreakdown = () =>
     appendGradeBreakdown(createEmptyGradeBreakdown());
@@ -210,13 +297,27 @@ export const useSubjectForm = ({
     reset(getDefaultValues(existingRow));
   };
 
+  const onInvalid = (formErrors: FieldErrors<SubjectFormValues>) => {
+    const hasValidationErrors = Object.keys(formErrors).length > 0;
+
+    if (!hasValidationErrors) {
+      return;
+    }
+
+    setServerError(
+      !schoolClassOptions.length
+        ? t("SubjectForm.noSchoolClassMessage")
+        : getFriendlySubjectValidationMessage(formErrors, t),
+    );
+  };
+
   const onSubmit = async (values: SubjectFormValues) => {
     try {
       setServerError(null);
       clearErrors();
 
       if (mode === "edit" && !existingRow) {
-        setServerError("Unable to find this subject record.");
+        setServerError(t("SubjectForm.recordNotFoundError"));
         return;
       }
 
@@ -230,8 +331,7 @@ export const useSubjectForm = ({
       if (duplicateSubject) {
         setError("subjectName", {
           type: "manual",
-          message:
-            "Subject name already exists. Duplicate subject names are not allowed.",
+          message: t("SubjectForm.duplicateSubjectNameError"),
         });
         return;
       }
@@ -268,30 +368,27 @@ export const useSubjectForm = ({
       reset(getDefaultValues());
       router.push("/subject");
     } catch {
-      setServerError("Unable to save the subject. Please try again.");
+      setServerError(t("SubjectForm.saveError"));
     }
   };
+
+  const handleFormSubmit = handleSubmit(onSubmit, onInvalid);
 
   return {
     register,
     control,
-    handleSubmit,
+    handleFormSubmit,
     errors,
     isSubmitting,
     serverError,
     onSubmit,
     resetForm,
     existingRow,
-    subjectType,
-    setSubjectType,
     subjectTypeOptions: SUBJECT_TYPE_OPTIONS,
-    teacherIds: teacherIds ?? [],
-    setTeacherIds,
     teacherOptions: SUBJECT_TEACHER_OPTIONS,
     schoolClassOptions,
     hasSchoolClassOptions: schoolClassOptions.length > 0,
     classSettingFields,
-    setClassSettingSchoolClassId,
     addClassSetting,
     removeClassSetting,
     gradeBreakdownFields,

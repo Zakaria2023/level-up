@@ -2,11 +2,10 @@
 
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
-import { renderBooleanValue } from "@/lib/utils/helpers";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { toDetailFields } from "../../constants";
-import { formatDuration, formatSchoolDays } from "../../helpers";
+import { formatDuration, formatSchoolDays, formatStatusValue } from "../../helpers";
 import { useStudyPeriodSettingsStore } from "../../store/useStudyPeriodSettingsStore";
 
 type StudyPeriodSettingsDetailsProps = {
@@ -80,7 +79,7 @@ export const StudyPeriodSettingsDetails = ({
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               <DetailField
                 label={t("StudyPeriodSettingsDetails.fields.schoolDays")}
-                value={formatSchoolDays(period.schoolDays)}
+                value={formatSchoolDays(period.schoolDays, t)}
               />
               <DetailField
                 label={t("StudyPeriodSettingsDetails.fields.startTime")}
@@ -92,11 +91,11 @@ export const StudyPeriodSettingsDetails = ({
               />
               <DetailField
                 label={t("StudyPeriodSettingsDetails.fields.duration")}
-                value={formatDuration(period.durationMinutes)}
+                value={formatDuration(period.durationMinutes, t)}
               />
               <DetailField
                 label={t("StudyPeriodSettingsDetails.fields.breakAfterPeriod")}
-                value={renderBooleanValue(period.hasBreakAfterPeriod)}
+                value={formatStatusValue(period.hasBreakAfterPeriod, t)}
               />
               <DetailField
                 label={t("StudyPeriodSettingsDetails.fields.breakName")}
@@ -120,7 +119,7 @@ export const StudyPeriodSettingsDetails = ({
               <div className="mt-4 rounded-[20px] border border-(--border-color) bg-[#F8FDFF] p-4 text-sm text-(--muted-text)">
                 {t("StudyPeriodSettingsDetails.breakDuration")}{" "}
                 <span className="font-semibold text-(--foreground)">
-                  {formatDuration(period.breakDurationMinutes)}
+                  {formatDuration(period.breakDurationMinutes, t)}
                 </span>
               </div>
             ) : null}

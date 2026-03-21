@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import type { StudyPeriodDay, StudyPeriodItem } from "../types";
 
 const parseTimeToMinutes = (value?: string) => {
@@ -35,11 +36,43 @@ export const calculateDurationInMinutes = (
   return endMinutes - startMinutes;
 };
 
-export const formatDuration = (durationMinutes?: number | null) =>
-  typeof durationMinutes === "number" ? `${durationMinutes} min` : "--";
+export const formatDuration = (
+  durationMinutes?: number | null,
+  t?: TFunction,
+) =>
+  typeof durationMinutes === "number"
+    ? t
+      ? t("StudyPeriodSettingsCommon.durationValue", {
+          value: durationMinutes,
+        })
+      : `${durationMinutes} min`
+    : "--";
 
-export const formatSchoolDays = (schoolDays: StudyPeriodDay[]) =>
-  schoolDays.length ? schoolDays.join(", ") : "No days selected";
+export const formatStatusValue = (value: boolean, t?: TFunction) =>
+  t
+    ? t(value ? "StudyPeriodSettingsCommon.enabled" : "StudyPeriodSettingsCommon.disabled")
+    : value
+      ? "Enabled"
+      : "Disabled";
+
+export const formatSchoolDays = (
+  schoolDays: StudyPeriodDay[],
+  t?: TFunction,
+) => {
+  if (!schoolDays.length) {
+    return t
+      ? t("StudyPeriodSettingsCommon.noDaysSelected")
+      : "No days selected";
+  }
+
+  if (!t) {
+    return schoolDays.join(", ");
+  }
+
+  return schoolDays
+    .map((day) => t(`StudyPeriodSettingsCommon.days.${day}`))
+    .join(", ");
+};
 
 export const createEmptyStudyPeriod = (): Omit<
   StudyPeriodItem,
