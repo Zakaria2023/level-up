@@ -1,7 +1,7 @@
-import EducationalStageConfigurationTable from "@/features/educational-stage/components/table/EducationalStageConfigurationTable";
+import EducationalStageTable from "@/features/educational-stage/components/table/EducationalStageTable";
 
 const EducationalStagePage = () => (
-  <EducationalStageConfigurationTable />
+  <EducationalStageTable />
 );
 
 export default EducationalStagePage;

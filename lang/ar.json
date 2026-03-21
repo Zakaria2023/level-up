@@ -585,5 +585,19 @@
       "requiredEnrollmentAgeMax": "لا يمكن أن يتجاوز العمر المطلوب للتسجيل 25.",
       "teachingLanguageRequired": "لغة التدريس مطلوبة."
     }
+  },
+
+  "EducationalStageTable": {
+    "pageHeading": "المرحلة التعليمية",
+    "addEducationalStage": "إضافة مرحلة تعليمية",
+    "searchPlaceholder": "ابحث في المرحلة التعليمية",
+    "emptyText": "لا توجد سجلات مرحلة تعليمية تطابق بحثك.",
+    "records": "سجل",
+    "academicYear": "العام الدراسي",
+    "stageName": "اسم المرحلة",
+    "requiredEnrollmentAge": "العمر المطلوب للتسجيل",
+    "teachingLanguage": "لغة التدريس",
+    "isMixedStage": "مرحلة مختلطة",
+    "actions": "الإجراءات"
   }
 }

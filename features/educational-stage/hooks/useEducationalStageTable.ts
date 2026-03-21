@@ -20,7 +20,7 @@ const toSearchableValues = (row: EducationalStageRow) => [
   renderBooleanValue(row.isMixedStage),
 ];
 
-export const useEducationalStageConfigurationTable = () => {
+export const useEducationalStageTable = () => {
   const rows = useEducationalStageStore((state) => state.rows);
   const deleteRow = useEducationalStageStore((state) => state.deleteRow);
   const academicYears = useAcademicYearStore((state) => state.rows);

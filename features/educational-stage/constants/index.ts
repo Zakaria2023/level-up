@@ -2,7 +2,7 @@ import { renderBooleanValue } from "@/lib/utils/helpers";
 import { TFunction } from "i18next";
 import type { EducationalStageRow } from "../types";
 
-export const EDUCATIONAL_STAGE_CONFIGURATION_ROWS: EducationalStageRow[] = [
+export const EDUCATIONAL_STAGE_ROWS: EducationalStageRow[] = [
   {
     id: 1,
     academicYearId: 1,

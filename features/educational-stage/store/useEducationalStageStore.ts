@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { EDUCATIONAL_STAGE_CONFIGURATION_ROWS } from "../constants";
+import { EDUCATIONAL_STAGE_ROWS } from "../constants";
 import type { EducationalStageRow } from "../types";
 
 type EducationalStageStore = {
@@ -31,7 +31,7 @@ const normalizeRow = (
 export const useEducationalStageStore = create<EducationalStageStore>()(
   persist(
     (set) => ({
-      rows: EDUCATIONAL_STAGE_CONFIGURATION_ROWS,
+      rows: EDUCATIONAL_STAGE_ROWS,
       addRow: (newRow) =>
         set((state) => ({
           rows: [newRow, ...state.rows],

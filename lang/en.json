@@ -585,5 +585,19 @@
       "requiredEnrollmentAgeMax": "Required enrollment age cannot exceed 25.",
       "teachingLanguageRequired": "Teaching language is required."
     }
+  },
+
+  "EducationalStageTable": {
+    "pageHeading": "Educational Stage",
+    "addEducationalStage": "Add Educational Stage",
+    "searchPlaceholder": "Search educational stage",
+    "emptyText": "No educational stage rows match your search.",
+    "records": "records",
+    "academicYear": "Academic Year",
+    "stageName": "Stage Name",
+    "requiredEnrollmentAge": "Required Enrollment Age",
+    "teachingLanguage": "Teaching Language",
+    "isMixedStage": "Is Mixed Stage",
+    "actions": "Actions"
   }
 }
