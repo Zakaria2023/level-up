@@ -4,13 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { readFileAsDataUrl } from "../helpers";
 import { useBasicInformationStore } from "../store/useBasicInformationStore";
 import type { BasicInformationRow } from "../types";
 import {
-  addBasicInformationSchema,
-  type AddBasicInformationFormValues,
-} from "../validation/addBasicInformationSchema";
+  createBasicInformationSchema,
+  type BasicInformationFormValues,
+} from "../validation/BasicInformationSchema";
 
 type UseAddBasicInformationFormOptions = {
   mode?: "create" | "edit";
@@ -19,7 +20,7 @@ type UseAddBasicInformationFormOptions = {
 
 const getDefaultValues = (
   row?: BasicInformationRow,
-): AddBasicInformationFormValues => ({
+): BasicInformationFormValues => ({
   schoolNameArabic: row?.schoolNameArabic ?? "",
   schoolNameEnglish: row?.schoolNameEnglish ?? "",
   yearOfEstablishment: row?.yearOfEstablishment ?? "",
@@ -38,6 +39,7 @@ export const useBasicInformationForm = ({
   mode = "create",
   rowId,
 }: UseAddBasicInformationFormOptions = {}) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const rows = useBasicInformationStore((state) => state.rows);
   const addRow = useBasicInformationStore((state) => state.addRow);
@@ -49,6 +51,8 @@ export const useBasicInformationForm = ({
   );
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const basicInformationSchema = createBasicInformationSchema(t);
+
   const {
     register,
     handleSubmit,
@@ -58,8 +62,8 @@ export const useBasicInformationForm = ({
     setError,
     clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm<AddBasicInformationFormValues>({
-    resolver: zodResolver(addBasicInformationSchema),
+  } = useForm<BasicInformationFormValues>({
+    resolver: zodResolver(basicInformationSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -157,7 +161,7 @@ export const useBasicInformationForm = ({
     setSealPreviewUrl("");
   };
 
-  const onSubmit = async (values: AddBasicInformationFormValues) => {
+  const onSubmit = async (values: BasicInformationFormValues) => {
     try {
       setServerError(null);
       clearErrors();
@@ -272,5 +276,6 @@ export const useBasicInformationForm = ({
     sealPreviewUrl: sealPreviewUrl || existingRow?.schoolSeal.previewUrl || "",
     existingRow,
     mode,
+    t,
   };
 };

@@ -36,5 +36,59 @@
     "schoolLogo": "شعار المدرسة",
     "schoolSeal": "ختم المدرسة",
     "actions": "الإجراءات"
+  },
+
+  "BasicInformationSchema": {
+    "errors": {
+      "schoolNameArabicRequired": "اسم المدرسة بالعربية مطلوب.",
+      "schoolNameEnglishRequired": "اسم المدرسة بالإنجليزية مطلوب.",
+      "yearOfEstablishmentRequired": "سنة التأسيس مطلوبة.",
+      "yearOfEstablishmentInvalid": "يجب أن تكون سنة التأسيس مكونة من 4 أرقام.",
+      "currencyRequired": "العملة مطلوبة.",
+      "timeZoneRequired": "المنطقة الزمنية مطلوبة.",
+      "systemLanguageRequired": "لغة النظام مطلوبة.",
+      "commercialRegisterNumberRequired": "رقم السجل التجاري مطلوب.",
+      "schoolLogoMustBeImage": "يجب أن يكون شعار المدرسة صورة."
+    }
+  },
+
+  "BasicInformationForm": {
+    "createTitle": "إضافة معلومات أساسية",
+    "editTitle": "تعديل المعلومات الأساسية",
+    "createSubtitle": "أنشئ سجلاً جديداً للمعلومات الأساسية وأضفه إلى الجدول.",
+    "editSubtitle": "قم بتحديث سجل المعلومات الأساسية المحدد.",
+    "saveBasicInformation": "حفظ المعلومات الأساسية",
+    "saveChanges": "حفظ التغييرات",
+    "notFoundTitle": "لم يتم العثور على المعلومات الأساسية",
+    "notFoundSubtitle": "تعذر تحميل السجل المطلوب للتعديل.",
+    "backToTable": "العودة إلى الجدول",
+    "schoolNameArabic": "اسم المدرسة (بالعربية)",
+    "schoolNameArabicPlaceholder": "مدرسة ليفل أب بالعربية",
+    "schoolNameEnglish": "اسم المدرسة (بالإنجليزية)",
+    "schoolNameEnglishPlaceholder": "Level Up School",
+    "yearOfEstablishment": "سنة التأسيس",
+    "yearOfEstablishmentPlaceholder": "2014",
+    "currency": "العملة",
+    "currencyPlaceholder": "USD",
+    "timeZone": "المنطقة الزمنية",
+    "selectTimeZone": "اختر المنطقة الزمنية",
+    "searchTimeZone": "ابحث عن المنطقة الزمنية",
+    "systemLanguage": "لغة النظام",
+    "selectSystemLanguage": "اختر لغة النظام",
+    "commercialRegisterNumber": "رقم السجل التجاري",
+    "commercialRegisterNumberPlaceholder": "CR-20458-EDU",
+    "logoPreview": "معاينة الشعار",
+    "logoPreviewEmpty": "اختر شعار المدرسة لمعاينته هنا.",
+    "schoolSealPreview": "معاينة ختم المدرسة",
+    "schoolSealPreviewEmpty": "اختر ختم المدرسة لمعاينته هنا.",
+    "schoolLogo": "شعار المدرسة",
+    "schoolSeal": "ختم المدرسة",
+    "configurationToggles": "إعدادات التفعيل",
+    "allowMultipleCurrencies": "السماح بتعدد العملات",
+    "showLogoOnInvoices": "إظهار الشعار في الفواتير",
+    "enableNotifications": "تفعيل الإشعارات",
+    "reset": "إعادة تعيين",
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ..."
   }
 }

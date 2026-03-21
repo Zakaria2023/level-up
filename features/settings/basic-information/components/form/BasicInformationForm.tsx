@@ -46,20 +46,30 @@ export const BasicInformationForm = ({
     logoPreviewUrl,
     sealPreviewUrl,
     existingRow,
+    t,
   } = useBasicInformationForm({
     mode,
     rowId,
   });
 
   const resolvedTitle =
-    title ?? (mode === "edit" ? "Edit Basic Information" : "Add Basic Information");
+    title ??
+    (mode === "edit"
+      ? t("BasicInformationForm.editTitle")
+      : t("BasicInformationForm.createTitle"));
+
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected basic-information record."
-      : "Create a new basic-information record and add it to the table.");
+      ? t("BasicInformationForm.editSubtitle")
+      : t("BasicInformationForm.createSubtitle"));
+
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Basic Information");
+    submitLabel ??
+    (mode === "edit"
+      ? t("BasicInformationForm.saveChanges")
+      : t("BasicInformationForm.saveBasicInformation"));
+
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit" && rowId
@@ -69,8 +79,8 @@ export const BasicInformationForm = ({
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Basic Information Not Found"
-        subtitle="The requested record could not be loaded for editing."
+        title={t("BasicInformationForm.notFoundTitle")}
+        subtitle={t("BasicInformationForm.notFoundSubtitle")}
         className="max-w-120"
       >
         <div className="flex justify-end">
@@ -78,7 +88,7 @@ export const BasicInformationForm = ({
             href="/settings/basic-information"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Back to Table
+            {t("BasicInformationForm.backToTable")}
           </Link>
         </div>
       </DashboardCard>
@@ -95,20 +105,20 @@ export const BasicInformationForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="School Name (Arabic)"
+            label={t("BasicInformationForm.schoolNameArabic")}
             requiredMark
             inputType="text"
-            placeholder="Level Up School AR"
+            placeholder={t("BasicInformationForm.schoolNameArabicPlaceholder")}
             error={errors.schoolNameArabic?.message}
             disabled={isSubmitting}
             {...register("schoolNameArabic")}
           />
 
           <Input
-            label="School Name (English)"
+            label={t("BasicInformationForm.schoolNameEnglish")}
             requiredMark
             inputType="text"
-            placeholder="Level Up School"
+            placeholder={t("BasicInformationForm.schoolNameEnglishPlaceholder")}
             error={errors.schoolNameEnglish?.message}
             disabled={isSubmitting}
             {...register("schoolNameEnglish")}
@@ -117,20 +127,20 @@ export const BasicInformationForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Year of Establishment"
+            label={t("BasicInformationForm.yearOfEstablishment")}
             requiredMark
             inputType="number"
-            placeholder="2014"
+            placeholder={t("BasicInformationForm.yearOfEstablishmentPlaceholder")}
             error={errors.yearOfEstablishment?.message}
             disabled={isSubmitting}
             {...register("yearOfEstablishment")}
           />
 
           <Input
-            label="Currency"
+            label={t("BasicInformationForm.currency")}
             requiredMark
             inputType="text"
-            placeholder="USD"
+            placeholder={t("BasicInformationForm.currencyPlaceholder")}
             error={errors.currency?.message}
             disabled={isSubmitting}
             {...register("currency")}
@@ -140,16 +150,16 @@ export const BasicInformationForm = ({
         <div className="grid gap-4 md:grid-cols-2">
           <input type="hidden" {...register("timeZone")} />
           <Dropdown
-            label="Time Zone"
+            label={t("BasicInformationForm.timeZone")}
             value={timeZone || undefined}
             onChange={setTimeZone}
             options={TIME_ZONE_OPTIONS.map((option) => ({
               label: option.label,
               value: option.value,
             }))}
-            placeholder="Select time zone"
+            placeholder={t("BasicInformationForm.selectTimeZone")}
             searchable
-            searchPlaceholder="Search time zone"
+            searchPlaceholder={t("BasicInformationForm.searchTimeZone")}
             error={errors.timeZone?.message}
             disabled={isSubmitting}
           />
@@ -157,11 +167,11 @@ export const BasicInformationForm = ({
           <div>
             <input type="hidden" {...register("systemLanguage")} />
             <Dropdown
-              label="System Language"
+              label={t("BasicInformationForm.systemLanguage")}
               value={systemLanguage || undefined}
               onChange={setSystemLanguage}
               options={SYSTEM_LANGUAGE_OPTIONS}
-              placeholder="Select system language"
+              placeholder={t("BasicInformationForm.selectSystemLanguage")}
               error={errors.systemLanguage?.message}
               disabled={isSubmitting}
             />
@@ -170,10 +180,10 @@ export const BasicInformationForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Commercial Register Number"
+            label={t("BasicInformationForm.commercialRegisterNumber")}
             requiredMark
             inputType="text"
-            placeholder="CR-20458-EDU"
+            placeholder={t("BasicInformationForm.commercialRegisterNumberPlaceholder")}
             error={errors.commercialRegisterNumber?.message}
             disabled={isSubmitting}
             {...register("commercialRegisterNumber")}
@@ -182,23 +192,23 @@ export const BasicInformationForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <PreviewCard
-            title="Logo Preview"
+            title={t("BasicInformationForm.logoPreview")}
             previewUrl={logoPreviewUrl}
             fileName={logoFileName}
-            emptyText="Select a school logo to preview it here."
+            emptyText={t("BasicInformationForm.logoPreviewEmpty")}
           />
 
           <PreviewCard
-            title="School Seal Preview"
+            title={t("BasicInformationForm.schoolSealPreview")}
             previewUrl={sealPreviewUrl}
             fileName={sealFileName}
-            emptyText="Select a school seal to preview it here."
+            emptyText={t("BasicInformationForm.schoolSealPreviewEmpty")}
           />
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
           <FileField
-            label="School Logo"
+            label={t("BasicInformationForm.schoolLogo")}
             accept="image/*"
             fileName={logoFileName}
             error={errors.schoolLogo?.message as string | undefined}
@@ -207,7 +217,7 @@ export const BasicInformationForm = ({
           />
 
           <FileField
-            label="School Seal"
+            label={t("BasicInformationForm.schoolSeal")}
             accept=".pdf,.png,.jpg,.jpeg,.webp"
             fileName={sealFileName}
             error={errors.schoolSeal?.message as string | undefined}
@@ -218,7 +228,7 @@ export const BasicInformationForm = ({
 
         <div>
           <p className="mb-3 text-[16px] font-semibold text-[#0E6B7A]">
-            Configuration Toggles
+            {t("BasicInformationForm.configurationToggles")}
           </p>
 
           <div className="grid gap-3 md:grid-cols-3">
@@ -229,7 +239,7 @@ export const BasicInformationForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("allowMultipleCurrencies")}
               />
-              Allow Multiple Currencies
+              {t("BasicInformationForm.allowMultipleCurrencies")}
             </label>
 
             <label className="inline-flex items-center gap-3 rounded-xl border border-[#B8C9D8] bg-white px-4 py-3 text-[15px] font-medium text-[#244E62]">
@@ -239,7 +249,7 @@ export const BasicInformationForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("showLogoOnInvoices")}
               />
-              Show Logo On Invoices
+              {t("BasicInformationForm.showLogoOnInvoices")}
             </label>
 
             <label className="inline-flex items-center gap-3 rounded-xl border border-[#B8C9D8] bg-white px-4 py-3 text-[15px] font-medium text-[#244E62]">
@@ -249,7 +259,7 @@ export const BasicInformationForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("notificationsEnabled")}
               />
-              Enable Notifications
+              {t("BasicInformationForm.enableNotifications")}
             </label>
           </div>
         </div>
@@ -263,7 +273,7 @@ export const BasicInformationForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Reset
+            {t("BasicInformationForm.reset")}
           </button>
 
           <Link
@@ -271,7 +281,7 @@ export const BasicInformationForm = ({
             onClick={resetForm}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-8 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Cancel
+            {t("BasicInformationForm.cancel")}
           </Link>
 
           <button
@@ -279,7 +289,7 @@ export const BasicInformationForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Saving..." : resolvedSubmitLabel}
+            {isSubmitting ? t("BasicInformationForm.saving") : resolvedSubmitLabel}
           </button>
         </div>
       </form>

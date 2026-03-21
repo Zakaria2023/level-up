@@ -36,5 +36,59 @@
     "schoolLogo": "School Logo",
     "schoolSeal": "School Seal",
     "actions": "Actions"
+  },
+
+  "BasicInformationSchema": {
+    "errors": {
+      "schoolNameArabicRequired": "Arabic school name is required.",
+      "schoolNameEnglishRequired": "English school name is required.",
+      "yearOfEstablishmentRequired": "Year of establishment is required.",
+      "yearOfEstablishmentInvalid": "Year of establishment must be a 4-digit year.",
+      "currencyRequired": "Currency is required.",
+      "timeZoneRequired": "Time zone is required.",
+      "systemLanguageRequired": "System language is required.",
+      "commercialRegisterNumberRequired": "Commercial register number is required.",
+      "schoolLogoMustBeImage": "School logo must be an image."
+    }
+  },
+
+  "BasicInformationForm": {
+    "createTitle": "Add Basic Information",
+    "editTitle": "Edit Basic Information",
+    "createSubtitle": "Create a new basic-information record and add it to the table.",
+    "editSubtitle": "Update the selected basic-information record.",
+    "saveBasicInformation": "Save Basic Information",
+    "saveChanges": "Save Changes",
+    "notFoundTitle": "Basic Information Not Found",
+    "notFoundSubtitle": "The requested record could not be loaded for editing.",
+    "backToTable": "Back to Table",
+    "schoolNameArabic": "School Name (Arabic)",
+    "schoolNameArabicPlaceholder": "Level Up School AR",
+    "schoolNameEnglish": "School Name (English)",
+    "schoolNameEnglishPlaceholder": "Level Up School",
+    "yearOfEstablishment": "Year of Establishment",
+    "yearOfEstablishmentPlaceholder": "2014",
+    "currency": "Currency",
+    "currencyPlaceholder": "USD",
+    "timeZone": "Time Zone",
+    "selectTimeZone": "Select time zone",
+    "searchTimeZone": "Search time zone",
+    "systemLanguage": "System Language",
+    "selectSystemLanguage": "Select system language",
+    "commercialRegisterNumber": "Commercial Register Number",
+    "commercialRegisterNumberPlaceholder": "CR-20458-EDU",
+    "logoPreview": "Logo Preview",
+    "logoPreviewEmpty": "Select a school logo to preview it here.",
+    "schoolSealPreview": "School Seal Preview",
+    "schoolSealPreviewEmpty": "Select a school seal to preview it here.",
+    "schoolLogo": "School Logo",
+    "schoolSeal": "School Seal",
+    "configurationToggles": "Configuration Toggles",
+    "allowMultipleCurrencies": "Allow Multiple Currencies",
+    "showLogoOnInvoices": "Show Logo On Invoices",
+    "enableNotifications": "Enable Notifications",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "saving": "Saving..."
   }
 }
