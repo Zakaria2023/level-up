@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
@@ -20,7 +21,7 @@ import type {
   SubjectRow,
 } from "../types";
 import {
-  SubjectFormSchema,
+  createSubjectFormSchema,
   type SubjectFormValues,
 } from "../validation/SubjectSchema";
 
@@ -72,6 +73,8 @@ export const useSubjectForm = ({
   mode = "create",
   rowId,
 }: UseSubjectFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useSubjectStore((state) => state.rows);
   const addRow = useSubjectStore((state) => state.addRow);
@@ -85,6 +88,8 @@ export const useSubjectForm = ({
       : undefined,
   );
   const [serverError, setServerError] = useState<string | null>(null);
+
+  const SubjectFormSchema = createSubjectFormSchema(t);
 
   const {
     register,

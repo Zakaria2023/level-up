@@ -1,77 +1,106 @@
+"use client";
+
 import { z } from "zod";
 
 const subjectTypeValues = ["Core", "Enrichment"] as const;
 
-const SubjectSchema = z.object({
-  schoolClassId: z.string().trim().min(1, "School class is required."),
-  weeklyPeriodsCount: z
-    .number({
-      error: "Weekly periods count is required.",
-    })
-    .int("Weekly periods count must be a whole number.")
-    .min(1, "Weekly periods count must be at least 1.")
-    .max(20, "Weekly periods count cannot exceed 20."),
-  periodDurationMinutes: z
-    .number({
-      error: "Period duration is required.",
-    })
-    .int("Period duration must be a whole number.")
-    .min(1, "Period duration must be at least 1 minute.")
-    .max(180, "Period duration cannot exceed 180 minutes."),
-});
-
-const subjectGradeBreakdownSchema = z.object({
-  activityName: z.string().trim().min(1, "Activity name is required."),
-  percentage: z
-    .number({
-      error: "Activity percentage is required.",
-    })
-    .min(0.01, "Activity percentage must be greater than 0.")
-    .max(100, "Activity percentage cannot exceed 100."),
-});
-
-export const SubjectFormSchema = z
-  .object({
-    subjectName: z.string().trim().min(1, "Subject name is required."),
-    subjectType: z.enum(subjectTypeValues, {
-      error: "Subject type is required.",
-    }),
-    classSettings: z
-      .array(SubjectSchema)
-      .min(1, "Add at least one school class setting."),
-    teacherIds: z
-      .array(z.string().trim())
-      .min(1, "Select at least one teacher."),
-    countsTowardAverage: z.boolean(),
-    minimumPassingGrade: z
-      .number({
-        error: "Minimum passing grade is required.",
-      })
-      .min(0, "Minimum passing grade cannot be below 0.")
-      .max(100, "Minimum passing grade cannot exceed 100."),
-    gradeBreakdown: z
-      .array(subjectGradeBreakdownSchema)
-      .min(1, "Add at least one grade breakdown row."),
-    requiresLab: z.boolean(),
-    hasQuestionBank: z.boolean(),
-    teachingLanguage: z
+const createSubjectClassSettingSchema = (t: (key: string) => string) =>
+  z.object({
+    schoolClassId: z
       .string()
       .trim()
-      .min(1, "Teaching language is required."),
-  })
-  .superRefine((values, context) => {
-    const totalPercentage = values.gradeBreakdown.reduce(
-      (total, item) => total + item.percentage,
-      0,
-    );
+      .min(1, t("SubjectSchema.errors.schoolClassRequired")),
 
-    if (Math.abs(totalPercentage - 100) > 0.001) {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["gradeBreakdown"],
-        message: "Grade breakdown percentages must total 100%.",
-      });
-    }
+    weeklyPeriodsCount: z
+      .number({
+        error: t("SubjectSchema.errors.weeklyPeriodsCountRequired"),
+      })
+      .int(t("SubjectSchema.errors.weeklyPeriodsCountInteger"))
+      .min(1, t("SubjectSchema.errors.weeklyPeriodsCountMin"))
+      .max(20, t("SubjectSchema.errors.weeklyPeriodsCountMax")),
+
+    periodDurationMinutes: z
+      .number({
+        error: t("SubjectSchema.errors.periodDurationRequired"),
+      })
+      .int(t("SubjectSchema.errors.periodDurationInteger"))
+      .min(1, t("SubjectSchema.errors.periodDurationMin"))
+      .max(180, t("SubjectSchema.errors.periodDurationMax")),
   });
 
-export type SubjectFormValues = z.infer<typeof SubjectFormSchema>;
+const createSubjectGradeBreakdownSchema = (t: (key: string) => string) =>
+  z.object({
+    activityName: z
+      .string()
+      .trim()
+      .min(1, t("SubjectSchema.errors.activityNameRequired")),
+
+    percentage: z
+      .number({
+        error: t("SubjectSchema.errors.activityPercentageRequired"),
+      })
+      .min(0.01, t("SubjectSchema.errors.activityPercentageMin"))
+      .max(100, t("SubjectSchema.errors.activityPercentageMax")),
+  });
+
+export const createSubjectFormSchema = (t: (key: string) => string) =>
+  z
+    .object({
+      subjectName: z
+        .string()
+        .trim()
+        .min(1, t("SubjectSchema.errors.subjectNameRequired")),
+
+      subjectType: z.enum(subjectTypeValues, {
+        error: t("SubjectSchema.errors.subjectTypeRequired"),
+      }),
+
+      classSettings: z
+        .array(createSubjectClassSettingSchema(t))
+        .min(1, t("SubjectSchema.errors.classSettingsRequired")),
+
+      teacherIds: z
+        .array(z.string().trim())
+        .min(1, t("SubjectSchema.errors.teacherIdsRequired")),
+
+      countsTowardAverage: z.boolean(),
+
+      minimumPassingGrade: z
+        .number({
+          error: t("SubjectSchema.errors.minimumPassingGradeRequired"),
+        })
+        .min(0, t("SubjectSchema.errors.minimumPassingGradeMin"))
+        .max(100, t("SubjectSchema.errors.minimumPassingGradeMax")),
+
+      gradeBreakdown: z
+        .array(createSubjectGradeBreakdownSchema(t))
+        .min(1, t("SubjectSchema.errors.gradeBreakdownRequired")),
+
+      requiresLab: z.boolean(),
+      hasQuestionBank: z.boolean(),
+
+      teachingLanguage: z
+        .string()
+        .trim()
+        .min(1, t("SubjectSchema.errors.teachingLanguageRequired")),
+    })
+    .superRefine((values, context) => {
+      const totalPercentage = values.gradeBreakdown.reduce(
+        (total, item) => total + item.percentage,
+        0,
+      );
+
+      if (Math.abs(totalPercentage - 100) > 0.001) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["gradeBreakdown"],
+          message: t("SubjectSchema.errors.gradeBreakdownTotal"),
+        });
+      }
+    });
+
+export type SubjectFormValues = z.infer<
+  ReturnType<typeof createSubjectFormSchema>
+>;
+
+export type SubjectInput = z.input<ReturnType<typeof createSubjectFormSchema>>;

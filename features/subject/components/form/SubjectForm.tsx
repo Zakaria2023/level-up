@@ -8,6 +8,7 @@ import Input from "@/components/ui/Input";
 import MultiSelectDropdown from "@/components/ui/MultiSelectDropdown";
 import Link from "next/link";
 import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useSubjectForm } from "../../hooks/useSubjectForm";
 
 type SubjectFormProps = {
@@ -27,6 +28,8 @@ export const SubjectForm = ({
   submitLabel,
   cancelHref,
 }: SubjectFormProps = {}) => {
+  const { t } = useTranslation();
+
   const {
     register,
     control,
@@ -59,21 +62,36 @@ export const SubjectForm = ({
   });
 
   const resolvedTitle =
-    title ?? (mode === "edit" ? "Edit Subject" : "Add Subject");
+    title ??
+    (mode === "edit"
+      ? t("SubjectForm.editTitle")
+      : t("SubjectForm.createTitle"));
+
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected subject record."
-      : "Create a new subject record and add it to the table.");
+      ? t("SubjectForm.editSubtitle")
+      : t("SubjectForm.createSubtitle"));
+
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save");
+    submitLabel ??
+    (mode === "edit"
+      ? t("SubjectForm.saveChanges")
+      : t("SubjectForm.save"));
+
   const resolvedCancelHref =
-    cancelHref ?? (mode === "edit" && rowId ? `/subject-configuration/${rowId}` : "/subject-configuration");
+    cancelHref ??
+    (mode === "edit"
+      ? `/subject-configuration/${rowId}`
+      : "/subject-configuration");
+
   const inputsDisabled = isSubmitting || !hasSchoolClassOptions;
+
   const gradeBreakdownTotal = gradeBreakdownValues.reduce(
     (total, item) => total + (item?.percentage ?? 0),
     0,
   );
+
   const gradeBreakdownError =
     typeof errors.gradeBreakdown?.message === "string"
       ? errors.gradeBreakdown.message
@@ -82,8 +100,8 @@ export const SubjectForm = ({
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Subject Not Found"
-        subtitle="The requested record could not be loaded for editing."
+        title={t("SubjectForm.notFoundTitle")}
+        subtitle={t("SubjectForm.notFoundSubtitle")}
         className="max-w-120"
       >
         <div className="flex justify-end">
@@ -91,7 +109,7 @@ export const SubjectForm = ({
             href="/subject-configuration"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Back to Table
+            {t("SubjectForm.backToTable")}
           </Link>
         </div>
       </DashboardCard>
@@ -108,10 +126,10 @@ export const SubjectForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Subject Name"
+            label={t("SubjectForm.subjectName")}
             requiredMark
             inputType="text"
-            placeholder="Mathematics"
+            placeholder={t("SubjectForm.subjectNamePlaceholder")}
             error={errors.subjectName?.message}
             disabled={inputsDisabled}
             {...register("subjectName")}
@@ -122,11 +140,11 @@ export const SubjectForm = ({
             name="subjectType"
             render={() => (
               <Dropdown
-                label="Subject Type"
+                label={t("SubjectForm.subjectType")}
                 value={subjectType || undefined}
                 onChange={setSubjectType}
                 options={subjectTypeOptions}
-                placeholder="Select subject type"
+                placeholder={t("SubjectForm.selectSubjectType")}
                 error={errors.subjectType?.message}
                 disabled={inputsDisabled}
               />
@@ -139,13 +157,13 @@ export const SubjectForm = ({
           name="teacherIds"
           render={() => (
             <MultiSelectDropdown
-              label="Teachers"
+              label={t("SubjectForm.teachers")}
               values={teacherIds}
               onChange={setTeacherIds}
               options={teacherOptions}
-              placeholder="Select teachers"
+              placeholder={t("SubjectForm.selectTeachers")}
               searchable
-              searchPlaceholder="Search teachers"
+              searchPlaceholder={t("SubjectForm.searchTeachers")}
               error={errors.teacherIds?.message}
               disabled={isSubmitting}
             />
@@ -156,11 +174,10 @@ export const SubjectForm = ({
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h3 className="text-[16px] font-semibold text-[#0D3B52]">
-                School Class Settings
+                {t("SubjectForm.schoolClassSettings")}
               </h3>
               <p className="text-sm text-[#97A6B6]">
-                Link the subject to one or more classes, then define the weekly
-                periods and period duration.
+                {t("SubjectForm.schoolClassSettingsDescription")}
               </p>
             </div>
 
@@ -170,14 +187,13 @@ export const SubjectForm = ({
               disabled={inputsDisabled}
               className="inline-flex h-10 items-center justify-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong) transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Add Class Setting
+              {t("SubjectForm.addClassSetting")}
             </button>
           </div>
 
           {!hasSchoolClassOptions ? (
             <div className="rounded-[20px] border border-(--border-color) bg-white px-4 py-3 text-sm font-medium text-(--muted-text)">
-              Add a school class first so you can link this subject to
-              classes.
+              {t("SubjectForm.noSchoolClassMessage")}
             </div>
           ) : null}
 
@@ -189,7 +205,7 @@ export const SubjectForm = ({
               >
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                   <h4 className="text-sm font-semibold text-[#0D3B52]">
-                    Class Setting {index + 1}
+                    {t("SubjectForm.classSettingTitle", { index: index + 1 })}
                   </h4>
                   {classSettingFields.length > 1 ? (
                     <button
@@ -198,7 +214,7 @@ export const SubjectForm = ({
                       disabled={isSubmitting}
                       className="text-sm font-semibold text-[#C25353] transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      Remove
+                      {t("SubjectForm.remove")}
                     </button>
                   ) : null}
                 </div>
@@ -209,16 +225,16 @@ export const SubjectForm = ({
                     name={`classSettings.${index}.schoolClassId`}
                     render={({ field: fieldControl }) => (
                       <Dropdown
-                        label="School Class"
+                        label={t("SubjectForm.schoolClass")}
                         value={fieldControl.value || undefined}
                         onChange={(value) => {
                           fieldControl.onChange(value);
                           setClassSettingSchoolClassId(index, value);
                         }}
                         options={schoolClassOptions}
-                        placeholder="Select school class"
+                        placeholder={t("SubjectForm.selectSchoolClass")}
                         searchable
-                        searchPlaceholder="Search school class"
+                        searchPlaceholder={t("SubjectForm.searchSchoolClass")}
                         error={errors.classSettings?.[index]?.schoolClassId?.message}
                         disabled={inputsDisabled}
                       />
@@ -226,10 +242,10 @@ export const SubjectForm = ({
                   />
 
                   <Input
-                    label="Weekly Periods Count"
+                    label={t("SubjectForm.weeklyPeriodsCount")}
                     requiredMark
                     inputType="number"
-                    placeholder="5"
+                    placeholder={t("SubjectForm.weeklyPeriodsCountPlaceholder")}
                     min={1}
                     max={20}
                     error={errors.classSettings?.[index]?.weeklyPeriodsCount?.message}
@@ -240,10 +256,10 @@ export const SubjectForm = ({
                   />
 
                   <Input
-                    label="Period Duration (Minutes)"
+                    label={t("SubjectForm.periodDurationMinutes")}
                     requiredMark
                     inputType="number"
-                    placeholder="45"
+                    placeholder={t("SubjectForm.periodDurationMinutesPlaceholder")}
                     min={1}
                     max={180}
                     error={errors.classSettings?.[index]?.periodDurationMinutes?.message}
@@ -262,17 +278,16 @@ export const SubjectForm = ({
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h3 className="text-[16px] font-semibold text-[#0D3B52]">
-                Grade Breakdown
+                {t("SubjectForm.gradeBreakdown")}
               </h3>
               <p className="text-sm text-[#97A6B6]">
-                Split the subject grade into named activities. The total must equal
-                100%.
+                {t("SubjectForm.gradeBreakdownDescription")}
               </p>
             </div>
 
             <div className="flex items-center gap-3">
               <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-                Total: {gradeBreakdownTotal}%
+                {t("SubjectForm.totalPercentage", { total: gradeBreakdownTotal })}
               </div>
               <button
                 type="button"
@@ -280,7 +295,7 @@ export const SubjectForm = ({
                 disabled={isSubmitting}
                 className="inline-flex h-10 items-center justify-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong) transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Add Breakdown
+                {t("SubjectForm.addBreakdown")}
               </button>
             </div>
           </div>
@@ -293,7 +308,7 @@ export const SubjectForm = ({
               >
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                   <h4 className="text-sm font-semibold text-[#0D3B52]">
-                    Activity {index + 1}
+                    {t("SubjectForm.activityTitle", { index: index + 1 })}
                   </h4>
                   {gradeBreakdownFields.length > 1 ? (
                     <button
@@ -302,27 +317,27 @@ export const SubjectForm = ({
                       disabled={isSubmitting}
                       className="text-sm font-semibold text-[#C25353] transition hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      Remove
+                      {t("SubjectForm.remove")}
                     </button>
                   ) : null}
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <Input
-                    label="Activity Name"
+                    label={t("SubjectForm.activityName")}
                     requiredMark
                     inputType="text"
-                    placeholder="Homework"
+                    placeholder={t("SubjectForm.activityNamePlaceholder")}
                     error={errors.gradeBreakdown?.[index]?.activityName?.message}
                     disabled={isSubmitting}
                     {...register(`gradeBreakdown.${index}.activityName` as const)}
                   />
 
                   <Input
-                    label="Percentage"
+                    label={t("SubjectForm.percentage")}
                     requiredMark
                     inputType="number"
-                    placeholder="20"
+                    placeholder={t("SubjectForm.percentagePlaceholder")}
                     min={0}
                     max={100}
                     error={errors.gradeBreakdown?.[index]?.percentage?.message}
@@ -341,10 +356,10 @@ export const SubjectForm = ({
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Minimum Passing Grade"
+            label={t("SubjectForm.minimumPassingGrade")}
             requiredMark
             inputType="number"
-            placeholder="50"
+            placeholder={t("SubjectForm.minimumPassingGradePlaceholder")}
             min={0}
             max={100}
             error={errors.minimumPassingGrade?.message}
@@ -353,10 +368,10 @@ export const SubjectForm = ({
           />
 
           <Input
-            label="Teaching Language"
+            label={t("SubjectForm.teachingLanguage")}
             requiredMark
             inputType="text"
-            placeholder="English"
+            placeholder={t("SubjectForm.teachingLanguagePlaceholder")}
             error={errors.teachingLanguage?.message}
             disabled={isSubmitting}
             {...register("teachingLanguage")}
@@ -365,7 +380,7 @@ export const SubjectForm = ({
 
         <div>
           <p className="mb-3 text-[16px] font-semibold text-[#0E6B7A]">
-            Subject Toggles
+            {t("SubjectForm.subjectToggles")}
           </p>
 
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
@@ -376,7 +391,7 @@ export const SubjectForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("countsTowardAverage")}
               />
-              Counts Toward Average
+              {t("SubjectForm.countsTowardAverage")}
             </label>
 
             <label className="inline-flex items-center gap-3 rounded-xl border border-[#B8C9D8] bg-white px-4 py-3 text-[15px] font-medium text-[#244E62]">
@@ -386,7 +401,7 @@ export const SubjectForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("requiresLab")}
               />
-              Requires Lab
+              {t("SubjectForm.requiresLab")}
             </label>
 
             <label className="inline-flex items-center gap-3 rounded-xl border border-[#B8C9D8] bg-white px-4 py-3 text-[15px] font-medium text-[#244E62]">
@@ -396,7 +411,7 @@ export const SubjectForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("hasQuestionBank")}
               />
-              Has Question Bank
+              {t("SubjectForm.hasQuestionBank")}
             </label>
           </div>
         </div>
@@ -410,7 +425,7 @@ export const SubjectForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Reset
+            {t("SubjectForm.reset")}
           </button>
 
           <Link
@@ -418,7 +433,7 @@ export const SubjectForm = ({
             onClick={resetForm}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-8 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Cancel
+            {t("SubjectForm.cancel")}
           </Link>
 
           <button
@@ -426,7 +441,7 @@ export const SubjectForm = ({
             disabled={inputsDisabled}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Saving..." : resolvedSubmitLabel}
+            {isSubmitting ? t("SubjectForm.saving") : resolvedSubmitLabel}
           </button>
         </div>
       </form>

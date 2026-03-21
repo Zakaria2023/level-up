@@ -39,12 +39,12 @@ const homeLink: NavItem = {
   label: "Home",
 };
 
-const academicYearConfigurationLink: NavItem = {
+const academicYearLink: NavItem = {
   href: "/academic-year",
   label: "Academic Year",
 };
 
-const semesterConfigurationLink: NavItem = {
+const semesterLink: NavItem = {
   href: "/semester",
   label: "Semester",
 };
@@ -54,29 +54,29 @@ const academicYearStructureLink: NavItem = {
   label: "Academic Year Structure",
 };
 
-const educationalStageConfigurationLink: NavItem = {
+const educationalStageLink: NavItem = {
   href: "/educational-stage",
   label: "Educational Stage",
 };
 
-const schoolClassConfigurationLink: NavItem = {
+const schoolClassLink: NavItem = {
   href: "/school-class",
   label: "School Class",
 };
 
-const schoolSectionConfigurationLink: NavItem = {
+const schoolSectionLink: NavItem = {
   href: "/school-section",
   label: "School Section",
 };
 
-const subjectConfigurationLink: NavItem = {
-  href: "/subject-configuration",
-  label: "Subject Configuration",
+const subjectLink: NavItem = {
+  href: "/subject",
+  label: "Subject",
 };
 
-const hallConfigurationLink: NavItem = {
-  href: "/hall-configuration",
-  label: "Hall Configuration",
+const hallLink: NavItem = {
+  href: "/hall-",
+  label: "Hall ",
 };
 
 const normalizeRoute = (value: string) =>
@@ -128,37 +128,37 @@ export const Sidebar = ({ onNavigate }: Props) => {
   const pathname = usePathname();
   const currentPath = pathname ?? "/";
   const homeActive = currentPath === "/";
-  const academicYearConfigurationActive = isRouteActive(
+  const academicYearActive = isRouteActive(
     currentPath,
-    academicYearConfigurationLink.href
+    academicYearLink.href
   );
-  const semesterConfigurationActive = isRouteActive(
+  const semesterActive = isRouteActive(
     currentPath,
-    semesterConfigurationLink.href
+    semesterLink.href
   );
   const academicYearStructureActive = isRouteActive(
     currentPath,
     academicYearStructureLink.href
   );
-  const educationalStageConfigurationActive = isRouteActive(
+  const educationalStageActive = isRouteActive(
     currentPath,
-    educationalStageConfigurationLink.href
+    educationalStageLink.href
   );
-  const schoolClassConfigurationActive = isRouteActive(
+  const schoolClassActive = isRouteActive(
     currentPath,
-    schoolClassConfigurationLink.href
+    schoolClassLink.href
   );
-  const schoolSectionConfigurationActive = isRouteActive(
+  const schoolSectionActive = isRouteActive(
     currentPath,
-    schoolSectionConfigurationLink.href
+    schoolSectionLink.href
   );
-  const subjectConfigurationActive = isRouteActive(
+  const subjectActive = isRouteActive(
     currentPath,
-    subjectConfigurationLink.href
+    subjectLink.href
   );
-  const hallConfigurationActive = isRouteActive(
+  const hallActive = isRouteActive(
     currentPath,
-    hallConfigurationLink.href
+    hallLink.href
   );
   const settingsSectionActive = settingsLinks.some((item) =>
     isRouteActive(currentPath, item.href)
@@ -197,43 +197,43 @@ export const Sidebar = ({ onNavigate }: Props) => {
           </Link>
 
           <Link
-            href={academicYearConfigurationLink.href}
+            href={academicYearLink.href}
             onClick={onNavigate}
             className={[
               "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-              academicYearConfigurationActive
+              academicYearActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
               className={
-                academicYearConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+                academicYearActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
               }
             >
               <FiCalendar size={16} />
             </span>
-            <span>{academicYearConfigurationLink.label}</span>
+            <span>{academicYearLink.label}</span>
           </Link>
 
           <Link
-            href={semesterConfigurationLink.href}
+            href={semesterLink.href}
             onClick={onNavigate}
             className={[
               "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-              semesterConfigurationActive
+              semesterActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
               className={
-                semesterConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+                semesterActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
               }
             >
               <FiBookOpen size={16} />
             </span>
-            <span>{semesterConfigurationLink.label}</span>
+            <span>{semesterLink.label}</span>
           </Link>
 
           <Link
@@ -257,105 +257,105 @@ export const Sidebar = ({ onNavigate }: Props) => {
           </Link>
 
           <Link
-            href={educationalStageConfigurationLink.href}
+            href={educationalStageLink.href}
             onClick={onNavigate}
             className={[
               "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-              educationalStageConfigurationActive
+              educationalStageActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
               className={
-                educationalStageConfigurationActive
+                educationalStageActive
                   ? "text-[#c9f8fc]"
                   : "text-[#8fdee7]"
               }
             >
               <FiLayers size={16} />
             </span>
-            <span>{educationalStageConfigurationLink.label}</span>
+            <span>{educationalStageLink.label}</span>
           </Link>
 
           <Link
-            href={schoolClassConfigurationLink.href}
+            href={schoolClassLink.href}
             onClick={onNavigate}
             className={[
               "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-              schoolClassConfigurationActive
+              schoolClassActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
               className={
-                schoolClassConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+                schoolClassActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
               }
             >
               <FiGrid size={16} />
             </span>
-            <span>{schoolClassConfigurationLink.label}</span>
+            <span>{schoolClassLink.label}</span>
           </Link>
 
           <Link
-            href={schoolSectionConfigurationLink.href}
+            href={schoolSectionLink.href}
             onClick={onNavigate}
             className={[
               "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-              schoolSectionConfigurationActive
+              schoolSectionActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
               className={
-                schoolSectionConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+                schoolSectionActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
               }
             >
               <FiUsers size={16} />
             </span>
-            <span>{schoolSectionConfigurationLink.label}</span>
+            <span>{schoolSectionLink.label}</span>
           </Link>
 
           <Link
-            href={subjectConfigurationLink.href}
+            href={subjectLink.href}
             onClick={onNavigate}
             className={[
               "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-              subjectConfigurationActive
+              subjectActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
               className={
-                subjectConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+                subjectActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
               }
             >
               <FiBook size={16} />
             </span>
-            <span>{subjectConfigurationLink.label}</span>
+            <span>{subjectLink.label}</span>
           </Link>
 
           <Link
-            href={hallConfigurationLink.href}
+            href={hallLink.href}
             onClick={onNavigate}
             className={[
               "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-              hallConfigurationActive
+              hallActive
                 ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                 : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
             ].join(" ")}
           >
             <span
               className={
-                hallConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+                hallActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
               }
             >
               <FiMapPin size={16} />
             </span>
-            <span>{hallConfigurationLink.label}</span>
+            <span>{hallLink.label}</span>
           </Link>
 
           <div className="space-y-1.5">
