@@ -8,6 +8,7 @@ import {
   FiBookOpen,
   FiCalendar,
   FiChevronDown,
+  FiLayers,
   FiHome,
   FiLogOut,
 } from "react-icons/fi";
@@ -41,6 +42,11 @@ const academicYearConfigurationLink: NavItem = {
 const semesterConfigurationLink: NavItem = {
   href: "/semester-configuration",
   label: "Semester Configuration",
+};
+
+const educationalStageConfigurationLink: NavItem = {
+  href: "/educational-stage-configuration",
+  label: "Educational Stage Configuration",
 };
 
 const isRouteActive = (pathname: string, href: string) => {
@@ -87,6 +93,10 @@ export const Sidebar = ({ onNavigate }: Props) => {
   const semesterConfigurationActive = isRouteActive(
     currentPath,
     semesterConfigurationLink.href
+  );
+  const educationalStageConfigurationActive = isRouteActive(
+    currentPath,
+    educationalStageConfigurationLink.href
   );
   const settingsSectionActive = settingsLinks.some((item) =>
     isRouteActive(currentPath, item.href)
@@ -162,6 +172,28 @@ export const Sidebar = ({ onNavigate }: Props) => {
               <FiBookOpen size={16} />
             </span>
             <span>{semesterConfigurationLink.label}</span>
+          </Link>
+
+          <Link
+            href={educationalStageConfigurationLink.href}
+            onClick={onNavigate}
+            className={[
+              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              educationalStageConfigurationActive
+                ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+                : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+            ].join(" ")}
+          >
+            <span
+              className={
+                educationalStageConfigurationActive
+                  ? "text-[#c9f8fc]"
+                  : "text-[#8fdee7]"
+              }
+            >
+              <FiLayers size={16} />
+            </span>
+            <span>{educationalStageConfigurationLink.label}</span>
           </Link>
 
           <div className="space-y-1.5">
