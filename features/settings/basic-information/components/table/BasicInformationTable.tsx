@@ -1,60 +1,119 @@
 "use client";
 
 import DataTable from "@/components/data/DataTable";
-import DataTableAction from "@/components/data/DataTableAction";
+import Image from "next/image";
 import { useMemo, useState } from "react";
-import type {
-  BasicInformationInputType,
-  BasicInformationRow,
-  BasicInformationStatus,
-} from "../../types";
-
-interface Props {
-  initialRows: BasicInformationRow[];
-}
+import { FiFileText } from "react-icons/fi";
+import { useBasicInformationStore } from "../../store/useBasicInformationStore";
+import type { BasicInformationAsset, BasicInformationRow } from "../../types";
 
 const tableHeaders = [
-  <span key="id" className="block w-full text-left">
-    ID
+  <span key="schoolNameArabic">
+    schoolNameArabic
   </span>,
-  <span key="field" className="block w-full text-left">
-    Field
+  <span key="schoolNameEnglish">
+    schoolNameEnglish
   </span>,
-  <span key="value" className="block w-full text-left">
-    Value
+  <span key="yearOfEstablishment">
+    yearOfEstablishment
   </span>,
-  <span key="input-type" className="block w-full text-center">
-    Input Type
+  <span key="currency">
+    currency
   </span>,
-  <span key="status" className="block w-full text-center">
-    Status
+  <span key="commercialRegisterNumber">
+    commercialRegisterNumber
   </span>,
-  <span key="actions" className="block w-full text-center">
-    Actions
+  <span key="systemLanguage">
+    systemLanguage
+  </span>,
+  <span key="allowMultipleCurrencies">
+    allowMultipleCurrencies
+  </span>,
+  <span key="showLogoOnInvoices">
+    showLogoOnInvoices
+  </span>,
+  <span key="schoolLogo">
+    schoolLogo
+  </span>,
+  <span key="schoolSeal">
+    schoolSeal
   </span>,
 ];
 
-const typeBadgeClassName: Record<BasicInformationInputType, string> = {
-  Text: "bg-(--surface-muted) text-[color:var(--primary-strong)]",
-  Number: "bg-[#e7f6f8] text-[color:var(--primary-strong)]",
-  Select: "bg-[#ddf4f7] text-[color:var(--primary-strong)]",
-  Checkbox: "bg-[#d2f0f4] text-[color:var(--primary-strong)]",
-  File: "bg-[#c9f8fc] text-[color:var(--primary-strong)]",
-};
-
-const statusBadgeClassName: Record<BasicInformationStatus, string> = {
-  Configured: "bg-[#e8f9fb] text-[color:var(--primary-strong)]",
-  Uploaded: "bg-[#d8f4f7] text-[color:var(--primary-strong)]",
-  Verified: "bg-[#edf8fa] text-[#20545b]",
-  Primary: "bg-[#c9f8fc] text-[color:var(--primary-strong)]",
-  Default: "bg-[#e6f5f7] text-[#20545b]",
-  Active: "bg-[color:var(--primary)] text-white",
-};
-
 const PAGE_SIZE = 5;
 
-const BasicInformationTable = ({ initialRows }: Props) => {
-  const [rows, setRows] = useState(initialRows);
+const isImagePreviewUrl = (previewUrl?: string) =>
+  Boolean(
+    previewUrl &&
+    (previewUrl.startsWith("data:image/") ||
+      /\.(png|jpe?g|webp|gif|svg)$/i.test(previewUrl))
+  );
+
+const renderBooleanValue = (value: boolean) => (value ? "Enabled" : "Disabled");
+
+const FilePreview = ({ asset }: { asset: BasicInformationAsset }) => {
+  if (asset.previewUrl && isImagePreviewUrl(asset.previewUrl)) {
+    return (
+      <div className="flex items-center gap-3">
+        <Image
+          src={asset.previewUrl}
+          alt={asset.name}
+          width={44}
+          height={44}
+          unoptimized
+          className="h-11 w-11 rounded-2xl border border-(--border-color) object-cover"
+        />
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-(--foreground)">
+            {asset.name}
+          </p>
+          <p className="text-xs text-(--muted-text)">Image file</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-3">
+      <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-(--primary-soft) text-(--primary-strong)">
+        <FiFileText className="text-lg" />
+      </span>
+      <div className="min-w-0">
+        <p className="truncate text-sm font-semibold text-(--foreground)">
+          {asset.name}
+        </p>
+        {asset.previewUrl ? (
+          <a
+            href={asset.previewUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs font-semibold text-(--primary-strong) underline underline-offset-2"
+          >
+            Open preview
+          </a>
+        ) : (
+          <p className="text-xs text-(--muted-text)">File uploaded</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const toSearchableValues = (row: BasicInformationRow) => [
+  row.schoolNameArabic,
+  row.schoolNameEnglish,
+  row.yearOfEstablishment,
+  row.currency,
+  row.commercialRegisterNumber,
+  row.systemLanguage,
+  renderBooleanValue(row.allowMultipleCurrencies),
+  renderBooleanValue(row.showLogoOnInvoices),
+  row.schoolLogo.name,
+  row.schoolSeal.name,
+];
+
+const BasicInformationTable = () => {
+  const rows = useBasicInformationStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
@@ -67,7 +126,7 @@ const BasicInformationTable = ({ initialRows }: Props) => {
     }
 
     return rows.filter((row) =>
-      [row.field, row.value, row.inputType, row.status].some((value) =>
+      toSearchableValues(row).some((value) =>
         value.toLowerCase().includes(normalizedSearch)
       )
     );
@@ -81,72 +140,84 @@ const BasicInformationTable = ({ initialRows }: Props) => {
     return filteredRows.slice(startIndex, startIndex + pageSize);
   }, [currentPage, filteredRows, pageSize]);
 
-  const handleDelete = (id: number) => {
-    setRows((currentRows) => currentRows.filter((row) => row.id !== id));
-  };
-
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
-      gridColsClass="grid-cols-[80px_minmax(280px,1.65fr)_minmax(220px,1.2fr)_150px_140px_100px]"
+      gridColsClass="grid-cols-[minmax(220px,1.2fr)_minmax(220px,1.2fr)_190px_160px_220px_180px_190px_190px_200px_200px]"
       headers={tableHeaders}
       pageHeading="Basic Information"
-      addLinkHref="/settings/basic-information/add"
-      addLinkLabel="Add Field"
+      addLinkHref="/settings/basic-information/new"
+      addLinkLabel="Add Basic Information"
       enableSearch
       searchValue={searchValue}
       onSearchChange={(value) => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search by field, value, type, or status"
+      searchPlaceholder="Search basic information"
       emptyText="No basic information rows match your search."
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-          {filteredRows.length} fields
+          {filteredRows.length} records
         </div>
       }
       renderRow={(item) => (
         <>
-          <div className="w-full text-left text-sm font-semibold text-(--primary-strong)">
-            {item.id.toString().padStart(2, "0")}
-          </div>
-
-          <div className="w-full text-left">
-            <p className="font-semibold text-(--foreground)">{item.field}</p>
-          </div>
-
-          <div className="w-full text-left">
-            {item.inputType === "File" ? (
-              <span className="inline-flex rounded-full bg-(--surface-muted) px-3 py-1 text-xs font-semibold text-(--foreground)">
-                {item.value}
-              </span>
-            ) : (
-              <span className="text-sm font-medium text-(--foreground)">
-                {item.value}
-              </span>
-            )}
-          </div>
-
-          <div className="flex w-full justify-center">
-            <span
-              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${typeBadgeClassName[item.inputType]}`}
-            >
-              {item.inputType}
+          <div >
+            <span >
+              {item.schoolNameArabic}
             </span>
           </div>
 
-          <div className="flex w-full justify-center">
-            <span
-              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${statusBadgeClassName[item.status]}`}
-            >
-              {item.status}
+          <div >
+            <span >
+              {item.schoolNameEnglish}
             </span>
           </div>
 
-          <div className="flex w-full justify-center">
-            <DataTableAction onDeleteConfirm={() => handleDelete(item.id)} />
+          <div>
+            <span>
+              {item.yearOfEstablishment}
+            </span>
+          </div>
+
+          <div>
+            <span>
+              {item.currency}
+            </span>
+          </div>
+
+          <div>
+            <span>
+              {item.commercialRegisterNumber}
+            </span>
+          </div>
+
+          <div>
+            <span>
+              {item.systemLanguage}
+            </span>
+          </div>
+
+          <div>
+            <span>
+              {renderBooleanValue(item.allowMultipleCurrencies)}
+            </span>
+          </div>
+
+          <div>
+            <span>
+              {renderBooleanValue(item.showLogoOnInvoices)}
+            </span>
+          </div>
+
+          <div>
+            <FilePreview asset={item.schoolLogo} />
+          </div>
+
+          <div>
+            <FilePreview asset={item.schoolSeal} />
           </div>
         </>
       )}

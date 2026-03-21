@@ -78,9 +78,6 @@ function DataTable<T>({
   const BORDER = "var(--border-color)";
   const HEAD_TEXT = "var(--muted-text)";
 
-  const headerCount = headers.length;
-  const minimumTableWidth = Math.max(960, headerCount * 160);
-
   const headerRowClassName = clsx(
     "grid w-full items-center justify-items-center gap-0",
     gridColsClass,
@@ -171,10 +168,7 @@ function DataTable<T>({
         <div
           className={clsx("w-full overflow-x-auto scrollbar-soft", bodyClassName)}
         >
-          <div
-            className="px-2 md:px-4 py-0"
-            style={{ minWidth: `${minimumTableWidth}px` }}
-          >
+          <div className="w-max min-w-full px-2 py-0 md:px-4">
             {headers.length > 0 && (
               <div
                 className={headerRowClassName}

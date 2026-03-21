@@ -1,88 +1,43 @@
-import { BasicInformationRow } from "../types";
+import type { BasicInformationRow } from "../types";
+
+const supportedTimeZones =
+  typeof Intl !== "undefined" && typeof Intl.supportedValuesOf === "function"
+    ? Intl.supportedValuesOf("timeZone")
+    : ["UTC"];
+
+export const TIME_ZONE_OPTIONS = supportedTimeZones.map((timeZone) => ({
+  label: timeZone.replaceAll("_", " "),
+  value: timeZone,
+}));
+
+export const SYSTEM_LANGUAGE_OPTIONS = [
+  {
+    label: "English",
+    value: "English",
+  },
+  {
+    label: "Arabic",
+    value: "Arabic",
+  },
+];
 
 export const BASIC_INFORMATION_ROWS: BasicInformationRow[] = [
   {
     id: 1,
-    field: "School Name (Arabic)",
-    value: "Level Up School AR",
-    inputType: "Text",
-    status: "Configured",
-  },
-  {
-    id: 2,
-    field: "School Name (English)",
-    value: "Level Up School",
-    inputType: "Text",
-    status: "Configured",
-  },
-  {
-    id: 3,
-    field: "School Logo",
-    value: "level-up-logo.webp",
-    inputType: "File",
-    status: "Uploaded",
-  },
-  {
-    id: 4,
-    field: "Foundation Year",
-    value: "2014",
-    inputType: "Number",
-    status: "Verified",
-  },
-  {
-    id: 5,
-    field: "Currency",
-    value: "USD",
-    inputType: "Select",
-    status: "Primary",
-  },
-  {
-    id: 6,
-    field: "Allow Multiple Currencies",
-    value: "Enabled",
-    inputType: "Checkbox",
-    status: "Active",
-  },
-  {
-    id: 7,
-    field: "Commercial Register Number",
-    value: "CR-20458-EDU",
-    inputType: "Text",
-    status: "Verified",
-  },
-  {
-    id: 8,
-    field: "Show Logo on Invoices",
-    value: "Enabled",
-    inputType: "Checkbox",
-    status: "Active",
-  },
-  {
-    id: 9,
-    field: "Time Zone",
-    value: "Asia/Damascus (UTC+03:00)",
-    inputType: "Select",
-    status: "Default",
-  },
-  {
-    id: 10,
-    field: "Default System Language",
-    value: "English",
-    inputType: "Select",
-    status: "Default",
-  },
-  {
-    id: 11,
-    field: "Notifications Enabled",
-    value: "Enabled",
-    inputType: "Checkbox",
-    status: "Active",
-  },
-  {
-    id: 12,
-    field: "School Seal",
-    value: "school-seal.pdf",
-    inputType: "File",
-    status: "Uploaded",
+    schoolNameArabic: "Level Up School AR",
+    schoolNameEnglish: "Level Up School",
+    yearOfEstablishment: "2014",
+    currency: "USD",
+    commercialRegisterNumber: "CR-20458-EDU",
+    systemLanguage: "English",
+    allowMultipleCurrencies: true,
+    showLogoOnInvoices: true,
+    schoolLogo: {
+      name: "level-up-logo.webp",
+      previewUrl: "/logo.webp",
+    },
+    schoolSeal: {
+      name: "school-seal.pdf",
+    },
   },
 ];

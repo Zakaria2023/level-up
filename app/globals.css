@@ -22,6 +22,50 @@ body {
 }
 
 @layer utilities {
+  .scrollbar-soft {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--primary) 72%, var(--primary-strong) 28%)
+      color-mix(in srgb, var(--surface) 72%, var(--primary-soft) 28%);
+  }
+
+  .scrollbar-soft::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  .scrollbar-soft::-webkit-scrollbar-track {
+    border-radius: 9999px;
+    background: color-mix(
+      in srgb,
+      var(--surface) 72%,
+      var(--primary-soft) 28%
+    );
+  }
+
+  .scrollbar-soft::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--primary) 82%, white 18%),
+      var(--primary-strong)
+    );
+    background-clip: padding-box;
+  }
+
+  .scrollbar-soft::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--primary) 68%, white 32%),
+      color-mix(in srgb, var(--primary-strong) 88%, black 12%)
+    );
+    background-clip: padding-box;
+  }
+
+  .scrollbar-soft::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
   .bg-\(--background\) {
     background-color: var(--background);
   }
