@@ -34,7 +34,7 @@ const getDefaultValues = (
   schoolSeal: undefined,
 });
 
-export const useAddBasicInformationForm = ({
+export const useBasicInformationForm = ({
   mode = "create",
   rowId,
 }: UseAddBasicInformationFormOptions = {}) => {

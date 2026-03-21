@@ -8,7 +8,7 @@ import Input from "@/components/ui/Input";
 import { PreviewCard } from "@/components/ui/PreviewCard";
 import Link from "next/link";
 import { SYSTEM_LANGUAGE_OPTIONS, TIME_ZONE_OPTIONS } from "../../constants";
-import { useAddBasicInformationForm } from "../../hooks/useAddBasicInformationForm";
+import { useBasicInformationForm } from "../../hooks/useBasicInformationForm";
 
 type AddBasicInformationFormProps = {
   mode?: "create" | "edit";
@@ -46,7 +46,7 @@ export const BasicInformationForm = ({
     logoPreviewUrl,
     sealPreviewUrl,
     existingRow,
-  } = useAddBasicInformationForm({
+  } = useBasicInformationForm({
     mode,
     rowId,
   });

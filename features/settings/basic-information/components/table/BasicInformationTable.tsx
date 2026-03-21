@@ -2,14 +2,11 @@
 
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
-import { isImagePreviewUrl, renderBooleanValue } from "@/lib/utils/helpers";
-import Image from "next/image";
-import { useMemo, useState } from "react";
-import { FiFileText } from "react-icons/fi";
-import { useBasicInformationStore } from "../../store/useBasicInformationStore";
-import type { BasicInformationAsset, BasicInformationRow } from "../../types";
+import { FilePreview } from "@/components/ui/FilePreview";
+import { renderBooleanValue } from "@/lib/utils/helpers";
+import { useBasicInformationTable } from "../../hooks/useBasicInformationTable";
 
-const tableHeaders = [
+const basicInformationTableHeaders = [
   <span key="schoolNameArabic">
     schoolNameArabic
   </span>,
@@ -45,100 +42,26 @@ const tableHeaders = [
   </span>,
 ];
 
-const PAGE_SIZE = 5;
-
-const FilePreview = ({ asset }: { asset: BasicInformationAsset }) => {
-  if (asset.previewUrl && isImagePreviewUrl(asset.previewUrl)) {
-    return (
-      <div className="flex items-center justify-center">
-        <Image
-          src={asset.previewUrl}
-          alt={asset.name}
-          width={100}
-          height={100}
-          unoptimized
-          className="object-cover"
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center gap-3">
-      <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-(--primary-soft) text-(--primary-strong)">
-        <FiFileText className="text-lg" />
-      </span>
-      <div className="min-w-0">
-        <p className="truncate text-sm font-semibold text-(--foreground)">
-          {asset.name}
-        </p>
-        {asset.previewUrl ? (
-          <a
-            href={asset.previewUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="text-xs font-semibold text-(--primary-strong) underline underline-offset-2"
-          >
-            Open preview
-          </a>
-        ) : (
-          <p className="text-xs text-(--muted-text)">File uploaded</p>
-        )}
-      </div>
-    </div>
-  );
-};
-
-const toSearchableValues = (row: BasicInformationRow) => [
-  row.schoolNameArabic,
-  row.schoolNameEnglish,
-  row.yearOfEstablishment,
-  row.currency,
-  row.timeZone,
-  row.commercialRegisterNumber,
-  row.systemLanguage,
-  renderBooleanValue(row.allowMultipleCurrencies),
-  renderBooleanValue(row.showLogoOnInvoices),
-  renderBooleanValue(row.notificationsEnabled),
-  row.schoolLogo.name,
-  row.schoolSeal.name,
-];
-
 const BasicInformationTable = () => {
-  const rows = useBasicInformationStore((state) => state.rows);
-  const deleteRow = useBasicInformationStore((state) => state.deleteRow);
-  const [searchValue, setSearchValue] = useState("");
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(PAGE_SIZE);
-
-  const filteredRows = useMemo(() => {
-    const normalizedSearch = searchValue.trim().toLowerCase();
-
-    if (!normalizedSearch) {
-      return rows;
-    }
-
-    return rows.filter((row) =>
-      toSearchableValues(row).some((value) =>
-        value.toLowerCase().includes(normalizedSearch)
-      )
-    );
-  }, [rows, searchValue]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
-  const currentPage = Math.min(page, totalPages - 1);
-
-  const paginatedRows = useMemo(() => {
-    const startIndex = currentPage * pageSize;
-    return filteredRows.slice(startIndex, startIndex + pageSize);
-  }, [currentPage, filteredRows, pageSize]);
+  const {
+    deleteRow,
+    pageSize,
+    paginatedRows,
+    searchValue,
+    setPage,
+    setPageSize,
+    setSearchValue,
+    totalPages,
+    filteredRows,
+    currentPage
+  } = useBasicInformationTable();
 
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[minmax(220px,1.2fr)_minmax(220px,1.2fr)_190px_160px_220px_180px_190px_190px_200px_200px_120px]"
-      headers={tableHeaders}
+      headers={basicInformationTableHeaders}
       pageHeading="Basic Information"
       addLinkHref="/settings/basic-information/new"
       addLinkLabel="Add Basic Information"
