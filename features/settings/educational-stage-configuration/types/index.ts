@@ -1,7 +1,8 @@
 export type EducationalStageConfigurationRow = {
   id: number;
+  academicYearId: number;
   stageName: string;
   requiredEnrollmentAge: number;
-  gradeCategory: string;
+  teachingLanguage: string;
   isMixedStage: boolean;
 };

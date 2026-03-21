@@ -6,9 +6,10 @@ import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useEducationalStageConfigurationTable } from "../../hooks/useEducationalStageConfigurationTable";
 
 const educationalStageConfigurationTableHeaders = [
+  <span key="academicYear">academicYear</span>,
   <span key="stageName">stageName</span>,
   <span key="requiredEnrollmentAge">requiredEnrollmentAge</span>,
-  <span key="gradeCategory">gradeCategory</span>,
+  <span key="teachingLanguage">teachingLanguage</span>,
   <span key="isMixedStage">isMixedStage</span>,
   <span key="actions" className="block w-full text-center">
     actions
@@ -27,13 +28,15 @@ const EducationalStageConfigurationTable = () => {
     totalPages,
     filteredRows,
     currentPage,
+    resolveAcademicYearName,
+    resolveEducationalStageName,
   } = useEducationalStageConfigurationTable();
 
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
-      gridColsClass="grid-cols-[minmax(220px,1.4fr)_minmax(190px,1.1fr)_minmax(240px,1.5fr)_minmax(160px,1fr)_120px]"
+      gridColsClass="grid-cols-[minmax(220px,1.2fr)_minmax(240px,1.4fr)_minmax(190px,1fr)_minmax(220px,1.2fr)_minmax(160px,1fr)_120px]"
       headers={educationalStageConfigurationTableHeaders}
       pageHeading="Educational Stage Configuration"
       addLinkHref="/educational-stage-configuration/new"
@@ -53,9 +56,10 @@ const EducationalStageConfigurationTable = () => {
       }
       renderRow={(item) => (
         <>
-          <div>{item.stageName}</div>
+          <div>{resolveAcademicYearName(item.academicYearId)}</div>
+          <div>{resolveEducationalStageName(item)}</div>
           <div>{item.requiredEnrollmentAge}</div>
-          <div>{item.gradeCategory}</div>
+          <div>{item.teachingLanguage}</div>
           <div>{renderBooleanValue(item.isMixedStage)}</div>
           <div className="flex w-full justify-center">
             <DataTableAction

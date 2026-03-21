@@ -3,6 +3,13 @@
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
 import Link from "next/link";
+import { useAcademicYearConfigurationStore } from "../../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import {
+  formatEducationalStageLabel,
+  resolveAcademicYearLabel,
+} from "../../../educational-stage-configuration/constants";
+import { useEducationalStageConfigurationStore } from "../../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
+import { formatSchoolClassLabel } from "../../../school-class-configuration/constants";
 import { useSchoolClassConfigurationStore } from "../../../school-class-configuration/store/useSchoolClassConfigurationStore";
 import {
   resolveSupervisorLabel,
@@ -21,9 +28,18 @@ export const SchoolSectionConfigurationDetails = ({
   const row = useSchoolSectionConfigurationStore((state) =>
     state.rows.find((item) => item.id === rowId),
   );
-  const schoolClassName = useSchoolClassConfigurationStore((state) =>
-    row
-      ? state.rows.find((item) => item.id === row.schoolClassId)?.className
+  const schoolClass = useSchoolClassConfigurationStore((state) =>
+    row ? state.rows.find((item) => item.id === row.schoolClassId) : undefined,
+  );
+  const educationalStage = useEducationalStageConfigurationStore((state) =>
+    schoolClass
+      ? state.rows.find((item) => item.id === schoolClass.educationalStageId)
+      : undefined,
+  );
+  const academicYearName = useAcademicYearConfigurationStore((state) =>
+    educationalStage
+      ? state.rows.find((item) => item.id === educationalStage.academicYearId)
+          ?.academicYearName
       : undefined,
   );
   const supervisorName = resolveSupervisorLabel(
@@ -73,7 +89,21 @@ export const SchoolSectionConfigurationDetails = ({
         }
       >
         <div className="grid gap-4 md:grid-cols-2">
-          {toDetailFields(row, schoolClassName, supervisorName).map((field) => (
+          {toDetailFields(
+            row,
+            schoolClass
+              ? formatSchoolClassLabel(
+                  schoolClass.className,
+                  educationalStage
+                    ? formatEducationalStageLabel(
+                        educationalStage.stageName,
+                        resolveAcademicYearLabel(academicYearName),
+                      )
+                    : undefined,
+                )
+              : undefined,
+            supervisorName,
+          ).map((field) => (
             <DetailField key={field.label} label={field.label} value={field.value} />
           ))}
         </div>

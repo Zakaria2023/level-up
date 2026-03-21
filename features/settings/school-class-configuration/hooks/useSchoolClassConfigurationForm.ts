@@ -4,6 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import {
+  formatEducationalStageLabel,
+  resolveAcademicYearLabel,
+} from "../../educational-stage-configuration/constants";
 import { useEducationalStageConfigurationStore } from "../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
 import { useSchoolClassConfigurationStore } from "../store/useSchoolClassConfigurationStore";
 import type { SchoolClassConfigurationRow } from "../types";
@@ -37,6 +42,7 @@ export const useSchoolClassConfigurationForm = ({
   const educationalStages = useEducationalStageConfigurationStore(
     (state) => state.rows,
   );
+  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
   const existingRow = useSchoolClassConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -59,8 +65,14 @@ export const useSchoolClassConfigurationForm = ({
   });
 
   const educationalStageOptions = useMemo(() => {
+    const academicYearMap = new Map(
+      academicYears.map((row) => [row.id, row.academicYearName]),
+    );
     const options = educationalStages.map((row) => ({
-      label: row.stageName,
+      label: formatEducationalStageLabel(
+        row.stageName,
+        resolveAcademicYearLabel(academicYearMap.get(row.academicYearId)),
+      ),
       value: String(row.id),
     }));
 
@@ -75,7 +87,7 @@ export const useSchoolClassConfigurationForm = ({
     }
 
     return options;
-  }, [educationalStages, existingRow]);
+  }, [academicYears, educationalStages, existingRow]);
 
   const educationalStageId = useWatch({
     control,
@@ -124,13 +136,15 @@ export const useSchoolClassConfigurationForm = ({
       const duplicateClass = rows.find(
         (row) =>
           row.id !== existingRow?.id &&
-          row.className.trim().toLowerCase() === normalizedClassName,
+          row.className.trim().toLowerCase() === normalizedClassName &&
+          row.educationalStageId === parsedEducationalStageId,
       );
 
       if (duplicateClass) {
         setError("className", {
           type: "manual",
-          message: "Class name already exists. Duplicate class names are not allowed.",
+          message:
+            "Class name already exists in this educational stage. Duplicate class names are not allowed here.",
         });
         return;
       }

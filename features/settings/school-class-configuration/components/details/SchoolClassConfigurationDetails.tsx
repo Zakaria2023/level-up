@@ -3,6 +3,11 @@
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
 import Link from "next/link";
+import { useAcademicYearConfigurationStore } from "../../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import {
+  formatEducationalStageLabel,
+  resolveAcademicYearLabel,
+} from "../../../educational-stage-configuration/constants";
 import { useEducationalStageConfigurationStore } from "../../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
 import { toDetailFields } from "../../constants";
 import { useSchoolClassConfigurationStore } from "../../store/useSchoolClassConfigurationStore";
@@ -17,9 +22,13 @@ export const SchoolClassConfigurationDetails = ({
   const row = useSchoolClassConfigurationStore((state) =>
     state.rows.find((item) => item.id === rowId),
   );
-  const educationalStageName = useEducationalStageConfigurationStore((state) =>
-    row
-      ? state.rows.find((item) => item.id === row.educationalStageId)?.stageName
+  const educationalStage = useEducationalStageConfigurationStore((state) =>
+    row ? state.rows.find((item) => item.id === row.educationalStageId) : undefined,
+  );
+  const academicYearName = useAcademicYearConfigurationStore((state) =>
+    educationalStage
+      ? state.rows.find((item) => item.id === educationalStage.academicYearId)
+          ?.academicYearName
       : undefined,
   );
 
@@ -65,7 +74,15 @@ export const SchoolClassConfigurationDetails = ({
         }
       >
         <div className="grid gap-4 md:grid-cols-2">
-          {toDetailFields(row, educationalStageName).map((field) => (
+          {toDetailFields(
+            row,
+            educationalStage
+              ? formatEducationalStageLabel(
+                  educationalStage.stageName,
+                  resolveAcademicYearLabel(academicYearName),
+                )
+              : undefined,
+          ).map((field) => (
             <DetailField key={field.label} label={field.label} value={field.value} />
           ))}
         </div>

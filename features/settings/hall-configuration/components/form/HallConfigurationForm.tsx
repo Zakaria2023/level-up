@@ -5,9 +5,9 @@ import { DashboardCard } from "@/components/ui/DashboardCard";
 import Dropdown from "@/components/ui/Dropdown";
 import Input from "@/components/ui/Input";
 import Link from "next/link";
-import { useEducationalStageConfigurationForm } from "../../hooks/useEducationalStageConfigurationForm";
+import { useHallConfigurationForm } from "../../hooks/useHallConfigurationForm";
 
-type EducationalStageConfigurationFormProps = {
+type HallConfigurationFormProps = {
   mode?: "create" | "edit";
   rowId?: number;
   title?: string;
@@ -16,14 +16,14 @@ type EducationalStageConfigurationFormProps = {
   cancelHref?: string;
 };
 
-export const EducationalStageConfigurationForm = ({
+export const HallConfigurationForm = ({
   mode = "create",
   rowId,
   title,
   subtitle,
   submitLabel,
   cancelHref,
-}: EducationalStageConfigurationFormProps = {}) => {
+}: HallConfigurationFormProps = {}) => {
   const {
     register,
     handleSubmit,
@@ -33,44 +33,36 @@ export const EducationalStageConfigurationForm = ({
     onSubmit,
     resetForm,
     existingRow,
-    academicYearId,
-    setAcademicYearId,
-    academicYearOptions,
-    hasAcademicYearOptions,
-  } = useEducationalStageConfigurationForm({
+    hallType,
+    setHallType,
+    hallTypeOptions,
+  } = useHallConfigurationForm({
     mode,
     rowId,
   });
 
   const resolvedTitle =
-    title ??
-    (mode === "edit"
-      ? "Edit Educational Stage Configuration"
-      : "Add Educational Stage Configuration");
+    title ?? (mode === "edit" ? "Edit Hall Configuration" : "Add Hall Configuration");
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected educational stage configuration record."
-      : "Create a new educational stage configuration record and add it to the table.");
+      ? "Update the selected hall configuration record."
+      : "Create a new hall configuration record and add it to the table.");
   const resolvedSubmitLabel =
     submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Configuration");
   const resolvedCancelHref =
-    cancelHref ??
-    (mode === "edit" && rowId
-      ? `/educational-stage-configuration/${rowId}`
-      : "/educational-stage-configuration");
-  const inputsDisabled = isSubmitting || !hasAcademicYearOptions;
+    cancelHref ?? (mode === "edit" && rowId ? `/hall-configuration/${rowId}` : "/hall-configuration");
 
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Educational Stage Configuration Not Found"
+        title="Hall Configuration Not Found"
         subtitle="The requested record could not be loaded for editing."
         className="max-w-120"
       >
         <div className="flex justify-end">
           <Link
-            href="/educational-stage-configuration"
+            href="/hall-configuration"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             Back to Table
@@ -89,74 +81,76 @@ export const EducationalStageConfigurationForm = ({
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <input type="hidden" {...register("academicYearId")} />
-            <Dropdown
-              label="Academic Year"
-              value={academicYearId || undefined}
-              onChange={setAcademicYearId}
-              options={academicYearOptions}
-              placeholder="Select academic year"
-              searchable
-              searchPlaceholder="Search academic year"
-              error={errors.academicYearId?.message}
-              disabled={inputsDisabled}
-            />
-          </div>
-
           <Input
-            label="Stage Name"
+            label="Hall Name"
             requiredMark
             inputType="text"
-            placeholder="Primary Stage"
-            error={errors.stageName?.message}
-            disabled={inputsDisabled}
-            {...register("stageName")}
+            placeholder="Science Lab A"
+            error={errors.hallName?.message}
+            disabled={isSubmitting}
+            {...register("hallName")}
+          />
+
+          <Input
+            label="Hall Number"
+            requiredMark
+            inputType="text"
+            placeholder="LAB-101"
+            error={errors.hallNumber?.message}
+            disabled={isSubmitting}
+            {...register("hallNumber")}
           />
         </div>
-
-        {!hasAcademicYearOptions ? (
-          <div className="rounded-[20px] border border-(--border-color) bg-[#F8FDFF] px-4 py-3 text-sm font-medium text-(--muted-text)">
-            Add an academic year configuration first so you can link an educational
-            stage to it.
-          </div>
-        ) : null}
 
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Required Enrollment Age"
+            label="Capacity"
             requiredMark
             inputType="number"
-            placeholder="6"
-            min={3}
-            max={25}
-            error={errors.requiredEnrollmentAge?.message}
-            disabled={inputsDisabled}
-            {...register("requiredEnrollmentAge", { valueAsNumber: true })}
+            placeholder="28"
+            min={1}
+            max={500}
+            error={errors.capacity?.message}
+            disabled={isSubmitting}
+            {...register("capacity", { valueAsNumber: true })}
+          />
+
+          <div>
+            <input type="hidden" {...register("hallType")} />
+            <Dropdown
+              label="Hall Type"
+              value={hallType || undefined}
+              onChange={setHallType}
+              options={hallTypeOptions}
+              placeholder="Select hall type"
+              error={errors.hallType?.message}
+              disabled={isSubmitting}
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <Input
+            label="Building Name"
+            requiredMark
+            inputType="text"
+            placeholder="Main Building"
+            error={errors.buildingName?.message}
+            disabled={isSubmitting}
+            {...register("buildingName")}
           />
 
           <Input
-            label="Teaching Language"
+            label="Floor Number"
             requiredMark
-            inputType="text"
-            placeholder="English"
-            error={errors.teachingLanguage?.message}
-            disabled={inputsDisabled}
-            {...register("teachingLanguage")}
+            inputType="number"
+            placeholder="1"
+            min={0}
+            max={100}
+            error={errors.floorNumber?.message}
+            disabled={isSubmitting}
+            {...register("floorNumber", { valueAsNumber: true })}
           />
-        </div>
-
-        <div className="rounded-[20px] border border-(--border-color) bg-[#F8FDFF] p-4">
-          <p className="text-[16px] font-semibold text-[#0E6B7A]">Stage Type</p>
-          <label className="mt-3 inline-flex items-center gap-3 rounded-xl border border-[#B8C9D8] bg-white px-4 py-3 text-[15px] font-medium text-[#244E62]">
-            <input
-              type="checkbox"
-              disabled={inputsDisabled}
-              className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
-              {...register("isMixedStage")}
-            />
-            Mixed Stage
-          </label>
         </div>
 
         {serverError ? <ServerError>{serverError}</ServerError> : null}
@@ -181,7 +175,7 @@ export const EducationalStageConfigurationForm = ({
 
           <button
             type="submit"
-            disabled={inputsDisabled}
+            disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isSubmitting ? "Saving..." : resolvedSubmitLabel}

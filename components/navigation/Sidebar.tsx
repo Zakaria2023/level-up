@@ -14,6 +14,7 @@ import {
   FiLayers,
   FiHome,
   FiLogOut,
+  FiMapPin,
   FiUsers,
 } from "react-icons/fi";
 import { SlSettings } from "react-icons/sl";
@@ -71,6 +72,11 @@ const schoolSectionConfigurationLink: NavItem = {
 const subjectConfigurationLink: NavItem = {
   href: "/subject-configuration",
   label: "Subject Configuration",
+};
+
+const hallConfigurationLink: NavItem = {
+  href: "/hall-configuration",
+  label: "Hall Configuration",
 };
 
 const isRouteActive = (pathname: string, href: string) => {
@@ -137,6 +143,10 @@ export const Sidebar = ({ onNavigate }: Props) => {
   const subjectConfigurationActive = isRouteActive(
     currentPath,
     subjectConfigurationLink.href
+  );
+  const hallConfigurationActive = isRouteActive(
+    currentPath,
+    hallConfigurationLink.href
   );
   const settingsSectionActive = settingsLinks.some((item) =>
     isRouteActive(currentPath, item.href)
@@ -314,6 +324,26 @@ export const Sidebar = ({ onNavigate }: Props) => {
               <FiBook size={16} />
             </span>
             <span>{subjectConfigurationLink.label}</span>
+          </Link>
+
+          <Link
+            href={hallConfigurationLink.href}
+            onClick={onNavigate}
+            className={[
+              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              hallConfigurationActive
+                ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+                : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+            ].join(" ")}
+          >
+            <span
+              className={
+                hallConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+              }
+            >
+              <FiMapPin size={16} />
+            </span>
+            <span>{hallConfigurationLink.label}</span>
           </Link>
 
           <div className="space-y-1.5">

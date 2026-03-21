@@ -14,6 +14,12 @@ export const SCHOOL_CLASS_CONFIGURATION_ROWS: SchoolClassConfigurationRow[] = [
 export const resolveEducationalStageLabel = (educationalStageName?: string) =>
   educationalStageName?.trim() || "Educational stage not available";
 
+export const formatSchoolClassLabel = (
+  className: string,
+  educationalStageName?: string,
+) =>
+  educationalStageName?.trim() ? `${className} - ${educationalStageName}` : className;
+
 export const toDetailFields = (
   row: SchoolClassConfigurationRow,
   educationalStageName?: string,

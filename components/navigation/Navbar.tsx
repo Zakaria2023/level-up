@@ -16,6 +16,7 @@ const pageTitleMap: Record<string, string> = {
   "school-class-configuration": "School Class Configuration",
   "school-section-configuration": "School Section Configuration",
   "subject-configuration": "Subject Configuration",
+  "hall-configuration": "Hall Configuration",
 };
 
 const toTitleCase = (value: string) =>

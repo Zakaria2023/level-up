@@ -12,6 +12,22 @@ type EducationalStageConfigurationStore = {
   deleteRow: (id: number) => void;
 };
 
+const normalizeRow = (
+  row: Partial<EducationalStageConfigurationRow> & {
+    id: number;
+    stageName?: string;
+    requiredEnrollmentAge?: number;
+    gradeCategory?: string;
+  },
+): EducationalStageConfigurationRow => ({
+  id: row.id,
+  academicYearId: row.academicYearId ?? 1,
+  stageName: row.stageName ?? "",
+  requiredEnrollmentAge: row.requiredEnrollmentAge ?? 6,
+  teachingLanguage: row.teachingLanguage ?? row.gradeCategory ?? "",
+  isMixedStage: row.isMixedStage ?? false,
+});
+
 export const useEducationalStageConfigurationStore =
   create<EducationalStageConfigurationStore>()(
     persist(
@@ -38,6 +54,17 @@ export const useEducationalStageConfigurationStore =
         partialize: (state) => ({
           rows: state.rows,
         }),
+        merge: (persistedState, currentState) => {
+          const typedState = persistedState as Partial<EducationalStageConfigurationStore>;
+
+          return {
+            ...currentState,
+            ...typedState,
+            rows: Array.isArray(typedState?.rows)
+              ? typedState.rows.map((row) => normalizeRow(row))
+              : currentState.rows,
+          };
+        },
       },
     ),
   );

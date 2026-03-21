@@ -4,6 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import {
+  formatEducationalStageLabel,
+  resolveAcademicYearLabel,
+} from "../../educational-stage-configuration/constants";
+import { useEducationalStageConfigurationStore } from "../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
+import { formatSchoolClassLabel } from "../../school-class-configuration/constants";
 import { useSchoolClassConfigurationStore } from "../../school-class-configuration/store/useSchoolClassConfigurationStore";
 import { SECTION_SUPERVISOR_OPTIONS } from "../constants";
 import { useSchoolSectionConfigurationStore } from "../store/useSchoolSectionConfigurationStore";
@@ -37,6 +44,8 @@ export const useSchoolSectionConfigurationForm = ({
   const addRow = useSchoolSectionConfigurationStore((state) => state.addRow);
   const updateRow = useSchoolSectionConfigurationStore((state) => state.updateRow);
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
+  const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
+  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
   const existingRow = useSchoolSectionConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -59,8 +68,23 @@ export const useSchoolSectionConfigurationForm = ({
   });
 
   const schoolClassOptions = useMemo(() => {
+    const academicYearMap = new Map(
+      academicYears.map((row) => [row.id, row.academicYearName]),
+    );
+    const educationalStageMap = new Map(
+      educationalStages.map((row) => [
+        row.id,
+        formatEducationalStageLabel(
+          row.stageName,
+          resolveAcademicYearLabel(academicYearMap.get(row.academicYearId)),
+        ),
+      ]),
+    );
     const options = schoolClasses.map((row) => ({
-      label: row.className,
+      label: formatSchoolClassLabel(
+        row.className,
+        educationalStageMap.get(row.educationalStageId),
+      ),
       value: String(row.id),
     }));
 
@@ -75,7 +99,7 @@ export const useSchoolSectionConfigurationForm = ({
     }
 
     return options;
-  }, [schoolClasses, existingRow]);
+  }, [academicYears, educationalStages, schoolClasses, existingRow]);
 
   const schoolClassId = useWatch({
     control,
@@ -135,13 +159,15 @@ export const useSchoolSectionConfigurationForm = ({
       const duplicateSection = rows.find(
         (row) =>
           row.id !== existingRow?.id &&
-          row.sectionName.trim().toLowerCase() === normalizedSectionName,
+          row.sectionName.trim().toLowerCase() === normalizedSectionName &&
+          row.schoolClassId === parsedSchoolClassId,
       );
 
       if (duplicateSection) {
         setError("sectionName", {
           type: "manual",
-          message: "Section name already exists. Duplicate section names are not allowed.",
+          message:
+            "Section name already exists in this school class. Duplicate section names are not allowed here.",
         });
         return;
       }

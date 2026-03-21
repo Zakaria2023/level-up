@@ -5,14 +5,33 @@ export const EDUCATIONAL_STAGE_CONFIGURATION_ROWS: EducationalStageConfiguration
   [
     {
       id: 1,
+      academicYearId: 1,
       stageName: "Primary Stage",
       requiredEnrollmentAge: 6,
-      gradeCategory: "Primary Grades",
+      teachingLanguage: "English",
       isMixedStage: true,
     },
   ];
 
-export const toDetailFields = (row: EducationalStageConfigurationRow) => [
+export const resolveAcademicYearLabel = (academicYearName?: string) =>
+  academicYearName?.trim() || "Academic year not available";
+
+export const formatEducationalStageLabel = (
+  stageName: string,
+  academicYearName?: string,
+) =>
+  academicYearName?.trim()
+    ? `${stageName} - ${academicYearName}`
+    : stageName;
+
+export const toDetailFields = (
+  row: EducationalStageConfigurationRow,
+  academicYearName?: string,
+) => [
+  {
+    label: "Academic Year",
+    value: resolveAcademicYearLabel(academicYearName),
+  },
   {
     label: "Stage Name",
     value: row.stageName,
@@ -22,8 +41,8 @@ export const toDetailFields = (row: EducationalStageConfigurationRow) => [
     value: String(row.requiredEnrollmentAge),
   },
   {
-    label: "Grade Category",
-    value: row.gradeCategory,
+    label: "Teaching Language",
+    value: row.teachingLanguage,
   },
   {
     label: "Mixed Stage",

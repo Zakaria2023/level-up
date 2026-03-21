@@ -4,6 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import {
+  formatEducationalStageLabel,
+  resolveAcademicYearLabel,
+} from "../../educational-stage-configuration/constants";
+import { useEducationalStageConfigurationStore } from "../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
+import { formatSchoolClassLabel } from "../../school-class-configuration/constants";
 import { useSchoolClassConfigurationStore } from "../../school-class-configuration/store/useSchoolClassConfigurationStore";
 import {
   SUBJECT_TEACHER_OPTIONS,
@@ -75,6 +82,8 @@ export const useSubjectConfigurationForm = ({
   const addRow = useSubjectConfigurationStore((state) => state.addRow);
   const updateRow = useSubjectConfigurationStore((state) => state.updateRow);
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
+  const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
+  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
   const existingRow = useSubjectConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -111,8 +120,23 @@ export const useSubjectConfigurationForm = ({
   });
 
   const schoolClassOptions = useMemo(() => {
+    const academicYearMap = new Map(
+      academicYears.map((row) => [row.id, row.academicYearName]),
+    );
+    const educationalStageMap = new Map(
+      educationalStages.map((row) => [
+        row.id,
+        formatEducationalStageLabel(
+          row.stageName,
+          resolveAcademicYearLabel(academicYearMap.get(row.academicYearId)),
+        ),
+      ]),
+    );
     const options = schoolClasses.map((row) => ({
-      label: row.className,
+      label: formatSchoolClassLabel(
+        row.className,
+        educationalStageMap.get(row.educationalStageId),
+      ),
       value: String(row.id),
     }));
 
@@ -129,7 +153,7 @@ export const useSubjectConfigurationForm = ({
     });
 
     return options;
-  }, [schoolClasses, existingRow]);
+  }, [academicYears, educationalStages, schoolClasses, existingRow]);
 
   const subjectType = useWatch({
     control,

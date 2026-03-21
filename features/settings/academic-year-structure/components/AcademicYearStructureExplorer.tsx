@@ -3,7 +3,12 @@
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import Dropdown from "@/components/ui/Dropdown";
 import { useAcademicYearConfigurationStore } from "@/features/settings/academic-year-configuration/store/useAcademicYearConfigurationStore";
+import {
+  formatEducationalStageLabel,
+  resolveAcademicYearLabel,
+} from "@/features/settings/educational-stage-configuration/constants";
 import { useEducationalStageConfigurationStore } from "@/features/settings/educational-stage-configuration/store/useEducationalStageConfigurationStore";
+import { formatSchoolClassLabel } from "@/features/settings/school-class-configuration/constants";
 import { useSchoolClassConfigurationStore } from "@/features/settings/school-class-configuration/store/useSchoolClassConfigurationStore";
 import { SECTION_SUPERVISOR_OPTIONS } from "@/features/settings/school-section-configuration/constants";
 import { useSchoolSectionConfigurationStore } from "@/features/settings/school-section-configuration/store/useSchoolSectionConfigurationStore";
@@ -115,15 +120,26 @@ export default function AcademicYearStructureExplorer() {
     }));
   }, [filteredSemesters, selectedYearSemesterNames, semesterMap]);
 
+  const academicYearNameMap = useMemo(
+    () => new Map(academicYears.map((row) => [row.id, row.academicYearName])),
+    [academicYears],
+  );
+
   const stageStructure = useMemo(
     () =>
-      educationalStages.map((stage) => {
+      educationalStages
+        .filter((stage) => stage.academicYearId === selectedAcademicYear?.id)
+        .map((stage) => {
         const classes = schoolClasses.filter(
           (schoolClass) => schoolClass.educationalStageId === stage.id,
         );
 
         return {
           stage,
+          stageLabel: formatEducationalStageLabel(
+            stage.stageName,
+            resolveAcademicYearLabel(academicYearNameMap.get(stage.academicYearId)),
+          ),
           classes: classes.map((schoolClass) => {
             const sections = schoolSections.filter(
               (section) => section.schoolClassId === schoolClass.id,
@@ -136,6 +152,13 @@ export default function AcademicYearStructureExplorer() {
 
             return {
               schoolClass,
+              schoolClassLabel: formatSchoolClassLabel(
+                schoolClass.className,
+                formatEducationalStageLabel(
+                  stage.stageName,
+                  resolveAcademicYearLabel(academicYearNameMap.get(stage.academicYearId)),
+                ),
+              ),
               sections,
               subjects: classSubjects.map((subject) => ({
                 ...subject,
@@ -146,12 +169,33 @@ export default function AcademicYearStructureExplorer() {
             };
           }),
         };
-      }),
-    [educationalStages, schoolClasses, schoolSections, subjects],
+        }),
+    [academicYearNameMap, educationalStages, schoolClasses, schoolSections, selectedAcademicYear?.id, subjects],
   );
 
-  const totalSections = schoolSections.length;
-  const totalSubjects = subjects.length;
+  const totalClasses = useMemo(
+    () => stageStructure.reduce((total, stage) => total + stage.classes.length, 0),
+    [stageStructure],
+  );
+  const totalSections = useMemo(
+    () =>
+      stageStructure.reduce(
+        (total, stage) =>
+          total + stage.classes.reduce((classTotal, item) => classTotal + item.sections.length, 0),
+        0,
+      ),
+    [stageStructure],
+  );
+  const totalSubjects = useMemo(
+    () =>
+      stageStructure.reduce(
+        (total, stage) =>
+          total +
+          stage.classes.reduce((classTotal, item) => classTotal + item.subjects.length, 0),
+        0,
+      ),
+    [stageStructure],
+  );
 
   if (!academicYears.length) {
     return (
@@ -203,7 +247,7 @@ export default function AcademicYearStructureExplorer() {
               />
               <DetailPill
                 label="Summary"
-                value={`${countLabel(filteredSemesters.length, "semester")}, ${countLabel(educationalStages.length, "stage")}, ${countLabel(schoolClasses.length, "class")}`}
+                value={`${countLabel(filteredSemesters.length, "semester")}, ${countLabel(stageStructure.length, "stage")}, ${countLabel(totalClasses, "class")}`}
               />
             </div>
 
@@ -273,8 +317,8 @@ export default function AcademicYearStructureExplorer() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <DetailPill label="Educational Stages" value={String(educationalStages.length)} />
-              <DetailPill label="School Classes" value={String(schoolClasses.length)} />
+              <DetailPill label="Educational Stages" value={String(stageStructure.length)} />
+              <DetailPill label="School Classes" value={String(totalClasses)} />
               <DetailPill label="School Sections" value={String(totalSections)} />
               <DetailPill label="Subjects" value={String(totalSubjects)} />
             </div>
@@ -284,7 +328,7 @@ export default function AcademicYearStructureExplorer() {
 
       <div className="grid gap-4">
         {stageStructure.length ? (
-          stageStructure.map(({ stage, classes }) => (
+          stageStructure.map(({ stage, stageLabel, classes }) => (
             <details
               key={stage.id}
               open
@@ -296,7 +340,7 @@ export default function AcademicYearStructureExplorer() {
                     Educational Stage
                   </p>
                   <h3 className="mt-2 text-lg font-semibold text-[#0D3B52]">
-                    {stage.stageName}
+                    {stageLabel}
                   </h3>
                 </div>
                 <div className="inline-flex rounded-full bg-(--primary-soft) px-4 py-2 text-sm font-semibold text-(--primary-strong)">
@@ -306,7 +350,7 @@ export default function AcademicYearStructureExplorer() {
 
               <div className="mt-5 space-y-4">
                 {classes.length ? (
-                  classes.map(({ schoolClass, sections, subjects: classSubjects }) => (
+                  classes.map(({ schoolClass, schoolClassLabel, sections, subjects: classSubjects }) => (
                     <details
                       key={schoolClass.id}
                       open
@@ -315,7 +359,7 @@ export default function AcademicYearStructureExplorer() {
                       <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
                         <div>
                           <h4 className="text-base font-semibold text-[#0D3B52]">
-                            {schoolClass.className}
+                            {schoolClassLabel}
                           </h4>
                           <p className="mt-1 text-sm text-(--muted-text)">
                             Minimum passing grade: {schoolClass.minimumPassingGrade}%

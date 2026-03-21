@@ -2,24 +2,30 @@
 
 import ServerError from "@/components/feedback/ServerError";
 import Input from "@/components/ui/Input";
+import { useBasicInformationStore } from "@/features/settings/basic-information/store/useBasicInformationStore";
 import Image from "next/image";
 import { FiArrowRight, FiEye, FiEyeOff } from "react-icons/fi";
 import { useLoginSubmit } from "../../hooks/useLoginSubmit";
 
 export const LoginForm = () => {
+  const rows = useBasicInformationStore((state) => state.rows);
   const { errors, handleSubmit, isSubmitting, onSubmit, register, setShowPassword, showPassword }
     = useLoginSubmit()
+  const currentSchool = rows[0]
+  const logoSrc = currentSchool?.schoolLogo.previewUrl || "/logo.webp"
+  const logoAlt = currentSchool?.schoolNameEnglish || "Level Up logo"
 
   return (
     <section className="w-full max-w-110 rounded-[28px] border border-[#EDF4FA] bg-white p-6 shadow-[0_20px_45px_rgba(15,23,42,0.06)] sm:p-8">
       <div>
         <div className="flex justify-center">
           <Image
-            src="/logo.webp"
-            alt="Level Up logo"
+            src={logoSrc}
+            alt={logoAlt}
             width={120}
             height={86}
             className="object-contain"
+            unoptimized
             priority
           />
         </div>

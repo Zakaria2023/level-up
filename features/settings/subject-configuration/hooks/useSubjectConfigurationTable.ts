@@ -2,6 +2,13 @@
 
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
+import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
+import {
+  formatEducationalStageLabel,
+  resolveAcademicYearLabel,
+} from "../../educational-stage-configuration/constants";
+import { useEducationalStageConfigurationStore } from "../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
+import { formatSchoolClassLabel } from "../../school-class-configuration/constants";
 import { useSchoolClassConfigurationStore } from "../../school-class-configuration/store/useSchoolClassConfigurationStore";
 import {
   resolveSchoolClassLabel,
@@ -37,13 +44,41 @@ export const useSubjectConfigurationTable = () => {
   const rows = useSubjectConfigurationStore((state) => state.rows);
   const deleteRow = useSubjectConfigurationStore((state) => state.deleteRow);
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
+  const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
+  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
 
+  const academicYearMap = useMemo(
+    () => new Map(academicYears.map((row) => [row.id, row.academicYearName])),
+    [academicYears],
+  );
+  const educationalStageMap = useMemo(
+    () =>
+      new Map(
+        educationalStages.map((row) => [
+          row.id,
+          formatEducationalStageLabel(
+            row.stageName,
+            resolveAcademicYearLabel(academicYearMap.get(row.academicYearId)),
+          ),
+        ]),
+      ),
+    [academicYearMap, educationalStages],
+  );
   const schoolClassMap = useMemo(
-    () => new Map(schoolClasses.map((row) => [row.id, row.className])),
-    [schoolClasses],
+    () =>
+      new Map(
+        schoolClasses.map((row) => [
+          row.id,
+          formatSchoolClassLabel(
+            row.className,
+            educationalStageMap.get(row.educationalStageId),
+          ),
+        ]),
+      ),
+    [educationalStageMap, schoolClasses],
   );
   const teacherMap = useMemo(
     () =>

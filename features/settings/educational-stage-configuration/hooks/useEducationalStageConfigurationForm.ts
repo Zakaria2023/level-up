@@ -3,7 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
+import { useAcademicYearConfigurationStore } from "../../academic-year-configuration/store/useAcademicYearConfigurationStore";
 import { useEducationalStageConfigurationStore } from "../store/useEducationalStageConfigurationStore";
 import type { EducationalStageConfigurationRow } from "../types";
 import {
@@ -19,9 +20,10 @@ type UseEducationalStageConfigurationFormOptions = {
 const getDefaultValues = (
   row?: EducationalStageConfigurationRow,
 ): AddEducationalStageConfigurationFormValues => ({
+  academicYearId: row ? String(row.academicYearId) : "",
   stageName: row?.stageName ?? "",
   requiredEnrollmentAge: row?.requiredEnrollmentAge ?? 6,
-  gradeCategory: row?.gradeCategory ?? "",
+  teachingLanguage: row?.teachingLanguage ?? "",
   isMixedStage: row?.isMixedStage ?? false,
 });
 
@@ -33,6 +35,7 @@ export const useEducationalStageConfigurationForm = ({
   const rows = useEducationalStageConfigurationStore((state) => state.rows);
   const addRow = useEducationalStageConfigurationStore((state) => state.addRow);
   const updateRow = useEducationalStageConfigurationStore((state) => state.updateRow);
+  const academicYears = useAcademicYearConfigurationStore((state) => state.rows);
   const existingRow = useEducationalStageConfigurationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
@@ -44,10 +47,17 @@ export const useEducationalStageConfigurationForm = ({
     register,
     handleSubmit,
     reset,
+    control,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<AddEducationalStageConfigurationFormValues>({
     resolver: zodResolver(addEducationalStageConfigurationSchema),
     defaultValues: getDefaultValues(existingRow),
+  });
+
+  const academicYearId = useWatch({
+    control,
+    name: "academicYearId",
   });
 
   useEffect(() => {
@@ -63,6 +73,18 @@ export const useEducationalStageConfigurationForm = ({
     reset(getDefaultValues(existingRow));
   };
 
+  const setAcademicYearId = (value: string) => {
+    setValue("academicYearId", value, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  };
+
+  const academicYearOptions = academicYears.map((row) => ({
+    label: row.academicYearName,
+    value: String(row.id),
+  }));
+
   const onSubmit = async (values: AddEducationalStageConfigurationFormValues) => {
     try {
       setServerError(null);
@@ -72,14 +94,22 @@ export const useEducationalStageConfigurationForm = ({
         return;
       }
 
+      const parsedAcademicYearId = Number(values.academicYearId);
+
+      if (!Number.isFinite(parsedAcademicYearId) || parsedAcademicYearId <= 0) {
+        setServerError("Please select a valid academic year.");
+        return;
+      }
+
       const nextRow: EducationalStageConfigurationRow = {
         id:
           mode === "edit" && existingRow
             ? existingRow.id
             : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+        academicYearId: parsedAcademicYearId,
         stageName: values.stageName,
         requiredEnrollmentAge: values.requiredEnrollmentAge,
-        gradeCategory: values.gradeCategory,
+        teachingLanguage: values.teachingLanguage,
         isMixedStage: values.isMixedStage,
       };
 
@@ -108,5 +138,9 @@ export const useEducationalStageConfigurationForm = ({
     onSubmit,
     resetForm,
     existingRow,
+    academicYearId,
+    setAcademicYearId,
+    academicYearOptions,
+    hasAcademicYearOptions: academicYearOptions.length > 0,
   };
 };
