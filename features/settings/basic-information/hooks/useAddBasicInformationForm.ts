@@ -10,14 +10,16 @@ import type { BasicInformationRow } from "../types";
 import {
   addBasicInformationSchema,
   type AddBasicInformationFormValues,
-} from "../validation";
+} from "../validation/addBasicInformationSchema";
 
 type UseAddBasicInformationFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
 };
 
-const getDefaultValues = (row?: BasicInformationRow): AddBasicInformationFormValues => ({
+const getDefaultValues = (
+  row?: BasicInformationRow,
+): AddBasicInformationFormValues => ({
   schoolNameArabic: row?.schoolNameArabic ?? "",
   schoolNameEnglish: row?.schoolNameEnglish ?? "",
   yearOfEstablishment: row?.yearOfEstablishment ?? "",
@@ -43,7 +45,7 @@ export const useAddBasicInformationForm = ({
   const existingRow = useBasicInformationStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
-      : undefined
+      : undefined,
   );
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -184,21 +186,19 @@ export const useAddBasicInformationForm = ({
         return;
       }
 
-      const schoolLogo =
-        selectedLogoFile
-          ? {
-              name: selectedLogoFile.name,
-              previewUrl: await readFileAsDataUrl(selectedLogoFile),
-            }
-          : existingRow?.schoolLogo;
+      const schoolLogo = selectedLogoFile
+        ? {
+            name: selectedLogoFile.name,
+            previewUrl: await readFileAsDataUrl(selectedLogoFile),
+          }
+        : existingRow?.schoolLogo;
 
-      const schoolSeal =
-        selectedSealFile
-          ? {
-              name: selectedSealFile.name,
-              previewUrl: await readFileAsDataUrl(selectedSealFile),
-            }
-          : existingRow?.schoolSeal;
+      const schoolSeal = selectedSealFile
+        ? {
+            name: selectedSealFile.name,
+            previewUrl: await readFileAsDataUrl(selectedSealFile),
+          }
+        : existingRow?.schoolSeal;
 
       if (!schoolLogo) {
         setError("schoolLogo", {
@@ -220,7 +220,8 @@ export const useAddBasicInformationForm = ({
         id:
           mode === "edit" && existingRow
             ? existingRow.id
-            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) +
+              1,
         schoolNameArabic: values.schoolNameArabic,
         schoolNameEnglish: values.schoolNameEnglish,
         yearOfEstablishment: values.yearOfEstablishment,
