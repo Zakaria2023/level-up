@@ -1,4 +1,4 @@
-import SemesterConfigurationTable from "@/features/settings/semester-configuration/components/table/SemesterConfigurationTable";
+import SemesterConfigurationTable from "@/features/settings/semester/components/table/SemesterConfigurationTable";
 
 const SemesterPage = () => <SemesterConfigurationTable />;
 

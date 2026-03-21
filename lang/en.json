@@ -385,5 +385,50 @@
       "finalExamDate": "Final Exam Date",
       "evaluationType": "Evaluation Type"
     }
+  },
+
+  "SemesterForm": {
+    "createTitle": "Add Semester",
+    "editTitle": "Edit Semester",
+    "createSubtitle": "Create a new semester record and add it to the table.",
+    "editSubtitle": "Update the selected semester record.",
+    "save": "Save",
+    "saveChanges": "Save Changes",
+    "notFoundTitle": "Semester Not Found",
+    "notFoundSubtitle": "The requested record could not be loaded for editing.",
+    "backToTable": "Back to Table",
+    "semesterName": "Semester Name",
+    "semesterNamePlaceholder": "First Semester",
+    "academicYear": "Academic Year",
+    "selectAcademicYear": "Select academic year",
+    "searchAcademicYear": "Search academic year",
+    "noAcademicYearMessage": "Add an academic year first so you can link a semester to it.",
+    "semesterStartDate": "Semester Start Date",
+    "semesterEndDate": "Semester End Date",
+    "actualLessonsStartDate": "Actual Lessons Start Date",
+    "actualLessonsEndDate": "Actual Lessons End Date",
+    "finalExamDate": "Final Exam Date",
+    "evaluationType": "Evaluation Type",
+    "selectEvaluationType": "Select evaluation type",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "saving": "Saving..."
+  },
+  "SemesterSchema": {
+    "errors": {
+      "semesterNameRequired": "Semester name is required.",
+      "academicYearRequired": "Academic year is required.",
+      "semesterStartDateRequired": "Semester start date is required.",
+      "semesterEndDateRequired": "Semester end date is required.",
+      "actualLessonsStartDateRequired": "Actual lessons start date is required.",
+      "actualLessonsEndDateRequired": "Actual lessons end date is required.",
+      "finalExamDateRequired": "Final exam date is required.",
+      "evaluationTypeRequired": "Evaluation type is required.",
+      "semesterEndDateAfterStart": "Semester end date must be after the semester start date.",
+      "actualLessonsEndDateAfterStart": "Actual lessons end date must be after the actual lessons start date.",
+      "actualLessonsStartDateAfterSemesterStart": "Actual lessons start date must be on or after the semester start date.",
+      "actualLessonsEndDateBeforeSemesterEnd": "Actual lessons end date must be on or before the semester end date.",
+      "finalExamDateAfterLessonsEnd": "Final exam date must be on or after the actual lessons end date."
+    }
   }
 }

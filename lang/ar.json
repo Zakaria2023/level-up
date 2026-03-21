@@ -385,5 +385,50 @@
       "finalExamDate": "تاريخ الامتحان النهائي",
       "evaluationType": "نوع التقييم"
     }
+  },
+
+  "SemesterForm": {
+    "createTitle": "إضافة فصل دراسي",
+    "editTitle": "تعديل الفصل الدراسي",
+    "createSubtitle": "أنشئ سجلاً جديداً للفصل الدراسي وأضفه إلى الجدول.",
+    "editSubtitle": "قم بتحديث سجل الفصل الدراسي المحدد.",
+    "save": "حفظ",
+    "saveChanges": "حفظ التغييرات",
+    "notFoundTitle": "لم يتم العثور على الفصل الدراسي",
+    "notFoundSubtitle": "تعذر تحميل السجل المطلوب للتعديل.",
+    "backToTable": "العودة إلى الجدول",
+    "semesterName": "اسم الفصل الدراسي",
+    "semesterNamePlaceholder": "الفصل الأول",
+    "academicYear": "العام الدراسي",
+    "selectAcademicYear": "اختر العام الدراسي",
+    "searchAcademicYear": "ابحث في العام الدراسي",
+    "noAcademicYearMessage": "أضف عاماً دراسياً أولاً حتى تتمكن من ربط الفصل الدراسي به.",
+    "semesterStartDate": "تاريخ بدء الفصل الدراسي",
+    "semesterEndDate": "تاريخ انتهاء الفصل الدراسي",
+    "actualLessonsStartDate": "تاريخ بدء الدروس الفعلي",
+    "actualLessonsEndDate": "تاريخ انتهاء الدروس الفعلي",
+    "finalExamDate": "تاريخ الامتحان النهائي",
+    "evaluationType": "نوع التقييم",
+    "selectEvaluationType": "اختر نوع التقييم",
+    "reset": "إعادة تعيين",
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ..."
+  },
+  "SemesterSchema": {
+    "errors": {
+      "semesterNameRequired": "اسم الفصل الدراسي مطلوب.",
+      "academicYearRequired": "العام الدراسي مطلوب.",
+      "semesterStartDateRequired": "تاريخ بدء الفصل الدراسي مطلوب.",
+      "semesterEndDateRequired": "تاريخ انتهاء الفصل الدراسي مطلوب.",
+      "actualLessonsStartDateRequired": "تاريخ بدء الدروس الفعلي مطلوب.",
+      "actualLessonsEndDateRequired": "تاريخ انتهاء الدروس الفعلي مطلوب.",
+      "finalExamDateRequired": "تاريخ الامتحان النهائي مطلوب.",
+      "evaluationTypeRequired": "نوع التقييم مطلوب.",
+      "semesterEndDateAfterStart": "يجب أن يكون تاريخ انتهاء الفصل الدراسي بعد تاريخ البدء.",
+      "actualLessonsEndDateAfterStart": "يجب أن يكون تاريخ انتهاء الدروس الفعلي بعد تاريخ البدء الفعلي.",
+      "actualLessonsStartDateAfterSemesterStart": "يجب أن يكون تاريخ بدء الدروس الفعلي في أو بعد تاريخ بدء الفصل الدراسي.",
+      "actualLessonsEndDateBeforeSemesterEnd": "يجب أن يكون تاريخ انتهاء الدروس الفعلي في أو قبل تاريخ انتهاء الفصل الدراسي.",
+      "finalExamDateAfterLessonsEnd": "يجب أن يكون تاريخ الامتحان النهائي في أو بعد تاريخ انتهاء الدروس الفعلي."
+    }
   }
 }

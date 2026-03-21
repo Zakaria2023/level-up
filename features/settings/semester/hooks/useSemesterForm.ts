@@ -4,23 +4,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import { SEMESTER_EVALUATION_TYPE_OPTIONS } from "../constants";
 import { useSemesterStore } from "../store/useSemesterStore";
 import type { SemesterRow } from "../types";
 import {
-  addSemesterConfigurationSchema,
-  type AddSemesterConfigurationFormValues,
-} from "../validation/addSemesterConfigurationSchema";
+  createSemesterSchema,
+  type SemesterFormValues,
+} from "../validation/SemesterSchema";
 
-type UseSemesterConfigurationFormOptions = {
+type UseSemesterFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
 };
 
-const getDefaultValues = (
-  row?: SemesterRow,
-): AddSemesterConfigurationFormValues => ({
+const getDefaultValues = (row?: SemesterRow): SemesterFormValues => ({
   semesterName: row?.semesterName ?? "",
   academicYearId: row ? String(row.academicYearId) : "",
   semesterStartDate: row?.semesterStartDate ?? "",
@@ -31,10 +30,12 @@ const getDefaultValues = (
   evaluationType: row?.evaluationType ?? "Monthly",
 });
 
-export const useSemesterConfigurationForm = ({
+export const useSemesterForm = ({
   mode = "create",
   rowId,
-}: UseSemesterConfigurationFormOptions = {}) => {
+}: UseSemesterFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useSemesterStore((state) => state.rows);
   const addRow = useSemesterStore((state) => state.addRow);
@@ -47,6 +48,8 @@ export const useSemesterConfigurationForm = ({
   );
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const SemesterSchema = createSemesterSchema(t);
+
   const {
     register,
     handleSubmit,
@@ -54,8 +57,8 @@ export const useSemesterConfigurationForm = ({
     control,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<AddSemesterConfigurationFormValues>({
-    resolver: zodResolver(addSemesterConfigurationSchema),
+  } = useForm<SemesterFormValues>({
+    resolver: zodResolver(SemesterSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -105,14 +108,10 @@ export const useSemesterConfigurationForm = ({
   };
 
   const setEvaluationType = (value: string) => {
-    setValue(
-      "evaluationType",
-      value as AddSemesterConfigurationFormValues["evaluationType"],
-      {
-        shouldDirty: true,
-        shouldValidate: true,
-      },
-    );
+    setValue("evaluationType", value as SemesterFormValues["evaluationType"], {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
   };
 
   const resetForm = () => {
@@ -120,12 +119,12 @@ export const useSemesterConfigurationForm = ({
     reset(getDefaultValues(existingRow));
   };
 
-  const onSubmit = async (values: AddSemesterConfigurationFormValues) => {
+  const onSubmit = async (values: SemesterFormValues) => {
     try {
       setServerError(null);
 
       if (mode === "edit" && !existingRow) {
-        setServerError("Unable to find this semester configuration record.");
+        setServerError("Unable to find this semester record.");
         return;
       }
 
@@ -182,5 +181,6 @@ export const useSemesterConfigurationForm = ({
     academicYearOptions,
     evaluationTypeOptions: SEMESTER_EVALUATION_TYPE_OPTIONS,
     hasAcademicYearOptions: academicYearOptions.length > 0,
+    t,
   };
 };

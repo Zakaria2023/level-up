@@ -12,7 +12,7 @@ import { formatSchoolClassLabel } from "@/features/settings/school-class-configu
 import { useSchoolClassConfigurationStore } from "@/features/settings/school-class-configuration/store/useSchoolClassConfigurationStore";
 import { SECTION_SUPERVISOR_OPTIONS } from "@/features/settings/school-section-configuration/constants";
 import { useSchoolSectionConfigurationStore } from "@/features/settings/school-section-configuration/store/useSchoolSectionConfigurationStore";
-import { useSemesterStore } from "@/features/settings/semester-configuration/store/useSemesterStore";
+import { useSemesterStore } from "@/features/settings/semester/store/useSemesterStore";
 import { SUBJECT_TEACHER_OPTIONS } from "@/features/settings/subject-configuration/constants";
 import { useSubjectConfigurationStore } from "@/features/settings/subject-configuration/store/useSubjectConfigurationStore";
 import { Cairo } from "next/font/google";
