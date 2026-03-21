@@ -3,6 +3,11 @@
 :root {
   --background: #f4fbfc;
   --foreground: #12363b;
+  --surface: #ffffff;
+  --surface-muted: #eef8fa;
+  --border-color: rgba(41, 181, 197, 0.16);
+  --muted-text: #5d7b81;
+  --control-bg: #dff7fa;
   --primary: #29b5c5;
   --primary-strong: #1a95a4;
   --primary-soft: #c9f8fc;
@@ -25,11 +30,51 @@ body {
     background-color: var(--sidebar-bg);
   }
 
+  .bg-\(--sidebar-panel\) {
+    background-color: var(--sidebar-panel);
+  }
+
+  .bg-\(--surface\) {
+    background-color: var(--surface);
+  }
+
+  .bg-\(--surface-muted\) {
+    background-color: var(--surface-muted);
+  }
+
+  .bg-\(--control-bg\) {
+    background-color: var(--control-bg);
+  }
+
+  .bg-\(--primary\) {
+    background-color: var(--primary);
+  }
+
+  .bg-\(--primary-soft\) {
+    background-color: var(--primary-soft);
+  }
+
   .border-\(--sidebar-border\) {
     border-color: var(--sidebar-border);
   }
 
+  .border-\(--border-color\) {
+    border-color: var(--border-color);
+  }
+
   .text-\(--foreground\) {
     color: var(--foreground);
+  }
+
+  .text-\(--muted-text\) {
+    color: var(--muted-text);
+  }
+
+  .text-\(--primary\) {
+    color: var(--primary);
+  }
+
+  .ring-\(--border-color\) {
+    --tw-ring-color: var(--border-color);
   }
 }
