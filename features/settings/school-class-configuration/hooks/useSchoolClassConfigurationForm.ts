@@ -8,8 +8,8 @@ import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYe
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../educational-stage-configuration/constants";
-import { useEducationalStageConfigurationStore } from "../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
+} from "../../../educational-stage/constants";
+import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
 import { useSchoolClassConfigurationStore } from "../store/useSchoolClassConfigurationStore";
 import type { SchoolClassConfigurationRow } from "../types";
 import {
@@ -41,9 +41,7 @@ export const useSchoolClassConfigurationForm = ({
   const updateRow = useSchoolClassConfigurationStore(
     (state) => state.updateRow,
   );
-  const educationalStages = useEducationalStageConfigurationStore(
-    (state) => state.rows,
-  );
+  const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);
   const existingRow = useSchoolClassConfigurationStore((state) =>
     mode === "edit" && rowId

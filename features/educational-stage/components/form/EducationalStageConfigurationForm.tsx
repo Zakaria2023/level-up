@@ -45,32 +45,32 @@ export const EducationalStageConfigurationForm = ({
   const resolvedTitle =
     title ??
     (mode === "edit"
-      ? "Edit Educational Stage Configuration"
-      : "Add Educational Stage Configuration");
+      ? "Edit Educational Stage"
+      : "Add Educational Stage");
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected educational stage configuration record."
-      : "Create a new educational stage configuration record and add it to the table.");
+      ? "Update the selected educational stage record."
+      : "Create a new educational stage record and add it to the table.");
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Configuration");
+    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save");
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit" && rowId
-      ? `/educational-stage-configuration/${rowId}`
-      : "/educational-stage-configuration");
+      ? `/educational-stage/${rowId}`
+      : "/educational-stage");
   const inputsDisabled = isSubmitting || !hasAcademicYearOptions;
 
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Educational Stage Configuration Not Found"
+        title="Educational Stage Not Found"
         subtitle="The requested record could not be loaded for editing."
         className="max-w-120"
       >
         <div className="flex justify-end">
           <Link
-            href="/educational-stage-configuration"
+            href="/educational-stage"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             Back to Table
@@ -117,7 +117,7 @@ export const EducationalStageConfigurationForm = ({
 
         {!hasAcademicYearOptions ? (
           <div className="rounded-[20px] border border-(--border-color) bg-[#F8FDFF] px-4 py-3 text-sm font-medium text-(--muted-text)">
-            Add an academic year configuration first so you can link an educational
+            Add an academic year first so you can link an educational
             stage to it.
           </div>
         ) : null}

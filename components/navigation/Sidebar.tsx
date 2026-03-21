@@ -55,8 +55,8 @@ const academicYearStructureLink: NavItem = {
 };
 
 const educationalStageConfigurationLink: NavItem = {
-  href: "/educational-stage-configuration",
-  label: "Educational Stage Configuration",
+  href: "/educational-stage",
+  label: "Educational Stage",
 };
 
 const schoolClassConfigurationLink: NavItem = {

@@ -4,9 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
-import { useEducationalStageConfigurationStore } from "../store/useEducationalStageConfigurationStore";
-import type { EducationalStageConfigurationRow } from "../types";
+import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
+import { useEducationalStageStore } from "../store/useEducationalStageStore";
+import type { EducationalStageRow } from "../types";
 import {
   addEducationalStageConfigurationSchema,
   type AddEducationalStageConfigurationFormValues,
@@ -18,7 +18,7 @@ type UseEducationalStageConfigurationFormOptions = {
 };
 
 const getDefaultValues = (
-  row?: EducationalStageConfigurationRow,
+  row?: EducationalStageRow,
 ): AddEducationalStageConfigurationFormValues => ({
   academicYearId: row ? String(row.academicYearId) : "",
   stageName: row?.stageName ?? "",
@@ -32,13 +32,11 @@ export const useEducationalStageConfigurationForm = ({
   rowId,
 }: UseEducationalStageConfigurationFormOptions = {}) => {
   const router = useRouter();
-  const rows = useEducationalStageConfigurationStore((state) => state.rows);
-  const addRow = useEducationalStageConfigurationStore((state) => state.addRow);
-  const updateRow = useEducationalStageConfigurationStore(
-    (state) => state.updateRow,
-  );
+  const rows = useEducationalStageStore((state) => state.rows);
+  const addRow = useEducationalStageStore((state) => state.addRow);
+  const updateRow = useEducationalStageStore((state) => state.updateRow);
   const academicYears = useAcademicYearStore((state) => state.rows);
-  const existingRow = useEducationalStageConfigurationStore((state) =>
+  const existingRow = useEducationalStageStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
       : undefined,
@@ -105,7 +103,7 @@ export const useEducationalStageConfigurationForm = ({
         return;
       }
 
-      const nextRow: EducationalStageConfigurationRow = {
+      const nextRow: EducationalStageRow = {
         id:
           mode === "edit" && existingRow
             ? existingRow.id
@@ -120,17 +118,15 @@ export const useEducationalStageConfigurationForm = ({
 
       if (mode === "edit") {
         updateRow(nextRow);
-        router.push(`/educational-stage-configuration/${nextRow.id}`);
+        router.push(`/educational-stage/${nextRow.id}`);
         return;
       }
 
       addRow(nextRow);
       reset(getDefaultValues());
-      router.push("/educational-stage-configuration");
+      router.push("/educational-stage");
     } catch {
-      setServerError(
-        "Unable to save the educational stage configuration. Please try again.",
-      );
+      setServerError("Unable to save the educational stage. Please try again.");
     }
   };
 

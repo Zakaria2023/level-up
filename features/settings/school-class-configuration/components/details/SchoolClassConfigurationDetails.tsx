@@ -7,8 +7,8 @@ import { useAcademicYearStore } from "../../../../academic-year/store/useAcademi
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../../educational-stage-configuration/constants";
-import { useEducationalStageConfigurationStore } from "../../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
+} from "../../../../educational-stage/constants";
+import { useEducationalStageStore } from "../../../../educational-stage/store/useEducationalStageStore";
 import { toDetailFields } from "../../constants";
 import { useSchoolClassConfigurationStore } from "../../store/useSchoolClassConfigurationStore";
 
@@ -22,7 +22,7 @@ export const SchoolClassConfigurationDetails = ({
   const row = useSchoolClassConfigurationStore((state) =>
     state.rows.find((item) => item.id === rowId),
   );
-  const educationalStage = useEducationalStageConfigurationStore((state) =>
+  const educationalStage = useEducationalStageStore((state) =>
     row ? state.rows.find((item) => item.id === row.educationalStageId) : undefined,
   );
   const academicYearName = useAcademicYearStore((state) =>

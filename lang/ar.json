@@ -530,5 +530,22 @@
       "notAssigned": "غير معيّن",
       "unknownTeacher": "معلم غير معروف"
     }
+  },
+
+  "EducationalStageDetails": {
+    "notFoundTitle": "لم يتم العثور على المرحلة التعليمية",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "المرحلة التعليمية #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل المرحلة التعليمية هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "fields": {
+      "academicYear": "العام الدراسي",
+      "stageName": "اسم المرحلة",
+      "requiredEnrollmentAge": "العمر المطلوب للتسجيل",
+      "teachingLanguage": "لغة التدريس",
+      "mixedStage": "مرحلة مختلطة"
+    }
   }
 }

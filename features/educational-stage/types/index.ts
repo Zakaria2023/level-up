@@ -1,4 +1,4 @@
-export type EducationalStageConfigurationRow = {
+export type EducationalStageRow = {
   id: number;
   academicYearId: number;
   stageName: string;

@@ -38,8 +38,8 @@ const EducationalStageConfigurationTable = () => {
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[minmax(220px,1.2fr)_minmax(240px,1.4fr)_minmax(190px,1fr)_minmax(220px,1.2fr)_minmax(160px,1fr)_120px]"
       headers={educationalStageConfigurationTableHeaders}
-      pageHeading="Educational Stage Configuration"
-      addLinkHref="/educational-stage-configuration/new"
+      pageHeading="Educational Stage"
+      addLinkHref="/educational-stage/new"
       addLinkLabel="Add Educational Stage"
       enableSearch
       searchValue={searchValue}
@@ -47,8 +47,8 @@ const EducationalStageConfigurationTable = () => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search educational stage configuration"
-      emptyText="No educational stage configuration rows match your search."
+      searchPlaceholder="Search educational stage"
+      emptyText="No educational stage rows match your search."
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
           {filteredRows.length} records
@@ -63,8 +63,8 @@ const EducationalStageConfigurationTable = () => {
           <div>{renderBooleanValue(item.isMixedStage)}</div>
           <div className="flex w-full justify-center">
             <DataTableAction
-              viewLink={`/educational-stage-configuration/${item.id}`}
-              editLink={`/educational-stage-configuration/${item.id}/edit`}
+              viewLink={`/educational-stage/${item.id}`}
+              editLink={`/educational-stage/${item.id}/edit`}
               onDeleteConfirm={() => deleteRow(item.id)}
             />
           </div>

@@ -1,6 +1,6 @@
 import type { AcademicYearRow } from "@/features/academic-year/types";
+import type { EducationalStageRow } from "@/features/educational-stage/types";
 import type { SemesterRow } from "@/features/semester/types";
-import type { EducationalStageConfigurationRow } from "@/features/settings/educational-stage-configuration/types";
 import type { SchoolClassConfigurationRow } from "@/features/settings/school-class-configuration/types";
 import type { SchoolSectionConfigurationRow } from "@/features/settings/school-section-configuration/types";
 import type {
@@ -26,7 +26,7 @@ export type AcademicYearStructureClassItem = {
 };
 
 export type AcademicYearStructureStageItem = {
-  stage: EducationalStageConfigurationRow;
+  stage: EducationalStageRow;
   stageLabel: string;
   classes: AcademicYearStructureClassItem[];
 };

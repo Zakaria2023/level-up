@@ -7,8 +7,8 @@ import { useAcademicYearStore } from "../../../../academic-year/store/useAcademi
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../../educational-stage-configuration/constants";
-import { useEducationalStageConfigurationStore } from "../../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
+} from "../../../../educational-stage/constants";
+import { useEducationalStageStore } from "../../../../educational-stage/store/useEducationalStageStore";
 import { formatSchoolClassLabel } from "../../../school-class-configuration/constants";
 import { useSchoolClassConfigurationStore } from "../../../school-class-configuration/store/useSchoolClassConfigurationStore";
 import {
@@ -31,7 +31,7 @@ export const SchoolSectionConfigurationDetails = ({
   const schoolClass = useSchoolClassConfigurationStore((state) =>
     row ? state.rows.find((item) => item.id === row.schoolClassId) : undefined,
   );
-  const educationalStage = useEducationalStageConfigurationStore((state) =>
+  const educationalStage = useEducationalStageStore((state) =>
     schoolClass
       ? state.rows.find((item) => item.id === schoolClass.educationalStageId)
       : undefined,

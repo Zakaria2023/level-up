@@ -6,8 +6,8 @@ import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYe
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../educational-stage-configuration/constants";
-import { useEducationalStageConfigurationStore } from "../../educational-stage-configuration/store/useEducationalStageConfigurationStore";
+} from "../../../educational-stage/constants";
+import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
 import { resolveEducationalStageLabel } from "../constants";
 import { useSchoolClassConfigurationStore } from "../store/useSchoolClassConfigurationStore";
 import { SchoolClassConfigurationRow } from "../types";
@@ -29,9 +29,7 @@ export const useSchoolClassConfigurationTable = () => {
   const deleteRow = useSchoolClassConfigurationStore(
     (state) => state.deleteRow,
   );
-  const educationalStages = useEducationalStageConfigurationStore(
-    (state) => state.rows,
-  );
+  const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(0);

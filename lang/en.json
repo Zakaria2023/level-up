@@ -530,5 +530,22 @@
       "notAssigned": "Not assigned",
       "unknownTeacher": "Unknown teacher"
     }
+  },
+
+  "EducationalStageDetails": {
+    "notFoundTitle": "Educational Stage Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "Educational Stage #{{id}}",
+    "subtitle": "Review the stored values for this educational stage record.",
+    "back": "Back",
+    "edit": "Edit",
+    "fields": {
+      "academicYear": "Academic Year",
+      "stageName": "Stage Name",
+      "requiredEnrollmentAge": "Required Enrollment Age",
+      "teachingLanguage": "Teaching Language",
+      "mixedStage": "Mixed Stage"
+    }
   }
 }
