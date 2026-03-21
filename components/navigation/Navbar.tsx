@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { FiMenu } from "react-icons/fi";
+import LangToggle from "./LangToggle";
 import MobileSidebarDrawer from "./MobileSidebarDrawer";
 
 const pageTitleMap: Record<string, string> = {
@@ -50,20 +51,24 @@ export const Navbar = () => {
     <header className="sticky top-0 z-30 border-b border-(--sidebar-border) bg-(--sidebar-bg) px-3 py-3 shadow-[0_14px_30px_rgba(7,57,64,0.12)] sm:px-5 md:px-6">
       <div className="mx-auto flex items-center">
         <MobileSidebarDrawer>
-          <div className="flex w-full items-center gap-3">
-            <MobileSidebarDrawer.Trigger>
-              <button
-                type="button"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-(--sidebar-border) bg-(--sidebar-panel) text-[#effdff] transition hover:bg-[#136f7b] lg:hidden"
-                aria-label="Open navigation menu"
-              >
-                <FiMenu size={20} />
-              </button>
-            </MobileSidebarDrawer.Trigger>
+          <div className="flex w-full items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <MobileSidebarDrawer.Trigger>
+                <button
+                  type="button"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-(--sidebar-border) bg-(--sidebar-panel) text-[#effdff] transition hover:bg-[#136f7b] lg:hidden"
+                  aria-label="Open navigation menu"
+                >
+                  <FiMenu size={20} />
+                </button>
+              </MobileSidebarDrawer.Trigger>
 
-            <h1 className="text-xl font-bold text-[#f8f9fc] md:text-[1.7rem]">
-              {pageTitle}
-            </h1>
+              <h1 className="text-xl font-bold text-[#f8f9fc] md:text-[1.7rem]">
+                {pageTitle}
+              </h1>
+            </div>
+
+            <LangToggle />
           </div>
 
           <MobileSidebarDrawer.Content />
