@@ -5,7 +5,7 @@ import { DashboardCard } from "@/components/ui/DashboardCard";
 import Dropdown from "@/components/ui/Dropdown";
 import Input from "@/components/ui/Input";
 import Link from "next/link";
-import { useHallConfigurationForm } from "../../hooks/useHallConfigurationForm";
+import { useHallForm } from "../../hooks/useHallForm";
 
 type HallConfigurationFormProps = {
   mode?: "create" | "edit";
@@ -36,7 +36,7 @@ export const HallConfigurationForm = ({
     hallType,
     setHallType,
     hallTypeOptions,
-  } = useHallConfigurationForm({
+  } = useHallForm({
     mode,
     rowId,
   });

@@ -17,7 +17,7 @@ const toSearchableValues = (row: HallRow) => [
   formatHallLocation(row.buildingName, row.floorNumber),
 ];
 
-export const useHallConfigurationTable = () => {
+export const useHallTable = () => {
   const rows = useHallStore((state) => state.rows);
   const deleteRow = useHallStore((state) => state.deleteRow);
   const [searchValue, setSearchValue] = useState("");

@@ -881,5 +881,19 @@
       "buildingName": "اسم المبنى",
       "floorNumber": "رقم الطابق"
     }
+  },
+
+  "HallTable": {
+    "pageHeading": "القاعة",
+    "addHall": "إضافة قاعة",
+    "searchPlaceholder": "ابحث في القاعة",
+    "emptyText": "لا توجد سجلات قاعات تطابق بحثك.",
+    "records": "سجل",
+    "hallName": "اسم القاعة",
+    "hallNumber": "رقم القاعة",
+    "capacity": "السعة",
+    "hallType": "نوع القاعة",
+    "location": "الموقع",
+    "actions": "الإجراءات"
   }
 }

@@ -26,7 +26,7 @@ const getDefaultValues = (row?: HallRow): AddHallConfigurationFormValues => ({
   floorNumber: row?.floorNumber ?? 0,
 });
 
-export const useHallConfigurationForm = ({
+export const useHallForm = ({
   mode = "create",
   rowId,
 }: UseHallConfigurationFormOptions = {}) => {

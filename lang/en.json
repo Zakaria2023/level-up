@@ -881,5 +881,19 @@
       "buildingName": "Building Name",
       "floorNumber": "Floor Number"
     }
+  },
+
+  "HallTable": {
+    "pageHeading": "Hall",
+    "addHall": "Add Hall",
+    "searchPlaceholder": "Search hall",
+    "emptyText": "No hall rows match your search.",
+    "records": "records",
+    "hallName": "Hall Name",
+    "hallNumber": "Hall Number",
+    "capacity": "Capacity",
+    "hallType": "Hall Type",
+    "location": "Location",
+    "actions": "Actions"
   }
 }

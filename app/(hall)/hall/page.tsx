@@ -1,5 +1,5 @@
-import HallConfigurationTable from "@/features/hall/components/table/HallConfigurationTable";
+import HallTable from "@/features/hall/components/table/HallTable";
 
-const HallPage = () => <HallConfigurationTable />;
+const HallPage = () => <HallTable />
 
 export default HallPage;
