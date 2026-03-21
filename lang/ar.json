@@ -1,1 +1,9 @@
-{}
+{
+  "DashboardHome": {
+    "goodMorning": "صباح الخير",
+    "goodAfternoon": "مساء الخير",
+    "goodEvening": "مساء الخير",
+    "today": "اليوم",
+    "currentTime": "الوقت الحالي"
+  }
+}

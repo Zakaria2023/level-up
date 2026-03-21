@@ -1,1 +1,9 @@
-{}
+{
+  "DashboardHome": {
+    "goodMorning": "Good morning",
+    "goodAfternoon": "Good afternoon",
+    "goodEvening": "Good evening",
+    "today": "Today",
+    "currentTime": "Current Time"
+  }
+}

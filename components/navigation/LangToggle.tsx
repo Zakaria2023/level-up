@@ -24,16 +24,11 @@ const normalizeLang = (value: string | null | undefined): SupportedLang => {
   return SUPPORTED_LANGUAGES.includes(normalized) ? normalized : "en";
 };
 
-const resolvePreferredLang = (): SupportedLang => {
-  if (typeof window === "undefined") return "en";
-  const stored = window.localStorage.getItem("lang");
-  if (stored) return normalizeLang(stored);
-  const match = document.cookie.match(/(?:^|;\s*)lang=([^;]+)/);
-  if (match?.[1]) return normalizeLang(match[1]);
-  return "en";
+type LangToggleProps = {
+  initialLang?: string;
 };
 
-const LangToggle = () => {
+const LangToggle = ({ initialLang = "en" }: LangToggleProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const timerRef = useRef<number | null>(null);
 
@@ -42,7 +37,7 @@ const LangToggle = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState<SupportedLang>(() =>
-    resolvePreferredLang()
+    normalizeLang(initialLang)
   );
 
   const closeMenu = () => setIsOpen(false);
@@ -71,10 +66,16 @@ const LangToggle = () => {
     i18n.changeLanguage(currentLang);
 
     if (typeof window !== "undefined") {
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
       document.cookie = `lang=${currentLang}; path=/; max-age=${60 * 60 * 24 * 365}`;
       window.localStorage.setItem("lang", currentLang);
     }
   }, [currentLang, i18n]);
+
+  useEffect(() => {
+    setCurrentLang(normalizeLang(initialLang));
+  }, [initialLang]);
 
   useEffect(() => {
     return () => {

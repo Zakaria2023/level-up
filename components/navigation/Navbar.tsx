@@ -43,7 +43,11 @@ const resolveTitleKeyOrFallback = (pathname: string | null) => {
   return toTitleCase(segments.at(-1) ?? "");
 };
 
-export const Navbar = () => {
+type NavbarProps = {
+  initialLang?: string;
+};
+
+export const Navbar = ({ initialLang = "en" }: NavbarProps) => {
   const pathname = usePathname();
   const pageTitle = resolveTitleKeyOrFallback(pathname);
 
@@ -68,7 +72,7 @@ export const Navbar = () => {
               </h1>
             </div>
 
-            <LangToggle />
+            <LangToggle initialLang={initialLang} />
           </div>
 
           <MobileSidebarDrawer.Content />

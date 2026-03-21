@@ -9,10 +9,12 @@ const CHROMELESS_PATHS = ["/login"];
 
 interface Props {
   children: ReactNode
+  initialLang?: string
 }
 
 export default function DashboardShell({
   children,
+  initialLang = "en",
 }: Props) {
   const pathname = usePathname();
 
@@ -31,7 +33,7 @@ export default function DashboardShell({
       </aside>
 
       <div className="flex min-w-0 flex-col lg:min-h-screen">
-        <Navbar />
+        <Navbar initialLang={initialLang} />
         <main className="flex-1 overflow-auto bg-(--background) p-4 text-(--foreground) md:p-5 lg:p-6">
           {children}
         </main>
