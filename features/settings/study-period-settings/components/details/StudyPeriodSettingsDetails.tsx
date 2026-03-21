@@ -4,6 +4,7 @@ import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { toDetailFields } from "../../constants";
 import { formatDuration, formatSchoolDays } from "../../helpers";
 import { useStudyPeriodSettingsStore } from "../../store/useStudyPeriodSettingsStore";
@@ -15,6 +16,8 @@ type StudyPeriodSettingsDetailsProps = {
 export const StudyPeriodSettingsDetails = ({
   rowId,
 }: StudyPeriodSettingsDetailsProps) => {
+  const { t } = useTranslation();
+
   const row = useStudyPeriodSettingsStore((state) =>
     state.rows.find((item) => item.id === rowId),
   );
@@ -22,8 +25,8 @@ export const StudyPeriodSettingsDetails = ({
   if (!row) {
     return (
       <DashboardCard
-        title="Study Period Settings Not Found"
-        subtitle="The requested record could not be found in the current session."
+        title={t("StudyPeriodSettingsDetails.notFoundTitle")}
+        subtitle={t("StudyPeriodSettingsDetails.notFoundSubtitle")}
         className="max-w-120"
       >
         <div className="flex justify-end">
@@ -31,7 +34,7 @@ export const StudyPeriodSettingsDetails = ({
             href="/settings/study-period-settings"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Back to Table
+            {t("StudyPeriodSettingsDetails.backToTable")}
           </Link>
         </div>
       </DashboardCard>
@@ -41,27 +44,27 @@ export const StudyPeriodSettingsDetails = ({
   return (
     <div className="w-full max-w-240 space-y-6">
       <DashboardCard
-        title={`Study Period Settings #${row.id}`}
-        subtitle="Review the stored values for this study period settings record."
+        title={t("StudyPeriodSettingsDetails.title", { id: row.id })}
+        subtitle={t("StudyPeriodSettingsDetails.subtitle")}
         action={
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/settings/study-period-settings"
               className="inline-flex h-10 items-center justify-center rounded-xl bg-[#F3F5F8] px-5 text-sm font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
             >
-              Back
+              {t("StudyPeriodSettingsDetails.back")}
             </Link>
             <Link
               href={`/settings/study-period-settings/${row.id}/edit`}
               className="inline-flex h-10 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-5 text-sm font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95"
             >
-              Edit
+              {t("StudyPeriodSettingsDetails.edit")}
             </Link>
           </div>
         }
       >
         <div className="grid gap-4 md:grid-cols-3">
-          {toDetailFields(row).map((field) => (
+          {toDetailFields(row, t).map((field) => (
             <DetailField key={field.label} label={field.label} value={field.value} />
           ))}
         </div>
@@ -71,38 +74,51 @@ export const StudyPeriodSettingsDetails = ({
         {row.periods.map((period, index) => (
           <DashboardCard
             key={`${period.periodName}-${index}`}
-            title={`Period ${index + 1}`}
+            title={t("StudyPeriodSettingsDetails.periodTitle", { index: index + 1 })}
             subtitle={period.periodName}
           >
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <DetailField label="School Days" value={formatSchoolDays(period.schoolDays)} />
-              <DetailField label="Start Time" value={period.startTime} />
-              <DetailField label="End Time" value={period.endTime} />
               <DetailField
-                label="Duration"
+                label={t("StudyPeriodSettingsDetails.fields.schoolDays")}
+                value={formatSchoolDays(period.schoolDays)}
+              />
+              <DetailField
+                label={t("StudyPeriodSettingsDetails.fields.startTime")}
+                value={period.startTime}
+              />
+              <DetailField
+                label={t("StudyPeriodSettingsDetails.fields.endTime")}
+                value={period.endTime}
+              />
+              <DetailField
+                label={t("StudyPeriodSettingsDetails.fields.duration")}
                 value={formatDuration(period.durationMinutes)}
               />
               <DetailField
-                label="Break After Period"
+                label={t("StudyPeriodSettingsDetails.fields.breakAfterPeriod")}
                 value={renderBooleanValue(period.hasBreakAfterPeriod)}
               />
               <DetailField
-                label="Break Name"
-                value={period.hasBreakAfterPeriod ? period.breakName : "No break"}
+                label={t("StudyPeriodSettingsDetails.fields.breakName")}
+                value={
+                  period.hasBreakAfterPeriod
+                    ? period.breakName
+                    : t("StudyPeriodSettingsDetails.noBreak")
+                }
               />
               <DetailField
-                label="Break Start Time"
+                label={t("StudyPeriodSettingsDetails.fields.breakStartTime")}
                 value={period.hasBreakAfterPeriod ? period.breakStartTime : "--"}
               />
               <DetailField
-                label="Break End Time"
+                label={t("StudyPeriodSettingsDetails.fields.breakEndTime")}
                 value={period.hasBreakAfterPeriod ? period.breakEndTime : "--"}
               />
             </div>
 
             {period.hasBreakAfterPeriod ? (
               <div className="mt-4 rounded-[20px] border border-(--border-color) bg-[#F8FDFF] p-4 text-sm text-(--muted-text)">
-                Break duration:{" "}
+                {t("StudyPeriodSettingsDetails.breakDuration")}{" "}
                 <span className="font-semibold text-(--foreground)">
                   {formatDuration(period.breakDurationMinutes)}
                 </span>

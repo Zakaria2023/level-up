@@ -189,5 +189,31 @@
       "websiteRequired": "Website is required.",
       "socialMediaLinksRequired": "Social media links are required."
     }
+  },
+
+  "StudyPeriodSettingsDetails": {
+    "notFoundTitle": "Study Period Settings Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "Study Period Settings #{{id}}",
+    "subtitle": "Review the stored values for this study period settings record.",
+    "back": "Back",
+    "edit": "Edit",
+    "periodTitle": "Period {{index}}",
+    "noBreak": "No break",
+    "breakDuration": "Break duration:",
+    "fields": {
+      "periodsCount": "Periods Count",
+      "attendanceTracking": "Attendance Tracking",
+      "periodsWithBreaks": "Periods With Breaks",
+      "schoolDays": "School Days",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "duration": "Duration",
+      "breakAfterPeriod": "Break After Period",
+      "breakName": "Break Name",
+      "breakStartTime": "Break Start Time",
+      "breakEndTime": "Break End Time"
+    }
   }
 }

@@ -127,7 +127,7 @@ export const StudyPeriodSettingsForm = ({
             return (
               <div
                 key={field.id}
-                className="rounded-[24px] border border-(--border-color) bg-[#F8FDFF] p-4"
+                className="rounded-3xl border border-(--border-color) bg-[#F8FDFF] p-4"
               >
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                   <div>

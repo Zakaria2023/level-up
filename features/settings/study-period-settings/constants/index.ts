@@ -1,8 +1,12 @@
 import { renderBooleanValue } from "@/lib/utils/helpers";
+import { TFunction } from "i18next";
 import { calculateDurationInMinutes, formatSchoolDays } from "../helpers";
 import type { StudyPeriodDay, StudyPeriodSettingsRow } from "../types";
 
-export const STUDY_PERIOD_DAY_OPTIONS: { label: string; value: StudyPeriodDay }[] = [
+export const STUDY_PERIOD_DAY_OPTIONS: {
+  label: string;
+  value: StudyPeriodDay;
+}[] = [
   { label: "Monday", value: "Monday" },
   { label: "Tuesday", value: "Tuesday" },
   { label: "Wednesday", value: "Wednesday" },
@@ -58,18 +62,20 @@ export const STUDY_PERIOD_SETTINGS_ROWS: StudyPeriodSettingsRow[] = [
   },
 ];
 
-export const toDetailFields = (row: StudyPeriodSettingsRow) => [
+export const toDetailFields = (row: StudyPeriodSettingsRow, t: TFunction) => [
   {
-    label: "Periods Count",
+    label: t("StudyPeriodSettingsDetails.fields.periodsCount"),
     value: String(row.periodsCount),
   },
   {
-    label: "Attendance Tracking",
+    label: t("StudyPeriodSettingsDetails.fields.attendanceTracking"),
     value: renderBooleanValue(row.attendanceTrackingEnabled),
   },
   {
-    label: "Periods With Breaks",
-    value: String(row.periods.filter((period) => period.hasBreakAfterPeriod).length),
+    label: t("StudyPeriodSettingsDetails.fields.periodsWithBreaks"),
+    value: String(
+      row.periods.filter((period) => period.hasBreakAfterPeriod).length,
+    ),
   },
 ];
 

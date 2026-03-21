@@ -189,5 +189,31 @@
       "websiteRequired": "الموقع الإلكتروني مطلوب.",
       "socialMediaLinksRequired": "روابط وسائل التواصل الاجتماعي مطلوبة."
     }
+  },
+
+  "StudyPeriodSettingsDetails": {
+    "notFoundTitle": "لم يتم العثور على إعدادات الفترات الدراسية",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "إعدادات الفترات الدراسية #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل إعدادات الفترات الدراسية هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "periodTitle": "الفترة {{index}}",
+    "noBreak": "لا يوجد استراحة",
+    "breakDuration": "مدة الاستراحة:",
+    "fields": {
+      "periodsCount": "عدد الفترات",
+      "attendanceTracking": "تتبع الحضور",
+      "periodsWithBreaks": "الفترات التي تحتوي على استراحة",
+      "schoolDays": "أيام الدراسة",
+      "startTime": "وقت البدء",
+      "endTime": "وقت الانتهاء",
+      "duration": "المدة",
+      "breakAfterPeriod": "استراحة بعد الفترة",
+      "breakName": "اسم الاستراحة",
+      "breakStartTime": "وقت بدء الاستراحة",
+      "breakEndTime": "وقت انتهاء الاستراحة"
+    }
   }
 }

@@ -69,7 +69,7 @@ const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
               placeholder={placeholder}
               aria-invalid={!!error}
               className={clsx(
-                "min-h-40 resize-y",
+                "min-h-40 resize-y mt-1",
                 "w-full rounded-[26px] border bg-white px-10 py-6 text-[22px] font-medium text-[#0B1220]",
                 "placeholder:text-[#B7BDC6] outline-none transition",
                 error
