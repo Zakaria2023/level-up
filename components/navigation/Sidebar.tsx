@@ -9,6 +9,7 @@ import {
   FiBookOpen,
   FiCalendar,
   FiChevronDown,
+  FiGitBranch,
   FiGrid,
   FiLayers,
   FiHome,
@@ -45,6 +46,11 @@ const academicYearConfigurationLink: NavItem = {
 const semesterConfigurationLink: NavItem = {
   href: "/semester-configuration",
   label: "Semester Configuration",
+};
+
+const academicYearStructureLink: NavItem = {
+  href: "/academic-year-structure",
+  label: "Academic Year Structure",
 };
 
 const educationalStageConfigurationLink: NavItem = {
@@ -111,6 +117,10 @@ export const Sidebar = ({ onNavigate }: Props) => {
   const semesterConfigurationActive = isRouteActive(
     currentPath,
     semesterConfigurationLink.href
+  );
+  const academicYearStructureActive = isRouteActive(
+    currentPath,
+    academicYearStructureLink.href
   );
   const educationalStageConfigurationActive = isRouteActive(
     currentPath,
@@ -202,6 +212,26 @@ export const Sidebar = ({ onNavigate }: Props) => {
               <FiBookOpen size={16} />
             </span>
             <span>{semesterConfigurationLink.label}</span>
+          </Link>
+
+          <Link
+            href={academicYearStructureLink.href}
+            onClick={onNavigate}
+            className={[
+              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              academicYearStructureActive
+                ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+                : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+            ].join(" ")}
+          >
+            <span
+              className={
+                academicYearStructureActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+              }
+            >
+              <FiGitBranch size={16} />
+            </span>
+            <span>{academicYearStructureLink.label}</span>
           </Link>
 
           <Link
