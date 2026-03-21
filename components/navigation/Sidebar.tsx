@@ -4,7 +4,7 @@ import { logoutAction } from "@/lib/cookies/logout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { FiChevronDown, FiHome, FiLogOut } from "react-icons/fi";
+import { FiCalendar, FiChevronDown, FiHome, FiLogOut } from "react-icons/fi";
 import { SlSettings } from "react-icons/sl";
 
 interface Props {
@@ -24,6 +24,11 @@ const settingsLinks: NavItem[] = [
 const homeLink: NavItem = {
   href: "/",
   label: "Home",
+};
+
+const academicYearConfigurationLink: NavItem = {
+  href: "/academic-year-configuration",
+  label: "Academic Year Configuration",
 };
 
 const isRouteActive = (pathname: string, href: string) => {
@@ -63,9 +68,17 @@ export const Sidebar = ({ onNavigate }: Props) => {
   const pathname = usePathname();
   const currentPath = pathname ?? "/";
   const homeActive = currentPath === "/";
-  const settingsActive = currentPath.startsWith("/settings");
-  const [settingsOpen, setSettingsOpen] = useState(settingsActive);
-  const isSettingsOpen = settingsOpen || settingsActive;
+  const academicYearConfigurationActive = isRouteActive(
+    currentPath,
+    academicYearConfigurationLink.href
+  );
+  const settingsSectionActive = settingsLinks.some((item) =>
+    isRouteActive(currentPath, item.href)
+  );
+  const [settingsOpen, setSettingsOpen] = useState(settingsSectionActive);
+  const isSettingsOpen =
+    settingsSectionActive ||
+    (settingsOpen && !homeActive && !academicYearConfigurationActive);
 
   return (
     <div className="flex h-full flex-col bg-(--sidebar-bg) text-white">
@@ -97,20 +110,42 @@ export const Sidebar = ({ onNavigate }: Props) => {
             <span>{homeLink.label}</span>
           </Link>
 
+          <Link
+            href={academicYearConfigurationLink.href}
+            onClick={onNavigate}
+            className={[
+              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              academicYearConfigurationActive
+                ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+                : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+            ].join(" ")}
+          >
+            <span
+              className={
+                academicYearConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+              }
+            >
+              <FiCalendar size={16} />
+            </span>
+            <span>{academicYearConfigurationLink.label}</span>
+          </Link>
+
           <div className="space-y-1.5">
             <button
               type="button"
               onClick={() => setSettingsOpen((current) => !current)}
               className={[
                 "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
-                settingsActive
+                settingsSectionActive
                   ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
                   : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
               ].join(" ")}
               aria-expanded={isSettingsOpen}
               aria-controls="settings-submenu"
             >
-              <span className={settingsActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"}>
+              <span
+                className={settingsSectionActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"}
+              >
                 <SlSettings size={16} />
               </span>
               <span className="flex-1">Settings</span>
