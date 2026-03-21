@@ -5,5 +5,18 @@
     "goodEvening": "مساء الخير",
     "today": "اليوم",
     "currentTime": "الوقت الحالي"
+  },
+
+  "LoginForm": {
+    "logoAlt": "شعار ليفل أب",
+    "title": "تسجيل الدخول",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "showPassword": "إظهار كلمة المرور",
+    "hidePassword": "إخفاء كلمة المرور",
+    "signingIn": "جاري تسجيل الدخول...",
+    "signInToDashboard": "تسجيل الدخول إلى لوحة التحكم"
   }
 }

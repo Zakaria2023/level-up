@@ -5,5 +5,18 @@
     "goodEvening": "Good evening",
     "today": "Today",
     "currentTime": "Current Time"
+  },
+
+  "LoginForm": {
+    "logoAlt": "Level Up logo",
+    "title": "Login",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "signingIn": "Signing in...",
+    "signInToDashboard": "Sign in to dashboard"
   }
 }
