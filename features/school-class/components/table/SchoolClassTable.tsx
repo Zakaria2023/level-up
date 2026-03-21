@@ -3,19 +3,12 @@
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
 import { renderBooleanValue } from "@/lib/utils/helpers";
-import { useSchoolClassConfigurationTable } from "../../hooks/useSchoolClassConfigurationTable";
+import { useTranslation } from "react-i18next";
+import { useSchoolClassTable } from "../../hooks/useSchoolClassTable";
 
-const schoolClassConfigurationTableHeaders = [
-  <span key="className">className</span>,
-  <span key="educationalStage">educationalStage</span>,
-  <span key="minimumPassingGrade">minimumPassingGrade</span>,
-  <span key="isActive">isActive</span>,
-  <span key="actions" className="block w-full text-center">
-    actions
-  </span>,
-];
+const SchoolClassTable = () => {
+  const { t } = useTranslation();
 
-const SchoolClassConfigurationTable = () => {
   const {
     paginatedRows,
     deleteRow,
@@ -28,28 +21,38 @@ const SchoolClassConfigurationTable = () => {
     filteredRows,
     currentPage,
     resolveEducationalStageName,
-  } = useSchoolClassConfigurationTable();
+  } = useSchoolClassTable();
+
+  const schoolClassTableHeaders = [
+    <span key="className">{t("SchoolClassTable.className")}</span>,
+    <span key="educationalStage">{t("SchoolClassTable.educationalStage")}</span>,
+    <span key="minimumPassingGrade">{t("SchoolClassTable.minimumPassingGrade")}</span>,
+    <span key="isActive">{t("SchoolClassTable.isActive")}</span>,
+    <span key="actions" className="block w-full text-center">
+      {t("SchoolClassTable.actions")}
+    </span>,
+  ];
 
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[minmax(220px,1.4fr)_minmax(220px,1.4fr)_minmax(190px,1.2fr)_minmax(160px,1fr)_120px]"
-      headers={schoolClassConfigurationTableHeaders}
-      pageHeading="School Class Configuration"
-      addLinkHref="/school-class-configuration/new"
-      addLinkLabel="Add School Class"
+      headers={schoolClassTableHeaders}
+      pageHeading={t("SchoolClassTable.pageHeading")}
+      addLinkHref="/school-class/new"
+      addLinkLabel={t("SchoolClassTable.addSchoolClass")}
       enableSearch
       searchValue={searchValue}
       onSearchChange={(value) => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search school class configuration"
-      emptyText="No school class configuration rows match your search."
+      searchPlaceholder={t("SchoolClassTable.searchPlaceholder")}
+      emptyText={t("SchoolClassTable.emptyText")}
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-          {filteredRows.length} records
+          {filteredRows.length} {t("SchoolClassTable.records")}
         </div>
       }
       renderRow={(item) => (
@@ -79,4 +82,4 @@ const SchoolClassConfigurationTable = () => {
   );
 };
 
-export default SchoolClassConfigurationTable;
+export default SchoolClassTable;

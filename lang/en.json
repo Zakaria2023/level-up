@@ -650,5 +650,18 @@
       "minimumPassingGradeMin": "Minimum passing grade cannot be below 0.",
       "minimumPassingGradeMax": "Minimum passing grade cannot exceed 100."
     }
+  },
+
+  "SchoolClassTable": {
+    "pageHeading": "School Class",
+    "addSchoolClass": "Add School Class",
+    "searchPlaceholder": "Search school class",
+    "emptyText": "No school class rows match your search.",
+    "records": "records",
+    "className": "Class Name",
+    "educationalStage": "Educational Stage",
+    "minimumPassingGrade": "Minimum Passing Grade",
+    "isActive": "Is Active",
+    "actions": "Actions"
   }
 }

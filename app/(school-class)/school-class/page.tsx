@@ -1,5 +1,5 @@
-import SchoolClassConfigurationTable from "@/features/school-class/components/table/SchoolClassConfigurationTable";
+import SchoolClassTable from "@/features/school-class/components/table/SchoolClassTable";
 
-const SchoolClassPage = () => <SchoolClassConfigurationTable />;
+const SchoolClassPage = () => <SchoolClassTable />;
 
 export default SchoolClassPage;

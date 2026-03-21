@@ -650,5 +650,18 @@
       "minimumPassingGradeMin": "لا يمكن أن يكون الحد الأدنى لدرجة النجاح أقل من 0.",
       "minimumPassingGradeMax": "لا يمكن أن يتجاوز الحد الأدنى لدرجة النجاح 100."
     }
+  },
+
+  "SchoolClassTable": {
+    "pageHeading": "الصف المدرسي",
+    "addSchoolClass": "إضافة صف مدرسي",
+    "searchPlaceholder": "ابحث في الصف المدرسي",
+    "emptyText": "لا توجد سجلات صفوف مدرسية تطابق بحثك.",
+    "records": "سجل",
+    "className": "اسم الصف",
+    "educationalStage": "المرحلة التعليمية",
+    "minimumPassingGrade": "الحد الأدنى لدرجة النجاح",
+    "isActive": "نشط",
+    "actions": "الإجراءات"
   }
 }

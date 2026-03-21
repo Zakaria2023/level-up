@@ -1,13 +1,13 @@
 "use client";
 
-import { renderBooleanValue } from "@/lib/utils/helpers";
-import { useMemo, useState } from "react";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
+import { useAcademicYearStore } from "@/features/academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../../educational-stage/constants";
-import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
+} from "@/features/educational-stage/constants";
+import { useEducationalStageStore } from "@/features/educational-stage/store/useEducationalStageStore";
+import { renderBooleanValue } from "@/lib/utils/helpers";
+import { useMemo, useState } from "react";
 import { resolveEducationalStageLabel } from "../constants";
 import { useSchoolClassStore } from "../store/useSchoolClassStore";
 import { SchoolClassRow } from "../types";
@@ -24,7 +24,7 @@ const toSearchableValues = (
   renderBooleanValue(row.isActive),
 ];
 
-export const useSchoolClassConfigurationTable = () => {
+export const useSchoolClassTable = () => {
   const rows = useSchoolClassStore((state) => state.rows);
   const deleteRow = useSchoolClassStore((state) => state.deleteRow);
   const educationalStages = useEducationalStageStore((state) => state.rows);
