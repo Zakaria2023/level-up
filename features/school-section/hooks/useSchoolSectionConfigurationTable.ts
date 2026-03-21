@@ -4,24 +4,24 @@ import { formatSchoolClassLabel } from "@/features/school-class/constants";
 import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClassStore";
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
+import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../../educational-stage/constants";
-import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
+} from "../../educational-stage/constants";
+import { useEducationalStageStore } from "../../educational-stage/store/useEducationalStageStore";
 import {
   resolveSchoolClassLabel,
   resolveSupervisorLabel,
   SECTION_SUPERVISOR_OPTIONS,
 } from "../constants";
-import { useSchoolSectionConfigurationStore } from "../store/useSchoolSectionConfigurationStore";
-import { SchoolSectionConfigurationRow } from "../types";
+import { useSchoolSectionStore } from "../store/useSchoolSectionStore";
+import { SchoolSectionRow } from "../types";
 
 const PAGE_SIZE = 5;
 
 const toSearchableValues = (
-  row: SchoolSectionConfigurationRow,
+  row: SchoolSectionRow,
   schoolClassName: string,
   supervisorName: string,
 ) => [
@@ -33,10 +33,8 @@ const toSearchableValues = (
 ];
 
 export const useSchoolSectionConfigurationTable = () => {
-  const rows = useSchoolSectionConfigurationStore((state) => state.rows);
-  const deleteRow = useSchoolSectionConfigurationStore(
-    (state) => state.deleteRow,
-  );
+  const rows = useSchoolSectionStore((state) => state.rows);
+  const deleteRow = useSchoolSectionStore((state) => state.deleteRow);
   const schoolClasses = useSchoolClassStore((state) => state.rows);
   const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);

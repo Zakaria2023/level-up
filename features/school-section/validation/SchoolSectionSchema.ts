@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const addSchoolSectionConfigurationSchema = z.object({
+export const SchoolSectionSchema = z.object({
   sectionName: z.string().trim().min(1, "Section name is required."),
   schoolClassId: z.string().trim().min(1, "School class is required."),
   defaultCapacity: z
@@ -14,6 +14,4 @@ export const addSchoolSectionConfigurationSchema = z.object({
   isActive: z.boolean(),
 });
 
-export type AddSchoolSectionConfigurationFormValues = z.infer<
-  typeof addSchoolSectionConfigurationSchema
->;
+export type SchoolSectionFormValues = z.infer<typeof SchoolSectionSchema>;

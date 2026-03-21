@@ -5,9 +5,9 @@ import { DashboardCard } from "@/components/ui/DashboardCard";
 import Dropdown from "@/components/ui/Dropdown";
 import Input from "@/components/ui/Input";
 import Link from "next/link";
-import { useSchoolSectionConfigurationForm } from "../../hooks/useSchoolSectionConfigurationForm";
+import { useSchoolSectionForm } from "../../hooks/useSchoolSectionForm";
 
-type SchoolSectionConfigurationFormProps = {
+type SchoolSectionFormProps = {
   mode?: "create" | "edit";
   rowId?: number;
   title?: string;
@@ -16,14 +16,14 @@ type SchoolSectionConfigurationFormProps = {
   cancelHref?: string;
 };
 
-export const SchoolSectionConfigurationForm = ({
+export const SchoolSectionForm = ({
   mode = "create",
   rowId,
   title,
   subtitle,
   submitLabel,
   cancelHref,
-}: SchoolSectionConfigurationFormProps = {}) => {
+}: SchoolSectionFormProps = {}) => {
   const {
     register,
     handleSubmit,
@@ -40,7 +40,7 @@ export const SchoolSectionConfigurationForm = ({
     schoolClassOptions,
     supervisorOptions,
     hasSchoolClassOptions,
-  } = useSchoolSectionConfigurationForm({
+  } = useSchoolSectionForm({
     mode,
     rowId,
   });
@@ -48,32 +48,32 @@ export const SchoolSectionConfigurationForm = ({
   const resolvedTitle =
     title ??
     (mode === "edit"
-      ? "Edit School Section Configuration"
-      : "Add School Section Configuration");
+      ? "Edit School Section"
+      : "Add School Section");
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected school section configuration record."
-      : "Create a new school section configuration record and add it to the table.");
+      ? "Update the selected school section record."
+      : "Create a new school section record and add it to the table.");
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Configuration");
+    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save");
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit" && rowId
-      ? `/school-section-configuration/${rowId}`
-      : "/school-section-configuration");
+      ? `/school-section/${rowId}`
+      : "/school-section");
   const inputsDisabled = isSubmitting || !hasSchoolClassOptions;
 
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="School Section Configuration Not Found"
+        title="School Section Not Found"
         subtitle="The requested record could not be loaded for editing."
         className="max-w-120"
       >
         <div className="flex justify-end">
           <Link
-            href="/school-section-configuration"
+            href="/school-section"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             Back to Table
@@ -120,7 +120,7 @@ export const SchoolSectionConfigurationForm = ({
 
         {!hasSchoolClassOptions ? (
           <div className="rounded-[20px] border border-(--border-color) bg-[#F8FDFF] px-4 py-3 text-sm font-medium text-(--muted-text)">
-            Add a school class configuration first so you can link a school section
+            Add a school class first so you can link a school section
             to it.
           </div>
         ) : null}

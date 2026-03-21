@@ -15,7 +15,7 @@ const pageTitleMap: Record<string, string> = {
   "academic-year-structure": "Academic Year Structure",
   "educational-stage": "Educational Stage",
   "school-class": "School Class",
-  "school-section-configuration": "School Section Configuration",
+  "school-section": "School Section",
   "subject-configuration": "Subject Configuration",
   "hall-configuration": "Hall Configuration",
 };

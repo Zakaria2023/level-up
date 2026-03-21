@@ -6,28 +6,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
+import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../../educational-stage/constants";
-import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
+} from "../../educational-stage/constants";
+import { useEducationalStageStore } from "../../educational-stage/store/useEducationalStageStore";
 import { SECTION_SUPERVISOR_OPTIONS } from "../constants";
-import { useSchoolSectionConfigurationStore } from "../store/useSchoolSectionConfigurationStore";
-import type { SchoolSectionConfigurationRow } from "../types";
+import { useSchoolSectionStore } from "../store/useSchoolSectionStore";
+import type { SchoolSectionRow } from "../types";
 import {
-  addSchoolSectionConfigurationSchema,
-  type AddSchoolSectionConfigurationFormValues,
-} from "../validation/addSchoolSectionConfigurationSchema";
+  SchoolSectionSchema,
+  type SchoolSectionFormValues,
+} from "../validation/SchoolSectionSchema";
 
-type UseSchoolSectionConfigurationFormOptions = {
+type UseSchoolSectionFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
 };
 
-const getDefaultValues = (
-  row?: SchoolSectionConfigurationRow,
-): AddSchoolSectionConfigurationFormValues => ({
+const getDefaultValues = (row?: SchoolSectionRow): SchoolSectionFormValues => ({
   sectionName: row?.sectionName ?? "",
   schoolClassId: row ? String(row.schoolClassId) : "",
   defaultCapacity: row?.defaultCapacity ?? 30,
@@ -35,20 +33,18 @@ const getDefaultValues = (
   isActive: row?.isActive ?? false,
 });
 
-export const useSchoolSectionConfigurationForm = ({
+export const useSchoolSectionForm = ({
   mode = "create",
   rowId,
-}: UseSchoolSectionConfigurationFormOptions = {}) => {
+}: UseSchoolSectionFormOptions = {}) => {
   const router = useRouter();
-  const rows = useSchoolSectionConfigurationStore((state) => state.rows);
-  const addRow = useSchoolSectionConfigurationStore((state) => state.addRow);
-  const updateRow = useSchoolSectionConfigurationStore(
-    (state) => state.updateRow,
-  );
+  const rows = useSchoolSectionStore((state) => state.rows);
+  const addRow = useSchoolSectionStore((state) => state.addRow);
+  const updateRow = useSchoolSectionStore((state) => state.updateRow);
   const schoolClasses = useSchoolClassStore((state) => state.rows);
   const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);
-  const existingRow = useSchoolSectionConfigurationStore((state) =>
+  const existingRow = useSchoolSectionStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
       : undefined,
@@ -64,8 +60,8 @@ export const useSchoolSectionConfigurationForm = ({
     setError,
     clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm<AddSchoolSectionConfigurationFormValues>({
-    resolver: zodResolver(addSchoolSectionConfigurationSchema),
+  } = useForm<SchoolSectionFormValues>({
+    resolver: zodResolver(SchoolSectionSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -142,7 +138,7 @@ export const useSchoolSectionConfigurationForm = ({
     reset(getDefaultValues(existingRow));
   };
 
-  const onSubmit = async (values: AddSchoolSectionConfigurationFormValues) => {
+  const onSubmit = async (values: SchoolSectionFormValues) => {
     try {
       setServerError(null);
       clearErrors();
@@ -176,7 +172,7 @@ export const useSchoolSectionConfigurationForm = ({
         return;
       }
 
-      const nextRow: SchoolSectionConfigurationRow = {
+      const nextRow: SchoolSectionRow = {
         id:
           mode === "edit" && existingRow
             ? existingRow.id

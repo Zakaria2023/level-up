@@ -663,5 +663,22 @@
     "minimumPassingGrade": "Minimum Passing Grade",
     "isActive": "Is Active",
     "actions": "Actions"
+  },
+
+  "SchoolSectionDetails": {
+    "notFoundTitle": "School Section Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "School Section #{{id}}",
+    "subtitle": "Review the stored values for this school section record.",
+    "back": "Back",
+    "edit": "Edit",
+    "fields": {
+      "sectionName": "Section Name",
+      "schoolClass": "School Class",
+      "defaultCapacity": "Default Capacity",
+      "sectionSupervisor": "Section Supervisor",
+      "active": "Active"
+    }
   }
 }

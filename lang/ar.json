@@ -663,5 +663,22 @@
     "minimumPassingGrade": "الحد الأدنى لدرجة النجاح",
     "isActive": "نشط",
     "actions": "الإجراءات"
+  },
+
+  "SchoolSectionDetails": {
+    "notFoundTitle": "لم يتم العثور على الشعبة المدرسية",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "الشعبة المدرسية #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل الشعبة المدرسية هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "fields": {
+      "sectionName": "اسم الشعبة",
+      "schoolClass": "الصف المدرسي",
+      "defaultCapacity": "السعة الافتراضية",
+      "sectionSupervisor": "مشرف الشعبة",
+      "active": "نشط"
+    }
   }
 }

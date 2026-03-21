@@ -65,8 +65,8 @@ const schoolClassConfigurationLink: NavItem = {
 };
 
 const schoolSectionConfigurationLink: NavItem = {
-  href: "/school-section-configuration",
-  label: "School Section Configuration",
+  href: "/school-section",
+  label: "School Section",
 };
 
 const subjectConfigurationLink: NavItem = {

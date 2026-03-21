@@ -1,5 +1,6 @@
 import { renderBooleanValue } from "@/lib/utils/helpers";
-import type { SchoolSectionConfigurationRow } from "../types";
+import { TFunction } from "i18next";
+import type { SchoolSectionRow } from "../types";
 
 export const SECTION_SUPERVISOR_OPTIONS = [
   { label: "Anas Maria", value: "anas-maria" },
@@ -8,7 +9,7 @@ export const SECTION_SUPERVISOR_OPTIONS = [
   { label: "Lina Haddad", value: "lina-haddad" },
 ];
 
-export const SCHOOL_SECTION_CONFIGURATION_ROWS: SchoolSectionConfigurationRow[] = [
+export const SCHOOL_SECTION_ROWS: SchoolSectionRow[] = [
   {
     id: 1,
     sectionName: "Section A",
@@ -26,28 +27,29 @@ export const resolveSupervisorLabel = (supervisorName?: string) =>
   supervisorName?.trim() || "Supervisor not available";
 
 export const toDetailFields = (
-  row: SchoolSectionConfigurationRow,
+  row: SchoolSectionRow,
+  t: TFunction,
   schoolClassName?: string,
   supervisorName?: string,
 ) => [
   {
-    label: "Section Name",
+    label: t("SchoolSectionDetails.fields.sectionName"),
     value: row.sectionName,
   },
   {
-    label: "School Class",
+    label: t("SchoolSectionDetails.fields.schoolClass"),
     value: resolveSchoolClassLabel(schoolClassName),
   },
   {
-    label: "Default Capacity",
+    label: t("SchoolSectionDetails.fields.defaultCapacity"),
     value: String(row.defaultCapacity),
   },
   {
-    label: "Section Supervisor",
+    label: t("SchoolSectionDetails.fields.sectionSupervisor"),
     value: resolveSupervisorLabel(supervisorName),
   },
   {
-    label: "Active",
+    label: t("SchoolSectionDetails.fields.active"),
     value: renderBooleanValue(row.isActive),
   },
 ];
