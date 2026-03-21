@@ -15,6 +15,7 @@ export const ContactInformationDetails = ({
   rowId,
 }: ContactInformationDetailsProps) => {
   const { t } = useTranslation();
+  const primaryPhoneLabel = t("ContactInformationDetails.fields.primaryPhoneNumber");
 
   const row = useContactInformationStore((state) =>
     state.rows.find((item) => item.id === rowId)
@@ -63,7 +64,12 @@ export const ContactInformationDetails = ({
       >
         <div className="grid gap-4 md:grid-cols-2">
           {toDetailFields(row, t).map((field) => (
-            <DetailField key={field.label} label={field.label} value={field.value} />
+            <DetailField
+              key={field.label}
+              label={field.label}
+              value={field.value}
+              valueDir={field.label === primaryPhoneLabel ? "ltr" : undefined}
+            />
           ))}
         </div>
       </DashboardCard>

@@ -132,5 +132,21 @@
       "website": "الموقع الإلكتروني",
       "socialMediaLinks": "روابط وسائل التواصل الاجتماعي"
     }
+  },
+
+  "ContactInformationTable": {
+    "pageHeading": "معلومات التواصل",
+    "addContactInformation": "إضافة معلومات تواصل",
+    "searchPlaceholder": "ابحث في معلومات التواصل",
+    "emptyText": "لا توجد سجلات معلومات تواصل تطابق بحثك.",
+    "records": "سجل",
+    "country": "الدولة",
+    "city": "المدينة",
+    "detailedAddress": "العنوان التفصيلي",
+    "primaryPhoneNumber": "رقم الهاتف الأساسي",
+    "primaryEmail": "البريد الإلكتروني الأساسي",
+    "website": "الموقع الإلكتروني",
+    "socialMediaLinks": "روابط وسائل التواصل الاجتماعي",
+    "actions": "الإجراءات"
   }
 }

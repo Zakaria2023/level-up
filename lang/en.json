@@ -132,5 +132,21 @@
       "website": "Website",
       "socialMediaLinks": "Social Media Links"
     }
+  },
+
+  "ContactInformationTable": {
+    "pageHeading": "Contact Information",
+    "addContactInformation": "Add Contact Information",
+    "searchPlaceholder": "Search contact information",
+    "emptyText": "No contact information rows match your search.",
+    "records": "records",
+    "country": "Country",
+    "city": "City",
+    "detailedAddress": "Detailed Address",
+    "primaryPhoneNumber": "Primary Phone Number",
+    "primaryEmail": "Primary Email",
+    "website": "Website",
+    "socialMediaLinks": "Social Media Links",
+    "actions": "Actions"
   }
 }
