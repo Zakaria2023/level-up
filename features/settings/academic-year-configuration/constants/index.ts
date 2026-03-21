@@ -1,6 +1,13 @@
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import type { AcademicYearConfigurationRow } from "../types";
 
+export const ACADEMIC_YEAR_SEMESTER_OPTIONS = [
+  { label: "First Semester", value: "First Semester" },
+  { label: "Second Semester", value: "Second Semester" },
+  { label: "Third Semester", value: "Third Semester" },
+  { label: "Summer Semester", value: "Summer Semester" },
+];
+
 export const ACADEMIC_YEAR_CONFIGURATION_ROWS: AcademicYearConfigurationRow[] = [
   {
     id: 1,

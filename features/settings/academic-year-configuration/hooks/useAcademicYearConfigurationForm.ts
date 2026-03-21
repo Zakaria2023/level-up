@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useAcademicYearConfigurationStore } from "../store/useAcademicYearConfigurationStore";
 import type { AcademicYearConfigurationRow } from "../types";
 import {
@@ -50,11 +50,23 @@ export const useAcademicYearConfigurationForm = ({
     register,
     handleSubmit,
     reset,
+    control,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<AddAcademicYearConfigurationFormValues>({
     resolver: zodResolver(addAcademicYearConfigurationSchema),
     defaultValues: getDefaultValues(existingRow),
   });
+
+  const semestersValue = useWatch({
+    control,
+    name: "semesters",
+  });
+
+  const semesters = (semestersValue ?? "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
 
   useEffect(() => {
     if (mode !== "edit" || !existingRow) {
@@ -67,6 +79,13 @@ export const useAcademicYearConfigurationForm = ({
   const resetForm = () => {
     setServerError(null);
     reset(getDefaultValues(existingRow));
+  };
+
+  const setSemesters = (values: string[]) => {
+    setValue("semesters", values.join(", "), {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
   };
 
   const onSubmit = async (values: AddAcademicYearConfigurationFormValues) => {
@@ -122,5 +141,7 @@ export const useAcademicYearConfigurationForm = ({
     resetForm,
     existingRow,
     mode,
+    semesters,
+    setSemesters,
   };
 };

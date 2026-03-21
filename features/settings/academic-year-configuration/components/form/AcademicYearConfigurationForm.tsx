@@ -2,8 +2,10 @@
 
 import ServerError from "@/components/feedback/ServerError";
 import { DashboardCard } from "@/components/ui/DashboardCard";
+import MultiSelectDropdown from "@/components/ui/MultiSelectDropdown";
 import Input from "@/components/ui/Input";
 import Link from "next/link";
+import { ACADEMIC_YEAR_SEMESTER_OPTIONS } from "../../constants";
 import { useAcademicYearConfigurationForm } from "../../hooks/useAcademicYearConfigurationForm";
 
 type AcademicYearConfigurationFormProps = {
@@ -32,6 +34,8 @@ export const AcademicYearConfigurationForm = ({
     onSubmit,
     resetForm,
     existingRow,
+    semesters,
+    setSemesters,
   } = useAcademicYearConfigurationForm({
     mode,
     rowId,
@@ -93,15 +97,20 @@ export const AcademicYearConfigurationForm = ({
             {...register("academicYearName")}
           />
 
-          <Input
-            label="Semesters"
-            requiredMark
-            inputType="text"
-            placeholder="First Semester, Second Semester"
-            error={errors.semesters?.message}
-            disabled={isSubmitting}
-            {...register("semesters")}
-          />
+          <div>
+            <input type="hidden" {...register("semesters")} />
+            <MultiSelectDropdown
+              label="Semesters"
+              values={semesters}
+              onChange={setSemesters}
+              options={ACADEMIC_YEAR_SEMESTER_OPTIONS}
+              placeholder="Select semesters"
+              searchable
+              searchPlaceholder="Search semesters"
+              error={errors.semesters?.message}
+              disabled={isSubmitting}
+            />
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">

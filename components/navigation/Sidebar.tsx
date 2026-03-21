@@ -4,7 +4,13 @@ import { logoutAction } from "@/lib/cookies/logout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { FiCalendar, FiChevronDown, FiHome, FiLogOut } from "react-icons/fi";
+import {
+  FiBookOpen,
+  FiCalendar,
+  FiChevronDown,
+  FiHome,
+  FiLogOut,
+} from "react-icons/fi";
 import { SlSettings } from "react-icons/sl";
 
 interface Props {
@@ -29,6 +35,11 @@ const homeLink: NavItem = {
 const academicYearConfigurationLink: NavItem = {
   href: "/academic-year-configuration",
   label: "Academic Year Configuration",
+};
+
+const semesterConfigurationLink: NavItem = {
+  href: "/semester-configuration",
+  label: "Semester Configuration",
 };
 
 const isRouteActive = (pathname: string, href: string) => {
@@ -72,13 +83,20 @@ export const Sidebar = ({ onNavigate }: Props) => {
     currentPath,
     academicYearConfigurationLink.href
   );
+  const semesterConfigurationActive = isRouteActive(
+    currentPath,
+    semesterConfigurationLink.href
+  );
   const settingsSectionActive = settingsLinks.some((item) =>
     isRouteActive(currentPath, item.href)
   );
   const [settingsOpen, setSettingsOpen] = useState(settingsSectionActive);
   const isSettingsOpen =
     settingsSectionActive ||
-    (settingsOpen && !homeActive && !academicYearConfigurationActive);
+    (settingsOpen &&
+      !homeActive &&
+      !academicYearConfigurationActive &&
+      !semesterConfigurationActive);
 
   return (
     <div className="flex h-full flex-col bg-(--sidebar-bg) text-white">
@@ -128,6 +146,26 @@ export const Sidebar = ({ onNavigate }: Props) => {
               <FiCalendar size={16} />
             </span>
             <span>{academicYearConfigurationLink.label}</span>
+          </Link>
+
+          <Link
+            href={semesterConfigurationLink.href}
+            onClick={onNavigate}
+            className={[
+              "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition",
+              semesterConfigurationActive
+                ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+                : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+            ].join(" ")}
+          >
+            <span
+              className={
+                semesterConfigurationActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+              }
+            >
+              <FiBookOpen size={16} />
+            </span>
+            <span>{semesterConfigurationLink.label}</span>
           </Link>
 
           <div className="space-y-1.5">
