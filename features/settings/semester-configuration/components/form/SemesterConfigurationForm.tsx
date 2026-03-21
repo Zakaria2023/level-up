@@ -47,31 +47,31 @@ export const SemesterConfigurationForm = ({
 
   const resolvedTitle =
     title ??
-    (mode === "edit" ? "Edit Semester Configuration" : "Add Semester Configuration");
+    (mode === "edit" ? "Edit Semester" : "Add Semester");
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected semester configuration record."
-      : "Create a new semester configuration record and add it to the table.");
+      ? "Update the selected semester record."
+      : "Create a new semester record and add it to the table.");
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Configuration");
+    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save");
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit" && rowId
-      ? `/semester-configuration/${rowId}`
-      : "/semester-configuration");
+      ? `/semester/${rowId}`
+      : "/semester");
   const inputsDisabled = isSubmitting || !hasAcademicYearOptions;
 
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Semester Configuration Not Found"
+        title="Semester Not Found"
         subtitle="The requested record could not be loaded for editing."
         className="max-w-120"
       >
         <div className="flex justify-end">
           <Link
-            href="/semester-configuration"
+            href="/semester"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
             Back to Table
@@ -118,7 +118,7 @@ export const SemesterConfigurationForm = ({
 
         {!hasAcademicYearOptions ? (
           <div className="rounded-[20px] border border-(--border-color) bg-[#F8FDFF] px-4 py-3 text-sm font-medium text-(--muted-text)">
-            Add an academic year configuration first so you can link a semester to
+            Add an academic year first so you can link a semester to
             it.
           </div>
         ) : null}

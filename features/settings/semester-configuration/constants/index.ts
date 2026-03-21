@@ -1,7 +1,5 @@
-import type {
-  SemesterConfigurationRow,
-  SemesterEvaluationType,
-} from "../types";
+import { TFunction } from "i18next";
+import type { SemesterEvaluationType, SemesterRow } from "../types";
 
 export const SEMESTER_EVALUATION_TYPE_OPTIONS: {
   label: string;
@@ -12,7 +10,7 @@ export const SEMESTER_EVALUATION_TYPE_OPTIONS: {
   { label: "Final", value: "Final" },
 ];
 
-export const SEMESTER_CONFIGURATION_ROWS: SemesterConfigurationRow[] = [
+export const SEMESTER_ROWS: SemesterRow[] = [
   {
     id: 1,
     semesterName: "First Semester",
@@ -30,39 +28,40 @@ export const resolveAcademicYearLabel = (academicYearName?: string) =>
   academicYearName?.trim() || "Academic Year Not Available";
 
 export const toDetailFields = (
-  row: SemesterConfigurationRow,
+  row: SemesterRow,
+  t: TFunction,
   academicYearName?: string,
 ) => [
   {
-    label: "Semester Name",
+    label: t("SemesterDetails.fields.semesterName"),
     value: row.semesterName,
   },
   {
-    label: "Academic Year",
+    label: t("SemesterDetails.fields.academicYear"),
     value: resolveAcademicYearLabel(academicYearName),
   },
   {
-    label: "Semester Start Date",
+    label: t("SemesterDetails.fields.semesterStartDate"),
     value: row.semesterStartDate,
   },
   {
-    label: "Semester End Date",
+    label: t("SemesterDetails.fields.semesterEndDate"),
     value: row.semesterEndDate,
   },
   {
-    label: "Actual Lessons Start Date",
+    label: t("SemesterDetails.fields.actualLessonsStartDate"),
     value: row.actualLessonsStartDate,
   },
   {
-    label: "Actual Lessons End Date",
+    label: t("SemesterDetails.fields.actualLessonsEndDate"),
     value: row.actualLessonsEndDate,
   },
   {
-    label: "Final Exam Date",
+    label: t("SemesterDetails.fields.finalExamDate"),
     value: row.finalExamDate,
   },
   {
-    label: "Evaluation Type",
+    label: t("SemesterDetails.fields.evaluationType"),
     value: row.evaluationType,
   },
 ];

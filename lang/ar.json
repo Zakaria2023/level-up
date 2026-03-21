@@ -365,5 +365,25 @@
     "isActive": "نشط",
     "actions": "الإجراءات",
     "deleteBlockedMessage": "لا يمكن حذف هذا العام الدراسي لأنه مرتبط بسجل طالب نشط."
+  },
+
+  "SemesterDetails": {
+    "notFoundTitle": "لم يتم العثور على الفصل الدراسي",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "الفصل الدراسي #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل الفصل الدراسي هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "fields": {
+      "semesterName": "اسم الفصل الدراسي",
+      "academicYear": "العام الدراسي",
+      "semesterStartDate": "تاريخ بدء الفصل الدراسي",
+      "semesterEndDate": "تاريخ انتهاء الفصل الدراسي",
+      "actualLessonsStartDate": "تاريخ بدء الدروس الفعلي",
+      "actualLessonsEndDate": "تاريخ انتهاء الدروس الفعلي",
+      "finalExamDate": "تاريخ الامتحان النهائي",
+      "evaluationType": "نوع التقييم"
+    }
   }
 }

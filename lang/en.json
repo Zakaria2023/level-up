@@ -365,5 +365,25 @@
     "isActive": "Active",
     "actions": "Actions",
     "deleteBlockedMessage": "This academic year cannot be deleted because it is linked to an active student record."
+  },
+
+  "SemesterDetails": {
+    "notFoundTitle": "Semester Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "Semester #{{id}}",
+    "subtitle": "Review the stored values for this semester record.",
+    "back": "Back",
+    "edit": "Edit",
+    "fields": {
+      "semesterName": "Semester Name",
+      "academicYear": "Academic Year",
+      "semesterStartDate": "Semester Start Date",
+      "semesterEndDate": "Semester End Date",
+      "actualLessonsStartDate": "Actual Lessons Start Date",
+      "actualLessonsEndDate": "Actual Lessons End Date",
+      "finalExamDate": "Final Exam Date",
+      "evaluationType": "Evaluation Type"
+    }
   }
 }

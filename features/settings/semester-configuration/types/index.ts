@@ -1,6 +1,6 @@
 export type SemesterEvaluationType = "Monthly" | "Midterm" | "Final";
 
-export type SemesterConfigurationRow = {
+export type SemesterRow = {
   id: number;
   semesterName: string;
   academicYearId: number;

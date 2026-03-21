@@ -39,8 +39,8 @@ const SemesterConfigurationTable = () => {
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[180px_180px_150px_150px_190px_190px_150px_150px_120px]"
       headers={semesterConfigurationTableHeaders}
-      pageHeading="Semester Configuration"
-      addLinkHref="/semester-configuration/new"
+      pageHeading="Semester"
+      addLinkHref="/semester/new"
       addLinkLabel="Add Semester"
       enableSearch
       searchValue={searchValue}
@@ -48,8 +48,8 @@ const SemesterConfigurationTable = () => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search semester configuration"
-      emptyText="No semester configuration rows match your search."
+      searchPlaceholder="Search semester"
+      emptyText="No semester rows match your search."
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
           {filteredRows.length} records
@@ -67,8 +67,8 @@ const SemesterConfigurationTable = () => {
           <div>{item.evaluationType}</div>
           <div className="flex w-full justify-center">
             <DataTableAction
-              viewLink={`/semester-configuration/${item.id}`}
-              editLink={`/semester-configuration/${item.id}/edit`}
+              viewLink={`/semester/${item.id}`}
+              editLink={`/semester/${item.id}/edit`}
               onDeleteConfirm={() => deleteRow(item.id)}
             />
           </div>

@@ -45,8 +45,8 @@ const academicYearConfigurationLink: NavItem = {
 };
 
 const semesterConfigurationLink: NavItem = {
-  href: "/semester-configuration",
-  label: "Semester Configuration",
+  href: "/semester",
+  label: "Semester",
 };
 
 const academicYearStructureLink: NavItem = {

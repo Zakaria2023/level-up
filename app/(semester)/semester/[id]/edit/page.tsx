@@ -3,23 +3,23 @@ import { notFound } from "next/navigation";
 
 type Params = Promise<{ id: string }>;
 
-const SemesterConfigurationEditPage = async ({
+const SemesterEditPage = async ({
   params,
 }: {
   params: Params;
 }) => {
   const { id } = await params;
-  const semesterConfigurationId = Number(id);
+  const semesterId = Number(id);
 
-  if (!Number.isFinite(semesterConfigurationId) || semesterConfigurationId <= 0) {
+  if (!Number.isFinite(semesterId) || semesterId <= 0) {
     return notFound();
   }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#F6F8FB] px-4 py-10 sm:px-6">
-      <SemesterConfigurationForm mode="edit" rowId={semesterConfigurationId} />
+      <SemesterConfigurationForm mode="edit" rowId={semesterId} />
     </div>
   );
 };
 
-export default SemesterConfigurationEditPage;
+export default SemesterEditPage;

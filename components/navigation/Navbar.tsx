@@ -11,7 +11,7 @@ const pageTitleMap: Record<string, string> = {
   "settings/contact-information": "Contact Information",
   "settings/study-period-settings": "Study Period Settings",
   "academic-year": "Academic Year",
-  "semester-configuration": "Semester Configuration",
+  "semester": "Semester",
   "academic-year-structure": "Academic Year Structure",
   "educational-stage-configuration": "Educational Stage Configuration",
   "school-class-configuration": "School Class Configuration",

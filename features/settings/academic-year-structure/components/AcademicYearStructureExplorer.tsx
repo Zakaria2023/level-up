@@ -12,7 +12,7 @@ import { formatSchoolClassLabel } from "@/features/settings/school-class-configu
 import { useSchoolClassConfigurationStore } from "@/features/settings/school-class-configuration/store/useSchoolClassConfigurationStore";
 import { SECTION_SUPERVISOR_OPTIONS } from "@/features/settings/school-section-configuration/constants";
 import { useSchoolSectionConfigurationStore } from "@/features/settings/school-section-configuration/store/useSchoolSectionConfigurationStore";
-import { useSemesterConfigurationStore } from "@/features/settings/semester-configuration/store/useSemesterConfigurationStore";
+import { useSemesterStore } from "@/features/settings/semester-configuration/store/useSemesterStore";
 import { SUBJECT_TEACHER_OPTIONS } from "@/features/settings/subject-configuration/constants";
 import { useSubjectConfigurationStore } from "@/features/settings/subject-configuration/store/useSubjectConfigurationStore";
 import { Cairo } from "next/font/google";
@@ -43,7 +43,7 @@ const DetailPill = ({
 
 export default function AcademicYearStructureExplorer() {
   const academicYears = useAcademicYearStore((state) => state.rows);
-  const semesters = useSemesterConfigurationStore((state) => state.rows);
+  const semesters = useSemesterStore((state) => state.rows);
   const educationalStages = useEducationalStageConfigurationStore((state) => state.rows);
   const schoolClasses = useSchoolClassConfigurationStore((state) => state.rows);
   const schoolSections = useSchoolSectionConfigurationStore((state) => state.rows);

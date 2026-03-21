@@ -6,8 +6,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
 import { SEMESTER_EVALUATION_TYPE_OPTIONS } from "../constants";
-import { useSemesterConfigurationStore } from "../store/useSemesterConfigurationStore";
-import type { SemesterConfigurationRow } from "../types";
+import { useSemesterStore } from "../store/useSemesterStore";
+import type { SemesterRow } from "../types";
 import {
   addSemesterConfigurationSchema,
   type AddSemesterConfigurationFormValues,
@@ -19,7 +19,7 @@ type UseSemesterConfigurationFormOptions = {
 };
 
 const getDefaultValues = (
-  row?: SemesterConfigurationRow,
+  row?: SemesterRow,
 ): AddSemesterConfigurationFormValues => ({
   semesterName: row?.semesterName ?? "",
   academicYearId: row ? String(row.academicYearId) : "",
@@ -36,11 +36,11 @@ export const useSemesterConfigurationForm = ({
   rowId,
 }: UseSemesterConfigurationFormOptions = {}) => {
   const router = useRouter();
-  const rows = useSemesterConfigurationStore((state) => state.rows);
-  const addRow = useSemesterConfigurationStore((state) => state.addRow);
-  const updateRow = useSemesterConfigurationStore((state) => state.updateRow);
+  const rows = useSemesterStore((state) => state.rows);
+  const addRow = useSemesterStore((state) => state.addRow);
+  const updateRow = useSemesterStore((state) => state.updateRow);
   const academicYears = useAcademicYearStore((state) => state.rows);
-  const existingRow = useSemesterConfigurationStore((state) =>
+  const existingRow = useSemesterStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
       : undefined,
@@ -136,7 +136,7 @@ export const useSemesterConfigurationForm = ({
         return;
       }
 
-      const nextRow: SemesterConfigurationRow = {
+      const nextRow: SemesterRow = {
         id:
           mode === "edit" && existingRow
             ? existingRow.id
@@ -154,17 +154,15 @@ export const useSemesterConfigurationForm = ({
 
       if (mode === "edit") {
         updateRow(nextRow);
-        router.push(`/semester-configuration/${nextRow.id}`);
+        router.push(`/semester/${nextRow.id}`);
         return;
       }
 
       addRow(nextRow);
       reset(getDefaultValues());
-      router.push("/semester-configuration");
+      router.push("/semester");
     } catch {
-      setServerError(
-        "Unable to save the semester configuration. Please try again.",
-      );
+      setServerError("Unable to save the semester. Please try again.");
     }
   };
 
