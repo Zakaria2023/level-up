@@ -694,5 +694,45 @@
     "supervisor": "المشرف",
     "isActive": "نشط",
     "actions": "الإجراءات"
+  },
+
+  "SchoolSectionForm": {
+    "createTitle": "إضافة شعبة مدرسية",
+    "editTitle": "تعديل الشعبة المدرسية",
+    "createSubtitle": "أنشئ سجلاً جديداً للشعبة المدرسية وأضفه إلى الجدول.",
+    "editSubtitle": "قم بتحديث سجل الشعبة المدرسية المحدد.",
+    "save": "حفظ",
+    "saveChanges": "حفظ التغييرات",
+    "notFoundTitle": "لم يتم العثور على الشعبة المدرسية",
+    "notFoundSubtitle": "تعذر تحميل السجل المطلوب للتعديل.",
+    "backToTable": "العودة إلى الجدول",
+    "sectionName": "اسم الشعبة",
+    "sectionNamePlaceholder": "الشعبة أ",
+    "parentSchoolClass": "الصف المدرسي الأب",
+    "selectSchoolClass": "اختر الصف المدرسي",
+    "searchSchoolClass": "ابحث في الصف المدرسي",
+    "noSchoolClassMessage": "أضف صفاً مدرسياً أولاً حتى تتمكن من ربط شعبة مدرسية به.",
+    "defaultCapacity": "السعة الافتراضية",
+    "defaultCapacityPlaceholder": "30",
+    "sectionSupervisor": "مشرف الشعبة",
+    "selectSupervisor": "اختر المشرف",
+    "searchSupervisor": "ابحث عن المشرف",
+    "activation": "التفعيل",
+    "activeSection": "شعبة نشطة",
+    "activeDescription": "يتيح لك هذا الخيار تسجيل طلاب جدد وإضافة الأقساط المالية للطلاب.",
+    "reset": "إعادة تعيين",
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ..."
+  },
+  "SchoolSectionSchema": {
+    "errors": {
+      "sectionNameRequired": "اسم الشعبة مطلوب.",
+      "schoolClassRequired": "الصف المدرسي مطلوب.",
+      "defaultCapacityRequired": "السعة الافتراضية مطلوبة.",
+      "defaultCapacityInteger": "يجب أن تكون السعة الافتراضية رقماً صحيحاً.",
+      "defaultCapacityMin": "يجب أن تكون السعة الافتراضية 1 على الأقل.",
+      "defaultCapacityMax": "لا يمكن أن تتجاوز السعة الافتراضية 100.",
+      "supervisorRequired": "مشرف الشعبة مطلوب."
+    }
   }
 }

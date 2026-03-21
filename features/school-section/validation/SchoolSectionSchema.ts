@@ -1,17 +1,39 @@
+"use client";
+
 import { z } from "zod";
 
-export const SchoolSectionSchema = z.object({
-  sectionName: z.string().trim().min(1, "Section name is required."),
-  schoolClassId: z.string().trim().min(1, "School class is required."),
-  defaultCapacity: z
-    .number({
-      error: "Default capacity is required.",
-    })
-    .int("Default capacity must be a whole number.")
-    .min(1, "Default capacity must be at least 1.")
-    .max(100, "Default capacity cannot exceed 100."),
-  supervisorId: z.string().trim().min(1, "Section supervisor is required."),
-  isActive: z.boolean(),
-});
+export const createSchoolSectionSchema = (t: (key: string) => string) =>
+  z.object({
+    sectionName: z
+      .string()
+      .trim()
+      .min(1, t("SchoolSectionSchema.errors.sectionNameRequired")),
 
-export type SchoolSectionFormValues = z.infer<typeof SchoolSectionSchema>;
+    schoolClassId: z
+      .string()
+      .trim()
+      .min(1, t("SchoolSectionSchema.errors.schoolClassRequired")),
+
+    defaultCapacity: z
+      .number({
+        error: t("SchoolSectionSchema.errors.defaultCapacityRequired"),
+      })
+      .int(t("SchoolSectionSchema.errors.defaultCapacityInteger"))
+      .min(1, t("SchoolSectionSchema.errors.defaultCapacityMin"))
+      .max(100, t("SchoolSectionSchema.errors.defaultCapacityMax")),
+
+    supervisorId: z
+      .string()
+      .trim()
+      .min(1, t("SchoolSectionSchema.errors.supervisorRequired")),
+
+    isActive: z.boolean(),
+  });
+
+export type SchoolSectionFormValues = z.infer<
+  ReturnType<typeof createSchoolSectionSchema>
+>;
+
+export type SchoolSectionInput = z.input<
+  ReturnType<typeof createSchoolSectionSchema>
+>;

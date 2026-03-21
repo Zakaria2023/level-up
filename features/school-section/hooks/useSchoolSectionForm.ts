@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
@@ -16,7 +17,7 @@ import { SECTION_SUPERVISOR_OPTIONS } from "../constants";
 import { useSchoolSectionStore } from "../store/useSchoolSectionStore";
 import type { SchoolSectionRow } from "../types";
 import {
-  SchoolSectionSchema,
+  createSchoolSectionSchema,
   type SchoolSectionFormValues,
 } from "../validation/SchoolSectionSchema";
 
@@ -37,6 +38,8 @@ export const useSchoolSectionForm = ({
   mode = "create",
   rowId,
 }: UseSchoolSectionFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useSchoolSectionStore((state) => state.rows);
   const addRow = useSchoolSectionStore((state) => state.addRow);
@@ -50,6 +53,8 @@ export const useSchoolSectionForm = ({
       : undefined,
   );
   const [serverError, setServerError] = useState<string | null>(null);
+
+  const SchoolSectionSchema = createSchoolSectionSchema(t);
 
   const {
     register,
@@ -217,5 +222,6 @@ export const useSchoolSectionForm = ({
     schoolClassOptions,
     supervisorOptions: SECTION_SUPERVISOR_OPTIONS,
     hasSchoolClassOptions: schoolClassOptions.length > 0,
+    t,
   };
 };

@@ -694,5 +694,45 @@
     "supervisor": "Supervisor",
     "isActive": "Active",
     "actions": "Actions"
+  },
+
+  "SchoolSectionForm": {
+    "createTitle": "Add School Section",
+    "editTitle": "Edit School Section",
+    "createSubtitle": "Create a new school section record and add it to the table.",
+    "editSubtitle": "Update the selected school section record.",
+    "save": "Save",
+    "saveChanges": "Save Changes",
+    "notFoundTitle": "School Section Not Found",
+    "notFoundSubtitle": "The requested record could not be loaded for editing.",
+    "backToTable": "Back to Table",
+    "sectionName": "Section Name",
+    "sectionNamePlaceholder": "Section A",
+    "parentSchoolClass": "Parent School Class",
+    "selectSchoolClass": "Select school class",
+    "searchSchoolClass": "Search school class",
+    "noSchoolClassMessage": "Add a school class first so you can link a school section to it.",
+    "defaultCapacity": "Default Capacity",
+    "defaultCapacityPlaceholder": "30",
+    "sectionSupervisor": "Section Supervisor",
+    "selectSupervisor": "Select supervisor",
+    "searchSupervisor": "Search supervisor",
+    "activation": "Activation",
+    "activeSection": "Active Section",
+    "activeDescription": "This option allows you to register new students and add financial installments for students.",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "saving": "Saving..."
+  },
+  "SchoolSectionSchema": {
+    "errors": {
+      "sectionNameRequired": "Section name is required.",
+      "schoolClassRequired": "School class is required.",
+      "defaultCapacityRequired": "Default capacity is required.",
+      "defaultCapacityInteger": "Default capacity must be a whole number.",
+      "defaultCapacityMin": "Default capacity must be at least 1.",
+      "defaultCapacityMax": "Default capacity cannot exceed 100.",
+      "supervisorRequired": "Section supervisor is required."
+    }
   }
 }
