@@ -215,5 +215,61 @@
       "breakStartTime": "Break Start Time",
       "breakEndTime": "Break End Time"
     }
+  },
+
+  "StudyPeriodSettingsForm": {
+    "createTitle": "Add Study Period Settings",
+    "editTitle": "Edit Study Period Settings",
+    "createSubtitle": "Create a new study period settings record and add it to the table.",
+    "editSubtitle": "Update the selected study period settings record.",
+    "saveSettings": "Save Settings",
+    "saveChanges": "Save Changes",
+    "notFoundTitle": "Study Period Settings Not Found",
+    "notFoundSubtitle": "The requested record could not be loaded for editing.",
+    "backToTable": "Back to Table",
+    "studyPeriodCount": "Study Period Count",
+    "studyPeriodCountPlaceholder": "6",
+    "attendanceTracking": "Attendance Tracking",
+    "enableAttendanceRecording": "Enable Attendance Recording",
+    "periodTitle": "Period {{index}}",
+    "periodSubtitle": "Configure the class period details and optional break.",
+    "durationLabel": "Duration:",
+    "periodName": "Period Name",
+    "periodNamePlaceholder": "Period {{index}}",
+    "schoolDays": "School Days",
+    "selectSchoolDays": "Select school days",
+    "searchSchoolDays": "Search school days",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "automaticDuration": "Automatic duration:",
+    "addBreakAfterPeriod": "Add a break after this period",
+    "breakName": "Break Name",
+    "breakNamePlaceholder": "Morning Break",
+    "breakStartTime": "Break Start Time",
+    "breakEndTime": "Break End Time",
+    "automaticBreakDuration": "Automatic break duration:",
+    "reset": "Reset",
+    "cancel": "Cancel",
+    "saving": "Saving..."
+  },
+  "StudyPeriodSettingsSchema": {
+    "errors": {
+      "periodNameRequired": "Period name is required.",
+      "schoolDaysRequired": "Select at least one school day.",
+      "startTimeRequired": "Start time is required.",
+      "endTimeRequired": "End time is required.",
+      "endTimeAfterStart": "End time must be after the start time.",
+      "breakNameRequired": "Break name is required when a break is enabled.",
+      "breakStartTimeRequired": "Break start time is required when a break is enabled.",
+      "breakEndTimeRequired": "Break end time is required when a break is enabled.",
+      "breakEndTimeAfterStart": "Break end time must be after the break start time.",
+      "breakStartTimeAfterPeriodEnd": "Break start time must be at or after the period end time.",
+      "periodsCountRequired": "Periods count is required.",
+      "periodsCountInteger": "Periods count must be a whole number.",
+      "periodsCountMin": "At least one study period is required.",
+      "periodsCountMax": "Periods count cannot exceed 20.",
+      "periodsRequired": "Add at least one period.",
+      "periodsCountMatch": "Periods count must match the generated period rows."
+    }
   }
 }

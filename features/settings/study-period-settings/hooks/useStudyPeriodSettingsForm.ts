@@ -4,13 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { calculateDurationInMinutes, createEmptyStudyPeriod } from "../helpers";
 import { useStudyPeriodSettingsStore } from "../store/useStudyPeriodSettingsStore";
 import type { StudyPeriodItem, StudyPeriodSettingsRow } from "../types";
 import {
-  addStudyPeriodSettingsSchema,
-  type AddStudyPeriodSettingsFormValues,
-} from "../validation/addStudyPeriodSettingsSchema";
+  createStudyPeriodSettingsSchema,
+  StudyPeriodSettingsFormValues,
+} from "../validation/StudyPeriodSettingsSchema";
 
 type UseStudyPeriodSettingsFormOptions = {
   mode?: "create" | "edit";
@@ -30,7 +31,7 @@ const toFormPeriod = (period?: StudyPeriodItem) => ({
 
 const getDefaultValues = (
   row?: StudyPeriodSettingsRow,
-): AddStudyPeriodSettingsFormValues => ({
+): StudyPeriodSettingsFormValues => ({
   periodsCount: row?.periodsCount ?? 1,
   attendanceTrackingEnabled: row?.attendanceTrackingEnabled ?? false,
   periods: row?.periods.length
@@ -42,6 +43,8 @@ export const useStudyPeriodSettingsForm = ({
   mode = "create",
   rowId,
 }: UseStudyPeriodSettingsFormOptions = {}) => {
+  const { t } = useTranslation();
+
   const router = useRouter();
   const rows = useStudyPeriodSettingsStore((state) => state.rows);
   const addRow = useStudyPeriodSettingsStore((state) => state.addRow);
@@ -53,6 +56,8 @@ export const useStudyPeriodSettingsForm = ({
   );
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const studyPeriodSettingsSchema = createStudyPeriodSettingsSchema(t);
+
   const {
     control,
     register,
@@ -61,8 +66,8 @@ export const useStudyPeriodSettingsForm = ({
     getValues,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<AddStudyPeriodSettingsFormValues>({
-    resolver: zodResolver(addStudyPeriodSettingsSchema),
+  } = useForm<StudyPeriodSettingsFormValues>({
+    resolver: zodResolver(studyPeriodSettingsSchema),
     defaultValues: getDefaultValues(existingRow),
   });
 
@@ -113,10 +118,14 @@ export const useStudyPeriodSettingsForm = ({
   };
 
   const setPeriodSchoolDays = (index: number, schoolDays: string[]) => {
-    setValue(`periods.${index}.schoolDays`, schoolDays as StudyPeriodItem["schoolDays"], {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
+    setValue(
+      `periods.${index}.schoolDays`,
+      schoolDays as StudyPeriodItem["schoolDays"],
+      {
+        shouldDirty: true,
+        shouldValidate: true,
+      },
+    );
   };
 
   const syncBreakAfterPeriod = (index: number, enabled: boolean) => {
@@ -150,7 +159,7 @@ export const useStudyPeriodSettingsForm = ({
       periodValues?.[index]?.breakEndTime,
     );
 
-  const onSubmit = async (values: AddStudyPeriodSettingsFormValues) => {
+  const onSubmit = async (values: StudyPeriodSettingsFormValues) => {
     try {
       setServerError(null);
 
@@ -163,7 +172,8 @@ export const useStudyPeriodSettingsForm = ({
         id:
           mode === "edit" && existingRow
             ? existingRow.id
-            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) + 1,
+            : rows.reduce((highestId, row) => Math.max(highestId, row.id), 0) +
+              1,
         periodsCount: values.periodsCount,
         attendanceTrackingEnabled: values.attendanceTrackingEnabled,
         periods: values.periods.map((period) => ({
@@ -175,10 +185,15 @@ export const useStudyPeriodSettingsForm = ({
             calculateDurationInMinutes(period.startTime, period.endTime) ?? 0,
           hasBreakAfterPeriod: period.hasBreakAfterPeriod,
           breakName: period.hasBreakAfterPeriod ? period.breakName : "",
-          breakStartTime: period.hasBreakAfterPeriod ? period.breakStartTime : "",
+          breakStartTime: period.hasBreakAfterPeriod
+            ? period.breakStartTime
+            : "",
           breakEndTime: period.hasBreakAfterPeriod ? period.breakEndTime : "",
           breakDurationMinutes: period.hasBreakAfterPeriod
-            ? calculateDurationInMinutes(period.breakStartTime, period.breakEndTime)
+            ? calculateDurationInMinutes(
+                period.breakStartTime,
+                period.breakEndTime,
+              )
             : null,
         })),
       };
@@ -193,7 +208,9 @@ export const useStudyPeriodSettingsForm = ({
       reset(getDefaultValues());
       router.push("/settings/study-period-settings");
     } catch {
-      setServerError("Unable to save the study period settings. Please try again.");
+      setServerError(
+        "Unable to save the study period settings. Please try again.",
+      );
     }
   };
 
@@ -213,5 +230,6 @@ export const useStudyPeriodSettingsForm = ({
     syncBreakAfterPeriod,
     getPeriodDuration,
     getBreakDuration,
+    t,
   };
 };

@@ -215,5 +215,61 @@
       "breakStartTime": "وقت بدء الاستراحة",
       "breakEndTime": "وقت انتهاء الاستراحة"
     }
+  },
+
+  "StudyPeriodSettingsForm": {
+    "createTitle": "إضافة إعدادات الفترات الدراسية",
+    "editTitle": "تعديل إعدادات الفترات الدراسية",
+    "createSubtitle": "أنشئ سجلاً جديداً لإعدادات الفترات الدراسية وأضفه إلى الجدول.",
+    "editSubtitle": "قم بتحديث سجل إعدادات الفترات الدراسية المحدد.",
+    "saveSettings": "حفظ الإعدادات",
+    "saveChanges": "حفظ التغييرات",
+    "notFoundTitle": "لم يتم العثور على إعدادات الفترات الدراسية",
+    "notFoundSubtitle": "تعذر تحميل السجل المطلوب للتعديل.",
+    "backToTable": "العودة إلى الجدول",
+    "studyPeriodCount": "عدد الفترات الدراسية",
+    "studyPeriodCountPlaceholder": "6",
+    "attendanceTracking": "تتبع الحضور",
+    "enableAttendanceRecording": "تفعيل تسجيل الحضور",
+    "periodTitle": "الفترة {{index}}",
+    "periodSubtitle": "قم بإعداد تفاصيل الحصة الدراسية والاستراحة الاختيارية.",
+    "durationLabel": "المدة:",
+    "periodName": "اسم الفترة",
+    "periodNamePlaceholder": "الفترة {{index}}",
+    "schoolDays": "أيام الدراسة",
+    "selectSchoolDays": "اختر أيام الدراسة",
+    "searchSchoolDays": "ابحث في أيام الدراسة",
+    "startTime": "وقت البدء",
+    "endTime": "وقت الانتهاء",
+    "automaticDuration": "المدة التلقائية:",
+    "addBreakAfterPeriod": "إضافة استراحة بعد هذه الفترة",
+    "breakName": "اسم الاستراحة",
+    "breakNamePlaceholder": "استراحة الصباح",
+    "breakStartTime": "وقت بدء الاستراحة",
+    "breakEndTime": "وقت انتهاء الاستراحة",
+    "automaticBreakDuration": "مدة الاستراحة التلقائية:",
+    "reset": "إعادة تعيين",
+    "cancel": "إلغاء",
+    "saving": "جارٍ الحفظ..."
+  },
+  "StudyPeriodSettingsSchema": {
+    "errors": {
+      "periodNameRequired": "اسم الفترة مطلوب.",
+      "schoolDaysRequired": "اختر يوم دراسة واحداً على الأقل.",
+      "startTimeRequired": "وقت البدء مطلوب.",
+      "endTimeRequired": "وقت الانتهاء مطلوب.",
+      "endTimeAfterStart": "يجب أن يكون وقت الانتهاء بعد وقت البدء.",
+      "breakNameRequired": "اسم الاستراحة مطلوب عند تفعيل الاستراحة.",
+      "breakStartTimeRequired": "وقت بدء الاستراحة مطلوب عند تفعيل الاستراحة.",
+      "breakEndTimeRequired": "وقت انتهاء الاستراحة مطلوب عند تفعيل الاستراحة.",
+      "breakEndTimeAfterStart": "يجب أن يكون وقت انتهاء الاستراحة بعد وقت بدء الاستراحة.",
+      "breakStartTimeAfterPeriodEnd": "يجب أن يكون وقت بدء الاستراحة عند أو بعد نهاية الفترة.",
+      "periodsCountRequired": "عدد الفترات مطلوب.",
+      "periodsCountInteger": "يجب أن يكون عدد الفترات رقماً صحيحاً.",
+      "periodsCountMin": "مطلوب فترة دراسية واحدة على الأقل.",
+      "periodsCountMax": "لا يمكن أن يتجاوز عدد الفترات 20.",
+      "periodsRequired": "أضف فترة واحدة على الأقل.",
+      "periodsCountMatch": "يجب أن يطابق عدد الفترات عدد الصفوف التي تم إنشاؤها."
+    }
   }
 }

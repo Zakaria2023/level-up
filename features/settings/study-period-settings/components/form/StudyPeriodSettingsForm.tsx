@@ -43,20 +43,30 @@ export const StudyPeriodSettingsForm = ({
     syncBreakAfterPeriod,
     getPeriodDuration,
     getBreakDuration,
+    t
   } = useStudyPeriodSettingsForm({
     mode,
     rowId,
   });
 
   const resolvedTitle =
-    title ?? (mode === "edit" ? "Edit Study Period Settings" : "Add Study Period Settings");
+    title ??
+    (mode === "edit"
+      ? t("StudyPeriodSettingsForm.editTitle")
+      : t("StudyPeriodSettingsForm.createTitle"));
+
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected study period settings record."
-      : "Create a new study period settings record and add it to the table.");
+      ? t("StudyPeriodSettingsForm.editSubtitle")
+      : t("StudyPeriodSettingsForm.createSubtitle"));
+
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Settings");
+    submitLabel ??
+    (mode === "edit"
+      ? t("StudyPeriodSettingsForm.saveChanges")
+      : t("StudyPeriodSettingsForm.saveSettings"));
+
   const resolvedCancelHref =
     cancelHref ??
     (mode === "edit" && rowId
@@ -66,8 +76,8 @@ export const StudyPeriodSettingsForm = ({
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Study Period Settings Not Found"
-        subtitle="The requested record could not be loaded for editing."
+        title={t("StudyPeriodSettingsForm.notFoundTitle")}
+        subtitle={t("StudyPeriodSettingsForm.notFoundSubtitle")}
         className="max-w-120"
       >
         <div className="flex justify-end">
@@ -75,7 +85,7 @@ export const StudyPeriodSettingsForm = ({
             href="/settings/study-period-settings"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Back to Table
+            {t("StudyPeriodSettingsForm.backToTable")}
           </Link>
         </div>
       </DashboardCard>
@@ -92,10 +102,10 @@ export const StudyPeriodSettingsForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="grid gap-4 md:grid-cols-2">
           <Input
-            label="Study Period Count"
+            label={t("StudyPeriodSettingsForm.studyPeriodCount")}
             requiredMark
             inputType="number"
-            placeholder="6"
+            placeholder={t("StudyPeriodSettingsForm.studyPeriodCountPlaceholder")}
             min={1}
             max={20}
             error={errors.periodsCount?.message}
@@ -105,7 +115,7 @@ export const StudyPeriodSettingsForm = ({
 
           <div className="rounded-[20px] border border-(--border-color) bg-[#F8FDFF] p-4">
             <p className="text-[16px] font-semibold text-[#0E6B7A]">
-              Attendance Tracking
+              {t("StudyPeriodSettingsForm.attendanceTracking")}
             </p>
             <label className="mt-3 inline-flex items-center gap-3 rounded-xl border border-[#B8C9D8] bg-white px-4 py-3 text-[15px] font-medium text-[#244E62]">
               <input
@@ -114,7 +124,7 @@ export const StudyPeriodSettingsForm = ({
                 className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                 {...register("attendanceTrackingEnabled")}
               />
-              Enable Attendance Recording
+              {t("StudyPeriodSettingsForm.enableAttendanceRecording")}
             </label>
           </div>
         </div>
@@ -132,24 +142,27 @@ export const StudyPeriodSettingsForm = ({
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <h3 className="text-[16px] font-semibold text-[#0D3B52]">
-                      Period {index + 1}
+                      {t("StudyPeriodSettingsForm.periodTitle", { index: index + 1 })}
                     </h3>
                     <p className="text-sm text-[#97A6B6]">
-                      Configure the class period details and optional break.
+                      {t("StudyPeriodSettingsForm.periodSubtitle")}
                     </p>
                   </div>
 
                   <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-                    Duration: {formatDuration(getPeriodDuration(index))}
+                    {t("StudyPeriodSettingsForm.durationLabel")}{" "}
+                    {formatDuration(getPeriodDuration(index))}
                   </div>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <Input
-                    label="Period Name"
+                    label={t("StudyPeriodSettingsForm.periodName")}
                     requiredMark
                     inputType="text"
-                    placeholder={`Period ${index + 1}`}
+                    placeholder={t("StudyPeriodSettingsForm.periodNamePlaceholder", {
+                      index: index + 1,
+                    })}
                     error={errors.periods?.[index]?.periodName?.message}
                     disabled={isSubmitting}
                     {...register(`periods.${index}.periodName` as const)}
@@ -160,16 +173,16 @@ export const StudyPeriodSettingsForm = ({
                     name={`periods.${index}.schoolDays` as const}
                     render={({ field: fieldControl }) => (
                       <MultiSelectDropdown
-                        label="School Days"
+                        label={t("StudyPeriodSettingsForm.schoolDays")}
                         values={fieldControl.value ?? []}
                         onChange={(values) => {
                           fieldControl.onChange(values);
                           setPeriodSchoolDays(index, values);
                         }}
                         options={STUDY_PERIOD_DAY_OPTIONS}
-                        placeholder="Select school days"
+                        placeholder={t("StudyPeriodSettingsForm.selectSchoolDays")}
                         searchable
-                        searchPlaceholder="Search school days"
+                        searchPlaceholder={t("StudyPeriodSettingsForm.searchSchoolDays")}
                         error={errors.periods?.[index]?.schoolDays?.message as string | undefined}
                         disabled={isSubmitting}
                       />
@@ -179,7 +192,7 @@ export const StudyPeriodSettingsForm = ({
 
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
                   <Input
-                    label="Start Time"
+                    label={t("StudyPeriodSettingsForm.startTime")}
                     requiredMark
                     inputType="time"
                     error={errors.periods?.[index]?.startTime?.message}
@@ -188,7 +201,7 @@ export const StudyPeriodSettingsForm = ({
                   />
 
                   <Input
-                    label="End Time"
+                    label={t("StudyPeriodSettingsForm.endTime")}
                     requiredMark
                     inputType="time"
                     error={errors.periods?.[index]?.endTime?.message}
@@ -198,7 +211,7 @@ export const StudyPeriodSettingsForm = ({
                 </div>
 
                 <div className="mt-4 rounded-[18px] border border-(--border-color) bg-white p-4 text-sm text-(--muted-text)">
-                  Automatic duration:{" "}
+                  {t("StudyPeriodSettingsForm.automaticDuration")}{" "}
                   <span className="font-semibold text-(--foreground)">
                     {formatDuration(getPeriodDuration(index))}
                   </span>
@@ -221,7 +234,7 @@ export const StudyPeriodSettingsForm = ({
                           }}
                           className="h-4 w-4 rounded border border-[#C7D6E2] accent-[#29B5C5]"
                         />
-                        Add a break after this period
+                        {t("StudyPeriodSettingsForm.addBreakAfterPeriod")}
                       </label>
                     )}
                   />
@@ -231,10 +244,10 @@ export const StudyPeriodSettingsForm = ({
                   <div className="mt-4 space-y-4 rounded-[20px] border border-(--border-color) bg-white p-4">
                     <div className="grid gap-4 md:grid-cols-2">
                       <Input
-                        label="Break Name"
+                        label={t("StudyPeriodSettingsForm.breakName")}
                         requiredMark
                         inputType="text"
-                        placeholder="Morning Break"
+                        placeholder={t("StudyPeriodSettingsForm.breakNamePlaceholder")}
                         error={errors.periods?.[index]?.breakName?.message}
                         disabled={isSubmitting}
                         {...register(`periods.${index}.breakName` as const)}
@@ -243,7 +256,7 @@ export const StudyPeriodSettingsForm = ({
 
                     <div className="grid gap-4 md:grid-cols-2">
                       <Input
-                        label="Break Start Time"
+                        label={t("StudyPeriodSettingsForm.breakStartTime")}
                         requiredMark
                         inputType="time"
                         error={errors.periods?.[index]?.breakStartTime?.message}
@@ -252,7 +265,7 @@ export const StudyPeriodSettingsForm = ({
                       />
 
                       <Input
-                        label="Break End Time"
+                        label={t("StudyPeriodSettingsForm.breakEndTime")}
                         requiredMark
                         inputType="time"
                         error={errors.periods?.[index]?.breakEndTime?.message}
@@ -262,7 +275,7 @@ export const StudyPeriodSettingsForm = ({
                     </div>
 
                     <div className="rounded-[18px] border border-(--border-color) bg-[#F8FDFF] p-4 text-sm text-(--muted-text)">
-                      Automatic break duration:{" "}
+                      {t("StudyPeriodSettingsForm.automaticBreakDuration")}{" "}
                       <span className="font-semibold text-(--foreground)">
                         {formatDuration(getBreakDuration(index))}
                       </span>
@@ -283,7 +296,7 @@ export const StudyPeriodSettingsForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-6 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Reset
+            {t("StudyPeriodSettingsForm.reset")}
           </button>
 
           <Link
@@ -291,7 +304,7 @@ export const StudyPeriodSettingsForm = ({
             onClick={resetForm}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[#F3F5F8] px-8 text-[16px] font-semibold text-[#6B7A8D] transition hover:bg-[#ECEFF3]"
           >
-            Cancel
+            {t("StudyPeriodSettingsForm.cancel")}
           </Link>
 
           <button
@@ -299,7 +312,7 @@ export const StudyPeriodSettingsForm = ({
             disabled={isSubmitting}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--primary),var(--primary-strong))] px-6 text-[16px] font-semibold text-white shadow-[0_18px_36px_rgba(26,149,164,0.24)] transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? "Saving..." : resolvedSubmitLabel}
+            {isSubmitting ? t("StudyPeriodSettingsForm.saving") : resolvedSubmitLabel}
           </button>
         </div>
       </form>
