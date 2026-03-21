@@ -113,5 +113,24 @@
       "showLogoOnInvoices": "إظهار الشعار في الفواتير",
       "enableNotifications": "تفعيل الإشعارات"
     }
+  },
+
+  "ContactInformationDetails": {
+    "notFoundTitle": "لم يتم العثور على معلومات التواصل",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "معلومات التواصل #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل معلومات التواصل هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "fields": {
+      "country": "الدولة",
+      "city": "المدينة",
+      "detailedAddress": "العنوان التفصيلي",
+      "primaryPhoneNumber": "رقم الهاتف الأساسي",
+      "primaryEmail": "البريد الإلكتروني الأساسي",
+      "website": "الموقع الإلكتروني",
+      "socialMediaLinks": "روابط وسائل التواصل الاجتماعي"
+    }
   }
 }

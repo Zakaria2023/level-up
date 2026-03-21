@@ -113,5 +113,24 @@
       "showLogoOnInvoices": "Show Logo on Invoices",
       "enableNotifications": "Enable Notifications"
     }
+  },
+
+  "ContactInformationDetails": {
+    "notFoundTitle": "Contact Information Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "Contact Information #{{id}}",
+    "subtitle": "Review the stored values for this contact-information record.",
+    "back": "Back",
+    "edit": "Edit",
+    "fields": {
+      "country": "Country",
+      "city": "City",
+      "detailedAddress": "Detailed Address",
+      "primaryPhoneNumber": "Primary Phone Number",
+      "primaryEmail": "Primary Email",
+      "website": "Website",
+      "socialMediaLinks": "Social Media Links"
+    }
   }
 }

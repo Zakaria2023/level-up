@@ -1,3 +1,4 @@
+import { TFunction } from "i18next";
 import type { ContactInformationRow } from "../types";
 
 export const CONTACT_INFORMATION_ROWS: ContactInformationRow[] = [
@@ -13,33 +14,33 @@ export const CONTACT_INFORMATION_ROWS: ContactInformationRow[] = [
   },
 ];
 
-export const toDetailFields = (row: ContactInformationRow) => [
+export const toDetailFields = (row: ContactInformationRow, t: TFunction) => [
   {
-    label: "Country",
+    label: t("ContactInformationDetails.fields.country"),
     value: row.country,
   },
   {
-    label: "City",
+    label: t("ContactInformationDetails.fields.city"),
     value: row.city,
   },
   {
-    label: "Detailed Address",
+    label: t("ContactInformationDetails.fields.detailedAddress"),
     value: row.detailedAddress,
   },
   {
-    label: "Primary Phone Number",
+    label: t("ContactInformationDetails.fields.primaryPhoneNumber"),
     value: row.primaryPhoneNumber,
   },
   {
-    label: "Primary Email",
+    label: t("ContactInformationDetails.fields.primaryEmail"),
     value: row.primaryEmail,
   },
   {
-    label: "Website",
+    label: t("ContactInformationDetails.fields.website"),
     value: row.website,
   },
   {
-    label: "Social Media Links",
+    label: t("ContactInformationDetails.fields.socialMediaLinks"),
     value: row.socialMediaLinks,
   },
 ];
