@@ -734,5 +734,36 @@
       "defaultCapacityMax": "Default capacity cannot exceed 100.",
       "supervisorRequired": "Section supervisor is required."
     }
+  },
+
+  "SubjectDetails": {
+    "notFoundTitle": "Subject Not Found",
+    "notFoundSubtitle": "The requested record could not be found in the current session.",
+    "backToTable": "Back to Table",
+    "title": "Subject #{{id}}",
+    "subtitle": "Review the stored values for this subject record.",
+    "back": "Back",
+    "edit": "Edit",
+    "classSettingsTitle": "Class Settings",
+    "classSettingsSubtitle": "Weekly periods and duration by school class.",
+    "classSettingsValue": "{{weeklyPeriodsCount}} per week, {{periodDurationMinutes}} min",
+    "teachersTitle": "Teachers",
+    "teachersSubtitle": "Assigned teachers for this subject.",
+    "teacher": "Teacher",
+    "gradeBreakdownTitle": "Grade Breakdown",
+    "gradeBreakdownSubtitle": "Activities and their assigned percentages.",
+    "percentageValue": "{{percentage}}%",
+    "fields": {
+      "subjectName": "Subject Name",
+      "subjectType": "Subject Type",
+      "countsTowardAverage": "Counts Toward Average",
+      "minimumPassingGrade": "Minimum Passing Grade",
+      "requiresLab": "Requires Lab",
+      "hasQuestionBank": "Has Question Bank",
+      "teachingLanguage": "Teaching Language",
+      "teachers": "Teachers",
+      "schoolClasses": "School Classes",
+      "gradeBreakdown": "Grade Breakdown"
+    }
   }
 }

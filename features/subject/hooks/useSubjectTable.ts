@@ -4,12 +4,12 @@ import { formatSchoolClassLabel } from "@/features/school-class/constants";
 import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClassStore";
 import { renderBooleanValue } from "@/lib/utils/helpers";
 import { useMemo, useState } from "react";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
+import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../../educational-stage/constants";
-import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
+} from "../../educational-stage/constants";
+import { useEducationalStageStore } from "../../educational-stage/store/useEducationalStageStore";
 import {
   resolveSchoolClassLabel,
   resolveTeacherLabel,
@@ -18,13 +18,13 @@ import {
   summarizeGradeBreakdown,
   summarizeTeacherNames,
 } from "../constants";
-import { useSubjectConfigurationStore } from "../store/useSubjectConfigurationStore";
-import { SubjectConfigurationRow } from "../types";
+import { useSubjectStore } from "../store/useSubjectStore";
+import { SubjectRow } from "../types";
 
 const PAGE_SIZE = 5;
 
 const toSearchableValues = (
-  row: SubjectConfigurationRow,
+  row: SubjectRow,
   schoolClassMap: Map<number, string>,
   teacherMap: Map<string, string>,
 ) => [
@@ -40,9 +40,9 @@ const toSearchableValues = (
   row.teachingLanguage,
 ];
 
-export const useSubjectConfigurationTable = () => {
-  const rows = useSubjectConfigurationStore((state) => state.rows);
-  const deleteRow = useSubjectConfigurationStore((state) => state.deleteRow);
+export const useSubjectTable = () => {
+  const rows = useSubjectStore((state) => state.rows);
+  const deleteRow = useSubjectStore((state) => state.deleteRow);
   const schoolClasses = useSchoolClassStore((state) => state.rows);
   const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);

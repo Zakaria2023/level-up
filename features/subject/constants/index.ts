@@ -1,9 +1,6 @@
 import { renderBooleanValue } from "@/lib/utils/helpers";
-import type {
-  SubjectConfigurationRow,
-  SubjectGradeBreakdown,
-  SubjectType,
-} from "../types";
+import { TFunction } from "i18next";
+import type { SubjectGradeBreakdown, SubjectRow, SubjectType } from "../types";
 
 export const SUBJECT_TYPE_OPTIONS: { label: string; value: SubjectType }[] = [
   { label: "Core", value: "Core" },
@@ -17,7 +14,7 @@ export const SUBJECT_TEACHER_OPTIONS = [
   { label: "Rasha Hamdan", value: "rasha-hamdan" },
 ];
 
-export const SUBJECT_CONFIGURATION_ROWS: SubjectConfigurationRow[] = [
+export const SUBJECT_ROWS: SubjectRow[] = [
   {
     id: 1,
     subjectName: "Mathematics",
@@ -58,7 +55,7 @@ export const summarizeTeacherNames = (
     .join(", ");
 
 export const summarizeClassSettings = (
-  row: SubjectConfigurationRow,
+  row: SubjectRow,
   schoolClassMap: Map<number, string>,
 ) =>
   row.classSettings
@@ -78,48 +75,49 @@ export const summarizeGradeBreakdown = (
     .join(", ");
 
 export const toDetailFields = (
-  row: SubjectConfigurationRow,
+  row: SubjectRow,
+  t: TFunction,
   schoolClassMap: Map<number, string>,
   teacherMap: Map<string, string>,
 ) => [
   {
-    label: "Subject Name",
+    label: t("SubjectDetails.fields.subjectName"),
     value: row.subjectName,
   },
   {
-    label: "Subject Type",
+    label: t("SubjectDetails.fields.subjectType"),
     value: row.subjectType,
   },
   {
-    label: "Counts Toward Average",
+    label: t("SubjectDetails.fields.countsTowardAverage"),
     value: renderBooleanValue(row.countsTowardAverage),
   },
   {
-    label: "Minimum Passing Grade",
+    label: t("SubjectDetails.fields.minimumPassingGrade"),
     value: `${row.minimumPassingGrade}%`,
   },
   {
-    label: "Requires Lab",
+    label: t("SubjectDetails.fields.requiresLab"),
     value: renderBooleanValue(row.requiresLab),
   },
   {
-    label: "Has Question Bank",
+    label: t("SubjectDetails.fields.hasQuestionBank"),
     value: renderBooleanValue(row.hasQuestionBank),
   },
   {
-    label: "Teaching Language",
+    label: t("SubjectDetails.fields.teachingLanguage"),
     value: row.teachingLanguage,
   },
   {
-    label: "Teachers",
+    label: t("SubjectDetails.fields.teachers"),
     value: summarizeTeacherNames(row.teacherIds, teacherMap),
   },
   {
-    label: "School Classes",
+    label: t("SubjectDetails.fields.schoolClasses"),
     value: summarizeClassSettings(row, schoolClassMap),
   },
   {
-    label: "Grade Breakdown",
+    label: t("SubjectDetails.fields.gradeBreakdown"),
     value: summarizeGradeBreakdown(row.gradeBreakdown),
   },
 ];

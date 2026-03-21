@@ -6,25 +6,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
-import { useAcademicYearStore } from "../../../academic-year/store/useAcademicYearStore";
+import { useAcademicYearStore } from "../../academic-year/store/useAcademicYearStore";
 import {
   formatEducationalStageLabel,
   resolveAcademicYearLabel,
-} from "../../../educational-stage/constants";
-import { useEducationalStageStore } from "../../../educational-stage/store/useEducationalStageStore";
+} from "../../educational-stage/constants";
+import { useEducationalStageStore } from "../../educational-stage/store/useEducationalStageStore";
 import { SUBJECT_TEACHER_OPTIONS, SUBJECT_TYPE_OPTIONS } from "../constants";
-import { useSubjectConfigurationStore } from "../store/useSubjectConfigurationStore";
+import { useSubjectStore } from "../store/useSubjectStore";
 import type {
   SubjectClassSetting,
-  SubjectConfigurationRow,
   SubjectGradeBreakdown,
+  SubjectRow,
 } from "../types";
 import {
   addSubjectConfigurationSchema,
-  type AddSubjectConfigurationFormValues,
-} from "../validation/addSubjectConfigurationSchema";
+  type SubjectFormValues,
+} from "../validation/SubjectSchema";
 
-type UseSubjectConfigurationFormOptions = {
+type UseSubjectFormOptions = {
   mode?: "create" | "edit";
   rowId?: number;
 };
@@ -51,9 +51,7 @@ const toFormGradeBreakdown = (item?: SubjectGradeBreakdown) => ({
   percentage: item?.percentage ?? 0,
 });
 
-const getDefaultValues = (
-  row?: SubjectConfigurationRow,
-): AddSubjectConfigurationFormValues => ({
+const getDefaultValues = (row?: SubjectRow): SubjectFormValues => ({
   subjectName: row?.subjectName ?? "",
   subjectType: row?.subjectType ?? "Core",
   classSettings: row?.classSettings.length
@@ -70,18 +68,18 @@ const getDefaultValues = (
   teachingLanguage: row?.teachingLanguage ?? "",
 });
 
-export const useSubjectConfigurationForm = ({
+export const useSubjectForm = ({
   mode = "create",
   rowId,
-}: UseSubjectConfigurationFormOptions = {}) => {
+}: UseSubjectFormOptions = {}) => {
   const router = useRouter();
-  const rows = useSubjectConfigurationStore((state) => state.rows);
-  const addRow = useSubjectConfigurationStore((state) => state.addRow);
-  const updateRow = useSubjectConfigurationStore((state) => state.updateRow);
+  const rows = useSubjectStore((state) => state.rows);
+  const addRow = useSubjectStore((state) => state.addRow);
+  const updateRow = useSubjectStore((state) => state.updateRow);
   const schoolClasses = useSchoolClassStore((state) => state.rows);
   const educationalStages = useEducationalStageStore((state) => state.rows);
   const academicYears = useAcademicYearStore((state) => state.rows);
-  const existingRow = useSubjectConfigurationStore((state) =>
+  const existingRow = useSubjectStore((state) =>
     mode === "edit" && rowId
       ? state.rows.find((row) => row.id === rowId)
       : undefined,
@@ -97,7 +95,7 @@ export const useSubjectConfigurationForm = ({
     setError,
     clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm<AddSubjectConfigurationFormValues>({
+  } = useForm<SubjectFormValues>({
     resolver: zodResolver(addSubjectConfigurationSchema),
     defaultValues: getDefaultValues(existingRow),
   });
@@ -177,14 +175,10 @@ export const useSubjectConfigurationForm = ({
   }, [existingRow, mode, reset]);
 
   const setSubjectType = (value: string) => {
-    setValue(
-      "subjectType",
-      value as AddSubjectConfigurationFormValues["subjectType"],
-      {
-        shouldDirty: true,
-        shouldValidate: true,
-      },
-    );
+    setValue("subjectType", value as SubjectFormValues["subjectType"], {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
   };
 
   const setTeacherIds = (values: string[]) => {
@@ -211,7 +205,7 @@ export const useSubjectConfigurationForm = ({
     reset(getDefaultValues(existingRow));
   };
 
-  const onSubmit = async (values: AddSubjectConfigurationFormValues) => {
+  const onSubmit = async (values: SubjectFormValues) => {
     try {
       setServerError(null);
       clearErrors();
@@ -237,7 +231,7 @@ export const useSubjectConfigurationForm = ({
         return;
       }
 
-      const nextRow: SubjectConfigurationRow = {
+      const nextRow: SubjectRow = {
         id:
           mode === "edit" && existingRow
             ? existingRow.id

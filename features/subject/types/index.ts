@@ -11,7 +11,7 @@ export type SubjectGradeBreakdown = {
   percentage: number;
 };
 
-export type SubjectConfigurationRow = {
+export type SubjectRow = {
   id: number;
   subjectName: string;
   subjectType: SubjectType;

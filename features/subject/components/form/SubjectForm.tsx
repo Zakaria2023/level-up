@@ -8,9 +8,9 @@ import Input from "@/components/ui/Input";
 import MultiSelectDropdown from "@/components/ui/MultiSelectDropdown";
 import Link from "next/link";
 import { Controller } from "react-hook-form";
-import { useSubjectConfigurationForm } from "../../hooks/useSubjectConfigurationForm";
+import { useSubjectForm } from "../../hooks/useSubjectForm";
 
-type SubjectConfigurationFormProps = {
+type SubjectFormProps = {
   mode?: "create" | "edit";
   rowId?: number;
   title?: string;
@@ -19,14 +19,14 @@ type SubjectConfigurationFormProps = {
   cancelHref?: string;
 };
 
-export const SubjectConfigurationForm = ({
+export const SubjectForm = ({
   mode = "create",
   rowId,
   title,
   subtitle,
   submitLabel,
   cancelHref,
-}: SubjectConfigurationFormProps = {}) => {
+}: SubjectFormProps = {}) => {
   const {
     register,
     control,
@@ -53,20 +53,20 @@ export const SubjectConfigurationForm = ({
     gradeBreakdownValues,
     addGradeBreakdown,
     removeGradeBreakdown,
-  } = useSubjectConfigurationForm({
+  } = useSubjectForm({
     mode,
     rowId,
   });
 
   const resolvedTitle =
-    title ?? (mode === "edit" ? "Edit Subject Configuration" : "Add Subject Configuration");
+    title ?? (mode === "edit" ? "Edit Subject" : "Add Subject");
   const resolvedSubtitle =
     subtitle ??
     (mode === "edit"
-      ? "Update the selected subject configuration record."
-      : "Create a new subject configuration record and add it to the table.");
+      ? "Update the selected subject record."
+      : "Create a new subject record and add it to the table.");
   const resolvedSubmitLabel =
-    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save Configuration");
+    submitLabel ?? (mode === "edit" ? "Save Changes" : "Save");
   const resolvedCancelHref =
     cancelHref ?? (mode === "edit" && rowId ? `/subject-configuration/${rowId}` : "/subject-configuration");
   const inputsDisabled = isSubmitting || !hasSchoolClassOptions;
@@ -82,7 +82,7 @@ export const SubjectConfigurationForm = ({
   if (mode === "edit" && !existingRow) {
     return (
       <DashboardCard
-        title="Subject Configuration Not Found"
+        title="Subject Not Found"
         subtitle="The requested record could not be loaded for editing."
         className="max-w-120"
       >
@@ -152,7 +152,7 @@ export const SubjectConfigurationForm = ({
           )}
         />
 
-        <div className="rounded-[24px] border border-(--border-color) bg-[#F8FDFF] p-4">
+        <div className="rounded-3xl border border-(--border-color) bg-[#F8FDFF] p-4">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h3 className="text-[16px] font-semibold text-[#0D3B52]">
@@ -176,7 +176,7 @@ export const SubjectConfigurationForm = ({
 
           {!hasSchoolClassOptions ? (
             <div className="rounded-[20px] border border-(--border-color) bg-white px-4 py-3 text-sm font-medium text-(--muted-text)">
-              Add a school class configuration first so you can link this subject to
+              Add a school class first so you can link this subject to
               classes.
             </div>
           ) : null}
@@ -258,7 +258,7 @@ export const SubjectConfigurationForm = ({
           </div>
         </div>
 
-        <div className="rounded-[24px] border border-(--border-color) bg-[#F8FDFF] p-4">
+        <div className="rounded-3xl border border-(--border-color) bg-[#F8FDFF] p-4">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h3 className="text-[16px] font-semibold text-[#0D3B52]">

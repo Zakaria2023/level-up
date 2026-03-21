@@ -8,7 +8,7 @@ import {
   summarizeGradeBreakdown,
   summarizeTeacherNames,
 } from "../../constants";
-import { useSubjectConfigurationTable } from "../../hooks/useSubjectConfigurationTable";
+import { useSubjectTable } from "../../hooks/useSubjectTable";
 
 const trimValue = (value: string, maxLength: number) =>
   value.length > maxLength ? `${value.slice(0, maxLength)}...` : value;
@@ -43,7 +43,7 @@ const SubjectConfigurationTable = () => {
     currentPage,
     schoolClassMap,
     teacherMap,
-  } = useSubjectConfigurationTable();
+  } = useSubjectTable();
 
   return (
     <DataTable

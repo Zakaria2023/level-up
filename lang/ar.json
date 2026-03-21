@@ -734,5 +734,36 @@
       "defaultCapacityMax": "لا يمكن أن تتجاوز السعة الافتراضية 100.",
       "supervisorRequired": "مشرف الشعبة مطلوب."
     }
+  },
+
+  "SubjectDetails": {
+    "notFoundTitle": "لم يتم العثور على المادة",
+    "notFoundSubtitle": "تعذر العثور على السجل المطلوب في الجلسة الحالية.",
+    "backToTable": "العودة إلى الجدول",
+    "title": "المادة #{{id}}",
+    "subtitle": "راجع القيم المخزنة لسجل المادة هذا.",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "classSettingsTitle": "إعدادات الصفوف",
+    "classSettingsSubtitle": "عدد الحصص الأسبوعية والمدة حسب الصف المدرسي.",
+    "classSettingsValue": "{{weeklyPeriodsCount}} أسبوعياً، {{periodDurationMinutes}} دقيقة",
+    "teachersTitle": "المعلمون",
+    "teachersSubtitle": "المعلمون المعيّنون لهذه المادة.",
+    "teacher": "المعلم",
+    "gradeBreakdownTitle": "توزيع الدرجات",
+    "gradeBreakdownSubtitle": "الأنشطة والنسب المخصصة لها.",
+    "percentageValue": "{{percentage}}%",
+    "fields": {
+      "subjectName": "اسم المادة",
+      "subjectType": "نوع المادة",
+      "countsTowardAverage": "تُحتسب ضمن المعدل",
+      "minimumPassingGrade": "الحد الأدنى لدرجة النجاح",
+      "requiresLab": "تتطلب مختبراً",
+      "hasQuestionBank": "تحتوي على بنك أسئلة",
+      "teachingLanguage": "لغة التدريس",
+      "teachers": "المعلمون",
+      "schoolClasses": "الصفوف المدرسية",
+      "gradeBreakdown": "توزيع الدرجات"
+    }
   }
 }

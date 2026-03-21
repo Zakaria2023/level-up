@@ -3,10 +3,7 @@ import type { EducationalStageRow } from "@/features/educational-stage/types";
 import { SchoolClassRow } from "@/features/school-class/types";
 import type { SchoolSectionRow } from "@/features/school-section/types";
 import type { SemesterRow } from "@/features/semester/types";
-import type {
-  SubjectClassSetting,
-  SubjectConfigurationRow,
-} from "@/features/settings/subject-configuration/types";
+import type { SubjectClassSetting, SubjectRow } from "@/features/subject/types";
 
 export type AcademicYearStructureTimelineItem = {
   key: string;
@@ -14,7 +11,7 @@ export type AcademicYearStructureTimelineItem = {
   semester?: SemesterRow;
 };
 
-export type AcademicYearStructureSubjectItem = SubjectConfigurationRow & {
+export type AcademicYearStructureSubjectItem = SubjectRow & {
   classSetting?: SubjectClassSetting;
 };
 

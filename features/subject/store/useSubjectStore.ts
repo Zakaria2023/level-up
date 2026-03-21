@@ -2,20 +2,20 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { SUBJECT_CONFIGURATION_ROWS } from "../constants";
-import type { SubjectConfigurationRow } from "../types";
+import { SUBJECT_ROWS } from "../constants";
+import type { SubjectRow } from "../types";
 
-type SubjectConfigurationStore = {
-  rows: SubjectConfigurationRow[];
-  addRow: (newRow: SubjectConfigurationRow) => void;
-  updateRow: (updatedRow: SubjectConfigurationRow) => void;
+type SubjectStore = {
+  rows: SubjectRow[];
+  addRow: (newRow: SubjectRow) => void;
+  updateRow: (updatedRow: SubjectRow) => void;
   deleteRow: (id: number) => void;
 };
 
-export const useSubjectConfigurationStore = create<SubjectConfigurationStore>()(
+export const useSubjectStore = create<SubjectStore>()(
   persist(
     (set) => ({
-      rows: SUBJECT_CONFIGURATION_ROWS,
+      rows: SUBJECT_ROWS,
       addRow: (newRow) =>
         set((state) => ({
           rows: [newRow, ...state.rows],

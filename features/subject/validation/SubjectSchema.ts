@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const subjectTypeValues = ["Core", "Enrichment"] as const;
 
-const subjectClassSettingSchema = z.object({
+const SubjectSchema = z.object({
   schoolClassId: z.string().trim().min(1, "School class is required."),
   weeklyPeriodsCount: z
     .number({
@@ -37,9 +37,11 @@ export const addSubjectConfigurationSchema = z
       error: "Subject type is required.",
     }),
     classSettings: z
-      .array(subjectClassSettingSchema)
+      .array(SubjectSchema)
       .min(1, "Add at least one school class setting."),
-    teacherIds: z.array(z.string().trim()).min(1, "Select at least one teacher."),
+    teacherIds: z
+      .array(z.string().trim())
+      .min(1, "Select at least one teacher."),
     countsTowardAverage: z.boolean(),
     minimumPassingGrade: z
       .number({
@@ -52,7 +54,10 @@ export const addSubjectConfigurationSchema = z
       .min(1, "Add at least one grade breakdown row."),
     requiresLab: z.boolean(),
     hasQuestionBank: z.boolean(),
-    teachingLanguage: z.string().trim().min(1, "Teaching language is required."),
+    teachingLanguage: z
+      .string()
+      .trim()
+      .min(1, "Teaching language is required."),
   })
   .superRefine((values, context) => {
     const totalPercentage = values.gradeBreakdown.reduce(
@@ -69,6 +74,4 @@ export const addSubjectConfigurationSchema = z
     }
   });
 
-export type AddSubjectConfigurationFormValues = z.infer<
-  typeof addSubjectConfigurationSchema
->;
+export type SubjectFormValues = z.infer<typeof addSubjectConfigurationSchema>;

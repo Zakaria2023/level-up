@@ -11,8 +11,8 @@ import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClas
 import { SECTION_SUPERVISOR_OPTIONS } from "@/features/school-section/constants";
 import { useSchoolSectionStore } from "@/features/school-section/store/useSchoolSectionStore";
 import { useSemesterStore } from "@/features/semester/store/useSemesterStore";
-import { SUBJECT_TEACHER_OPTIONS } from "@/features/settings/subject-configuration/constants";
-import { useSubjectConfigurationStore } from "@/features/settings/subject-configuration/store/useSubjectConfigurationStore";
+import { SUBJECT_TEACHER_OPTIONS } from "@/features/subject/constants";
+import { useSubjectStore } from "@/features/subject/store/useSubjectStore";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { AcademicYearStructureData } from "../types";
@@ -26,7 +26,7 @@ export const useAcademicYearStructureExplorer =
     const educationalStages = useEducationalStageStore((state) => state.rows);
     const schoolClasses = useSchoolClassStore((state) => state.rows);
     const schoolSections = useSchoolSectionStore((state) => state.rows);
-    const subjects = useSubjectConfigurationStore((state) => state.rows);
+    const subjects = useSubjectStore((state) => state.rows);
 
     const [selectedAcademicYearId, setSelectedAcademicYearId] = useState("");
 
