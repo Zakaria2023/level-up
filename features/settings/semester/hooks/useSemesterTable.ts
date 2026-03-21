@@ -19,7 +19,7 @@ const toSearchableValues = (row: SemesterRow, academicYearName: string) => [
   row.evaluationType,
 ];
 
-export const useSemesterConfigurationTable = () => {
+export const useSemesterTable = () => {
   const rows = useSemesterStore((state) => state.rows);
   const deleteRow = useSemesterStore((state) => state.deleteRow);
   const academicYears = useAcademicYearStore((state) => state.rows);

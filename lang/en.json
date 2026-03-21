@@ -430,5 +430,22 @@
       "actualLessonsEndDateBeforeSemesterEnd": "Actual lessons end date must be on or before the semester end date.",
       "finalExamDateAfterLessonsEnd": "Final exam date must be on or after the actual lessons end date."
     }
+  },
+
+  "SemesterTable": {
+    "pageHeading": "Semester",
+    "addSemester": "Add Semester",
+    "searchPlaceholder": "Search semester",
+    "emptyText": "No semester rows match your search.",
+    "records": "records",
+    "semesterName": "Semester Name",
+    "academicYear": "Academic Year",
+    "semesterStartDate": "Semester Start Date",
+    "semesterEndDate": "Semester End Date",
+    "actualLessonsStartDate": "Actual Lessons Start Date",
+    "actualLessonsEndDate": "Actual Lessons End Date",
+    "finalExamDate": "Final Exam Date",
+    "evaluationType": "Evaluation Type",
+    "actions": "Actions"
   }
 }

@@ -1,5 +1,5 @@
-import SemesterConfigurationTable from "@/features/settings/semester/components/table/SemesterConfigurationTable";
+import SemesterTable from "@/features/settings/semester/components/table/SemesterTable";
 
-const SemesterPage = () => <SemesterConfigurationTable />;
+const SemesterPage = () => <SemesterTable />;
 
 export default SemesterPage;

@@ -2,23 +2,12 @@
 
 import DataTable from "@/components/data/DataTable";
 import DataTableAction from "@/components/data/DataTableAction";
-import { useSemesterConfigurationTable } from "../../hooks/useSemesterConfigurationTable";
+import { useTranslation } from "react-i18next";
+import { useSemesterTable } from "../../hooks/useSemesterTable";
 
-const semesterConfigurationTableHeaders = [
-  <span key="semesterName">semesterName</span>,
-  <span key="academicYear">academicYear</span>,
-  <span key="semesterStartDate">semesterStartDate</span>,
-  <span key="semesterEndDate">semesterEndDate</span>,
-  <span key="actualLessonsStartDate">actualLessonsStartDate</span>,
-  <span key="actualLessonsEndDate">actualLessonsEndDate</span>,
-  <span key="finalExamDate">finalExamDate</span>,
-  <span key="evaluationType">evaluationType</span>,
-  <span key="actions" className="block w-full text-center">
-    actions
-  </span>,
-];
+const SemesterTable = () => {
+  const { t } = useTranslation();
 
-const SemesterConfigurationTable = () => {
   const {
     paginatedRows,
     deleteRow,
@@ -31,28 +20,46 @@ const SemesterConfigurationTable = () => {
     filteredRows,
     currentPage,
     resolveAcademicYearName,
-  } = useSemesterConfigurationTable();
+  } = useSemesterTable();
+
+  const semesterTableHeaders = [
+    <span key="semesterName">{t("SemesterTable.semesterName")}</span>,
+    <span key="academicYear">{t("SemesterTable.academicYear")}</span>,
+    <span key="semesterStartDate">{t("SemesterTable.semesterStartDate")}</span>,
+    <span key="semesterEndDate">{t("SemesterTable.semesterEndDate")}</span>,
+    <span key="actualLessonsStartDate">
+      {t("SemesterTable.actualLessonsStartDate")}
+    </span>,
+    <span key="actualLessonsEndDate">
+      {t("SemesterTable.actualLessonsEndDate")}
+    </span>,
+    <span key="finalExamDate">{t("SemesterTable.finalExamDate")}</span>,
+    <span key="evaluationType">{t("SemesterTable.evaluationType")}</span>,
+    <span key="actions" className="block w-full text-center">
+      {t("SemesterTable.actions")}
+    </span>,
+  ];
 
   return (
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
       gridColsClass="grid-cols-[180px_180px_150px_150px_190px_190px_150px_150px_120px]"
-      headers={semesterConfigurationTableHeaders}
-      pageHeading="Semester"
+      headers={semesterTableHeaders}
+      pageHeading={t("SemesterTable.pageHeading")}
       addLinkHref="/semester/new"
-      addLinkLabel="Add Semester"
+      addLinkLabel={t("SemesterTable.addSemester")}
       enableSearch
       searchValue={searchValue}
       onSearchChange={(value) => {
         setSearchValue(value);
         setPage(0);
       }}
-      searchPlaceholder="Search semester"
-      emptyText="No semester rows match your search."
+      searchPlaceholder={t("SemesterTable.searchPlaceholder")}
+      emptyText={t("SemesterTable.emptyText")}
       headerActions={
         <div className="inline-flex h-10 items-center rounded-xl bg-(--primary-soft) px-4 text-sm font-semibold text-(--primary-strong)">
-          {filteredRows.length} records
+          {filteredRows.length} {t("SemesterTable.records")}
         </div>
       }
       renderRow={(item) => (
@@ -86,4 +93,4 @@ const SemesterConfigurationTable = () => {
   );
 };
 
-export default SemesterConfigurationTable;
+export default SemesterTable;
