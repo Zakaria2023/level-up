@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { ACCESS_TOKEN_COOKIE_NAME } from "./features/login/constants";
 
 const AUTH_PATH = "/login";
-export const ACCESS_TOKEN_COOKIE_NAME = "level_up_access_token";
 
 export async function proxy(request: NextRequest) {
   const accessToken = request.cookies.get(ACCESS_TOKEN_COOKIE_NAME)?.value;
