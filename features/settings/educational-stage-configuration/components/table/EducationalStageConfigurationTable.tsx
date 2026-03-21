@@ -33,7 +33,7 @@ const EducationalStageConfigurationTable = () => {
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
-      gridColsClass="grid-cols-[220px_190px_minmax(240px,1.4fr)_160px_120px]"
+      gridColsClass="grid-cols-[minmax(220px,1.4fr)_minmax(190px,1.1fr)_minmax(240px,1.5fr)_minmax(160px,1fr)_120px]"
       headers={educationalStageConfigurationTableHeaders}
       pageHeading="Educational Stage Configuration"
       addLinkHref="/educational-stage-configuration/new"

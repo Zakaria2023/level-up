@@ -34,7 +34,7 @@ const SchoolClassConfigurationTable = () => {
     <DataTable
       items={paginatedRows}
       getRowKey={(item) => item.id}
-      gridColsClass="grid-cols-[220px_220px_190px_160px_120px]"
+      gridColsClass="grid-cols-[minmax(220px,1.4fr)_minmax(220px,1.4fr)_minmax(190px,1.2fr)_minmax(160px,1fr)_120px]"
       headers={schoolClassConfigurationTableHeaders}
       pageHeading="School Class Configuration"
       addLinkHref="/school-class-configuration/new"
