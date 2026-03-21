@@ -2,69 +2,13 @@
 
 import ServerError from "@/components/feedback/ServerError";
 import Input from "@/components/ui/Input";
-import { ACCESS_TOKEN_COOKIE_NAME } from "@/features/login/constants";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Cookies from "js-cookie";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { FiArrowRight, FiEye, FiEyeOff } from "react-icons/fi";
-import { z } from "zod";
-import { createAccessToken } from "../../helpers";
-
-const loginSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .min(1, "Email is required.")
-    .email("Enter a valid email address."),
-  password: z
-    .string()
-    .min(1, "Password is required.")
-    .min(8, "Password must be at least 8 characters."),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { useLoginSubmit } from "../../hooks/useLoginSubmit";
 
 export const LoginForm = () => {
-  const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    clearErrors,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = async () => {
-    try {
-      clearErrors("root");
-
-      const accessToken = createAccessToken();
-
-      Cookies.set(ACCESS_TOKEN_COOKIE_NAME, accessToken, {
-        expires: 7,
-        path: "/",
-        sameSite: "lax",
-        secure: window.location.protocol === "https:",
-      });
-
-      router.replace("/");
-    } catch {
-      setError("root", {
-        type: "server",
-        message: "Unable to create a login session. Please try again.",
-      });
-    }
-  };
+  const { errors, handleSubmit, isSubmitting, onSubmit, register, setShowPassword, showPassword }
+    = useLoginSubmit()
 
   return (
     <section className="w-full max-w-110 rounded-[28px] border border-[#EDF4FA] bg-white p-6 shadow-[0_20px_45px_rgba(15,23,42,0.06)] sm:p-8">
