@@ -67,6 +67,7 @@ export type AcademicYearStructureHierarchyNode = {
 export type AcademicYearStructureFlowNodeData = {
   hierarchyNode: AcademicYearStructureHierarchyNode;
   isExpanded: boolean;
+  isCompact: boolean;
   onToggle: (nodeId: string) => void;
 };
 

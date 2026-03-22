@@ -39,8 +39,10 @@ type HierarchyEdge = {
   target: string;
 };
 
-const FLOW_NODE_WIDTH = 268;
-const FLOW_NODE_HEIGHT = 228;
+const DESKTOP_NODE_WIDTH = 268;
+const DESKTOP_NODE_HEIGHT = 228;
+const MOBILE_NODE_WIDTH = 208;
+const MOBILE_NODE_HEIGHT = 196;
 
 const nodeTypes = {
   structureNode: AcademicYearStructureFlowNode,
@@ -97,29 +99,33 @@ const buildFlowLayout = ({
   visibleNodes,
   visibleEdges,
   expandedNodeIds,
+  isCompact,
   onToggle,
 }: {
   visibleNodes: AcademicYearStructureHierarchyNode[];
   visibleEdges: HierarchyEdge[];
   expandedNodeIds: Set<string>;
+  isCompact: boolean;
   onToggle: (nodeId: string) => void;
 }) => {
   const graph = new dagre.graphlib.Graph();
+  const nodeWidth = isCompact ? MOBILE_NODE_WIDTH : DESKTOP_NODE_WIDTH;
+  const nodeHeight = isCompact ? MOBILE_NODE_HEIGHT : DESKTOP_NODE_HEIGHT;
 
   graph.setGraph({
     rankdir: "TB",
     ranker: "tight-tree",
-    ranksep: 56,
-    nodesep: 42,
-    marginx: 24,
-    marginy: 24,
+    ranksep: isCompact ? 34 : 56,
+    nodesep: isCompact ? 18 : 42,
+    marginx: isCompact ? 12 : 24,
+    marginy: isCompact ? 16 : 24,
   });
   graph.setDefaultEdgeLabel(() => ({}));
 
   visibleNodes.forEach((node) => {
     graph.setNode(node.id, {
-      width: FLOW_NODE_WIDTH,
-      height: FLOW_NODE_HEIGHT,
+      width: nodeWidth,
+      height: nodeHeight,
     });
   });
 
@@ -139,14 +145,15 @@ const buildFlowLayout = ({
         id: node.id,
         type: "structureNode",
         position: {
-          x: dagreNode.x - FLOW_NODE_WIDTH / 2,
-          y: dagreNode.y - FLOW_NODE_HEIGHT / 2,
+          x: dagreNode.x - nodeWidth / 2,
+          y: dagreNode.y - nodeHeight / 2,
         },
         sourcePosition: Position.Bottom,
         targetPosition: Position.Top,
         data: {
           hierarchyNode: node,
           isExpanded: expandedNodeIds.has(node.id),
+          isCompact,
           onToggle,
         },
       };
@@ -161,12 +168,12 @@ const buildFlowLayout = ({
       animated: false,
       interactionWidth: 0,
       pathOptions: {
-        borderRadius: 10,
-        offset: 18,
+        borderRadius: isCompact ? 8 : 10,
+        offset: isCompact ? 10 : 18,
       },
       style: {
         stroke: "#CDD7DF",
-        strokeWidth: 1.4,
+        strokeWidth: isCompact ? 1.2 : 1.4,
         strokeLinecap: "round",
         strokeLinejoin: "round",
       },
@@ -192,9 +199,31 @@ const AcademicYearStructureFlow = ({
   const [lastToggleMode, setLastToggleMode] = useState<
     "initial" | "expand" | "collapse"
   >("initial");
+  const [isMobile, setIsMobile] = useState(false);
+  const [viewportVersion, setViewportVersion] = useState(0);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
   const previousAcademicYearIdRef = useRef("");
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 640px)");
+    const handleViewportChange = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+    const handleResize = () => {
+      handleViewportChange();
+      setViewportVersion((currentVersion) => currentVersion + 1);
+    };
+
+    handleViewportChange();
+    mediaQuery.addEventListener("change", handleResize);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleResize);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const hierarchyRoot = useMemo<AcademicYearStructureHierarchyNode | undefined>(
     () => {
@@ -611,13 +640,30 @@ const AcademicYearStructureFlow = ({
       visibleNodes: visibleHierarchyNodes,
       visibleEdges: visibleHierarchyEdges,
       expandedNodeIds,
+      isCompact: isMobile,
       onToggle: handleToggle,
     });
-  }, [handleToggle, hierarchyRoot, yearScopedExpandedNodeIds]);
+  }, [handleToggle, hierarchyRoot, isMobile, yearScopedExpandedNodeIds]);
+
+  const fitViewConfig = useMemo(
+    () =>
+      isMobile
+        ? {
+            padding: 0.01,
+            minZoom: 0.2,
+            maxZoom: 1,
+          }
+        : {
+            padding: 0.05,
+            minZoom: 0.55,
+            maxZoom: 1.35,
+          },
+    [isMobile],
+  );
 
   const flowHeight = useMemo(
-    () => Math.max(620, layoutHeight + 80),
-    [layoutHeight],
+    () => Math.max(isMobile ? 460 : 620, layoutHeight + (isMobile ? 48 : 80)),
+    [isMobile, layoutHeight],
   );
 
   useEffect(() => {
@@ -638,9 +684,9 @@ const AcademicYearStructureFlow = ({
       innerFrameId = window.requestAnimationFrame(() => {
         reactFlowInstance.fitView({
           duration: 260,
-          padding: 0.05,
-          minZoom: 0.55,
-          maxZoom: 1.35,
+          padding: fitViewConfig.padding,
+          minZoom: fitViewConfig.minZoom,
+          maxZoom: fitViewConfig.maxZoom,
         });
       });
     });
@@ -651,11 +697,35 @@ const AcademicYearStructureFlow = ({
     };
   }, [
     fitViewVersion,
+    fitViewConfig,
     lastToggleMode,
     nodes.length,
     reactFlowInstance,
     selectedAcademicYearId,
   ]);
+
+  useEffect(() => {
+    if (!viewportVersion || !reactFlowInstance || !nodes.length) {
+      return;
+    }
+
+    let innerFrameId = 0;
+    const frameId = window.requestAnimationFrame(() => {
+      innerFrameId = window.requestAnimationFrame(() => {
+        reactFlowInstance.fitView({
+          duration: 220,
+          padding: fitViewConfig.padding,
+          minZoom: fitViewConfig.minZoom,
+          maxZoom: fitViewConfig.maxZoom,
+        });
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.cancelAnimationFrame(innerFrameId);
+    };
+  }, [fitViewConfig, nodes.length, reactFlowInstance, viewportVersion]);
 
   return (
     <div className="w-full space-y-5">
@@ -688,11 +758,11 @@ const AcademicYearStructureFlow = ({
             edges={edges}
             nodeTypes={nodeTypes}
             fitView
-            fitViewOptions={{ padding: 0.05, minZoom: 0.55, maxZoom: 1.35 }}
+            fitViewOptions={fitViewConfig}
             onInit={setReactFlowInstance}
             proOptions={{ hideAttribution: true }}
-            minZoom={0.45}
-            maxZoom={1.5}
+            minZoom={isMobile ? 0.2 : 0.45}
+            maxZoom={isMobile ? 1.2 : 1.5}
             nodesDraggable={false}
             nodesConnectable={false}
             elementsSelectable={false}
