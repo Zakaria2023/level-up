@@ -1,27 +1,25 @@
 "use client";
 
-import { DashboardCard } from "@/components/ui/DashboardCard";
 import Dropdown from "@/components/ui/Dropdown";
 import type { AcademicYearRow } from "@/features/academic-year/types";
 import {
-  Background,
-  Controls,
-  MarkerType,
-  MiniMap,
+  Position,
   ReactFlow,
   type Edge,
   type NodeTypes,
+  type ReactFlowInstance,
 } from "@xyflow/react";
-import { useMemo } from "react";
+import dagre from "dagre";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   AcademicYearStructureClassItem,
+  AcademicYearStructureDetailItem,
+  AcademicYearStructureFlowGraphNode,
+  AcademicYearStructureHierarchyNode,
   AcademicYearStructureStageItem,
 } from "../types";
-import AcademicYearStructureFlowNode, {
-  type AcademicYearStructureFlowGraphNode,
-  type AcademicYearStructureFlowNodeData,
-} from "./AcademicYearStructureFlowNode";
+import AcademicYearStructureFlowNode from "./AcademicYearStructureFlowNode";
 
 type AcademicYearStructureFlowProps = {
   academicYearOptions: {
@@ -34,55 +32,158 @@ type AcademicYearStructureFlowProps = {
   selectedYearSemesterNames: string[];
   stageStructure: AcademicYearStructureStageItem[];
   supervisorLabelMap: Map<string, string>;
-  teacherLabelMap: Map<string, string>;
 };
+
+type HierarchyEdge = {
+  source: string;
+  target: string;
+};
+
+const FLOW_NODE_WIDTH = 268;
+const FLOW_NODE_HEIGHT = 228;
 
 const nodeTypes = {
   structureNode: AcademicYearStructureFlowNode,
 } satisfies NodeTypes;
 
-// These fixed layout values keep the flow readable without bringing in a separate graph layout library.
-const NODE_HEIGHT = 188;
-const HORIZONTAL_GAP = 320;
-const VERTICAL_GAP = 48;
-const ROOT_X = 40;
+const countStageSections = (stageItem: AcademicYearStructureStageItem) =>
+  stageItem.classes.reduce(
+    (total, classItem) => total + classItem.sections.length,
+    0,
+  );
 
-const countLabel = (
-  count: number,
-  singular: string,
-  plural = `${singular}s`,
-) => `${count} ${count === 1 ? singular : plural}`;
+const countStageSubjects = (stageItem: AcademicYearStructureStageItem) =>
+  stageItem.classes.reduce(
+    (total, classItem) => total + classItem.subjects.length,
+    0,
+  );
 
-const getStackHeight = (count: number) =>
-  count > 0 ? count * NODE_HEIGHT + (count - 1) * VERTICAL_GAP : 0;
+const countUniqueSupervisors = (classItem: AcademicYearStructureClassItem) =>
+  new Set(
+    classItem.sections
+      .map((section) => section.supervisorId)
+      .filter(Boolean),
+  ).size;
 
-const getClassSubtreeHeight = (item: AcademicYearStructureClassItem) => {
-  const childCount = item.sections.length + item.subjects.length;
+const countTotalCapacity = (classItem: AcademicYearStructureClassItem) =>
+  classItem.sections.reduce(
+    (total, section) => total + section.defaultCapacity,
+    0,
+  );
 
-  return Math.max(NODE_HEIGHT, getStackHeight(childCount));
+const collectHierarchyNodeIds = (
+  node: AcademicYearStructureHierarchyNode,
+  nodeIds: string[] = [],
+) => {
+  nodeIds.push(node.id);
+  node.children.forEach((childNode) =>
+    collectHierarchyNodeIds(childNode, nodeIds),
+  );
+  return nodeIds;
 };
 
-const getStageSubtreeHeight = (item: AcademicYearStructureStageItem) => {
-  if (!item.classes.length) {
-    return NODE_HEIGHT;
+const collectVisibleHierarchy = (
+  node: AcademicYearStructureHierarchyNode,
+  expandedNodeIds: Set<string>,
+  nodes: AcademicYearStructureHierarchyNode[],
+  edges: HierarchyEdge[],
+) => {
+  nodes.push(node);
+
+  if (!expandedNodeIds.has(node.id)) {
+    return;
   }
 
-  const classHeights = item.classes.map(getClassSubtreeHeight);
-  const totalClassHeight =
-    classHeights.reduce((total, height) => total + height, 0) +
-    (classHeights.length - 1) * VERTICAL_GAP;
+  node.children.forEach((childNode) => {
+    edges.push({
+      source: node.id,
+      target: childNode.id,
+    });
 
-  return Math.max(NODE_HEIGHT, totalClassHeight);
+    collectVisibleHierarchy(childNode, expandedNodeIds, nodes, edges);
+  });
 };
 
-const getTopFromCenter = (centerY: number) => centerY - NODE_HEIGHT / 2;
+const buildFlowLayout = ({
+  visibleNodes,
+  visibleEdges,
+  expandedNodeIds,
+  onToggle,
+}: {
+  visibleNodes: AcademicYearStructureHierarchyNode[];
+  visibleEdges: HierarchyEdge[];
+  expandedNodeIds: Set<string>;
+  onToggle: (nodeId: string) => void;
+}) => {
+  const graph = new dagre.graphlib.Graph();
 
-const summarizeSemesterBadges = (semesterNames: string[]) => {
-  if (semesterNames.length <= 4) {
-    return semesterNames;
-  }
+  graph.setGraph({
+    rankdir: "TB",
+    ranker: "tight-tree",
+    ranksep: 56,
+    nodesep: 42,
+    marginx: 24,
+    marginy: 24,
+  });
+  graph.setDefaultEdgeLabel(() => ({}));
 
-  return [...semesterNames.slice(0, 4), `+${semesterNames.length - 4}`];
+  visibleNodes.forEach((node) => {
+    graph.setNode(node.id, {
+      width: FLOW_NODE_WIDTH,
+      height: FLOW_NODE_HEIGHT,
+    });
+  });
+
+  visibleEdges.forEach((edge) => {
+    graph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(graph);
+
+  const graphMetrics = graph.graph();
+
+  return {
+    nodes: visibleNodes.map<AcademicYearStructureFlowGraphNode>((node) => {
+      const dagreNode = graph.node(node.id);
+
+      return {
+        id: node.id,
+        type: "structureNode",
+        position: {
+          x: dagreNode.x - FLOW_NODE_WIDTH / 2,
+          y: dagreNode.y - FLOW_NODE_HEIGHT / 2,
+        },
+        sourcePosition: Position.Bottom,
+        targetPosition: Position.Top,
+        data: {
+          hierarchyNode: node,
+          isExpanded: expandedNodeIds.has(node.id),
+          onToggle,
+        },
+      };
+    }),
+    edges: visibleEdges.map<Edge>((edge) => ({
+      id: `${edge.source}-${edge.target}`,
+      source: edge.source,
+      target: edge.target,
+      type: "smoothstep",
+      selectable: false,
+      focusable: false,
+      animated: false,
+      interactionWidth: 0,
+      pathOptions: {
+        borderRadius: 10,
+        offset: 18,
+      },
+      style: {
+        stroke: "#CDD7DF",
+        strokeWidth: 1.4,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+      },
+    })),
+    layoutHeight: Math.ceil((graphMetrics.height ?? 0) + 48),
+  };
 };
 
 const AcademicYearStructureFlow = ({
@@ -93,411 +194,501 @@ const AcademicYearStructureFlow = ({
   selectedYearSemesterNames,
   stageStructure,
   supervisorLabelMap,
-  teacherLabelMap,
 }: AcademicYearStructureFlowProps) => {
   const { t } = useTranslation();
+  const [expandedNodeIdsByYear, setExpandedNodeIdsByYear] = useState<
+    Record<string, string[]>
+  >({});
+  const [fitViewVersion, setFitViewVersion] = useState(0);
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<ReactFlowInstance | null>(null);
 
-  const { nodes, edges } = useMemo(() => {
-    if (!stageStructure.length || !selectedAcademicYear) {
+  const hierarchyRoot = useMemo<AcademicYearStructureHierarchyNode | undefined>(
+    () => {
+      if (!selectedAcademicYear) {
+        return undefined;
+      }
+
+      const yearNodeId = `academic-year-${selectedAcademicYear.id}`;
+      const totalStages = stageStructure.length;
+      const totalGrades = stageStructure.reduce(
+        (total, stageItem) => total + stageItem.classes.length,
+        0,
+      );
+      const totalClasses = totalGrades;
+      const totalSections = stageStructure.reduce(
+        (total, stageItem) => total + countStageSections(stageItem),
+        0,
+      );
+
+      const stageNodes: AcademicYearStructureHierarchyNode[] = stageStructure.map(
+        (stageItem) => {
+          const stageNodeId = `stage-${stageItem.stage.id}`;
+          const stageSectionsCount = countStageSections(stageItem);
+          const stageSubjectsCount = countStageSubjects(stageItem);
+
+          const gradeNodes: AcademicYearStructureHierarchyNode[] =
+            stageItem.classes.map((classItem) => {
+              const gradeNodeId = `grade-${classItem.schoolClass.id}`;
+              const classNodeId = `class-${classItem.schoolClass.id}`;
+              const uniqueSupervisors = countUniqueSupervisors(classItem);
+              const classCapacity = countTotalCapacity(classItem);
+
+              const sectionNodes: AcademicYearStructureHierarchyNode[] =
+                classItem.sections.map((section) => ({
+                  id: `section-${section.id}`,
+                  parentId: classNodeId,
+                  kind: "section" as const,
+                  kindLabel: t("AcademicYearStructureExplorer.hierarchy.section"),
+                  childrenLabel: t("AcademicYearStructureExplorer.childrenLabel"),
+                  title: section.sectionName,
+                  subtitle:
+                    supervisorLabelMap.get(section.supervisorId) ??
+                    t("AcademicYearStructureExplorer.common.notAssigned"),
+                  status: section.isActive
+                    ? t("AcademicYearStructureExplorer.statuses.active")
+                    : t("AcademicYearStructureExplorer.statuses.inactive"),
+                  expandLabel: t("AcademicYearStructureExplorer.actions.expand"),
+                  collapseLabel: t(
+                    "AcademicYearStructureExplorer.actions.collapse",
+                  ),
+                  childrenCount: 0,
+                  quickStats: [
+                    {
+                      label: t("AcademicYearStructureExplorer.stats.capacity"),
+                      value: String(section.defaultCapacity),
+                    },
+                    {
+                      label: t("AcademicYearStructureExplorer.stats.supervisor"),
+                      value:
+                        supervisorLabelMap.get(section.supervisorId) ??
+                        t("AcademicYearStructureExplorer.common.notAssigned"),
+                    },
+                  ],
+                  detailItems: [
+                    {
+                      label: t(
+                        "AcademicYearStructureExplorer.details.sectionName",
+                      ),
+                      value: section.sectionName,
+                    },
+                    {
+                      label: t(
+                        "AcademicYearStructureExplorer.details.parentClass",
+                      ),
+                      value: classItem.schoolClass.className,
+                    },
+                    {
+                      label: t(
+                        "AcademicYearStructureExplorer.details.supervisor",
+                      ),
+                      value:
+                        supervisorLabelMap.get(section.supervisorId) ??
+                        t("AcademicYearStructureExplorer.common.notAssigned"),
+                    },
+                    {
+                      label: t(
+                        "AcademicYearStructureExplorer.details.defaultCapacity",
+                      ),
+                      value: String(section.defaultCapacity),
+                      valueDir: "ltr" as const,
+                    },
+                  ],
+                  children: [],
+                }));
+
+              const gradeDetailItems: AcademicYearStructureDetailItem[] = [
+                {
+                  label: t("AcademicYearStructureExplorer.details.parentStage"),
+                  value: stageItem.stage.stageName,
+                },
+                {
+                  label: t(
+                    "AcademicYearStructureExplorer.details.minimumPassingGrade",
+                  ),
+                  value: `${classItem.schoolClass.minimumPassingGrade}%`,
+                  valueDir: "ltr",
+                },
+                {
+                  label: t("AcademicYearStructureExplorer.details.linkedSections"),
+                  value: String(sectionNodes.length),
+                  valueDir: "ltr",
+                },
+                {
+                  label: t("AcademicYearStructureExplorer.details.linkedSubjects"),
+                  value: String(classItem.subjects.length),
+                  valueDir: "ltr",
+                },
+              ];
+
+              const classNode: AcademicYearStructureHierarchyNode = {
+                id: classNodeId,
+                parentId: gradeNodeId,
+                kind: "class",
+                kindLabel: t("AcademicYearStructureExplorer.hierarchy.class"),
+                childrenLabel: t("AcademicYearStructureExplorer.childrenLabel"),
+                title: t("AcademicYearStructureExplorer.generatedClass.title"),
+                subtitle: classItem.schoolClass.className,
+                status: sectionNodes.length
+                  ? t("AcademicYearStructureExplorer.statuses.ready")
+                  : t("AcademicYearStructureExplorer.statuses.empty"),
+                expandLabel: t("AcademicYearStructureExplorer.actions.expand"),
+                collapseLabel: t(
+                  "AcademicYearStructureExplorer.actions.collapse",
+                ),
+                childrenCount: sectionNodes.length,
+                quickStats: [
+                  {
+                    label: t("AcademicYearStructureExplorer.stats.sections"),
+                    value: String(sectionNodes.length),
+                  },
+                  {
+                    label: t("AcademicYearStructureExplorer.stats.capacity"),
+                    value: String(classCapacity),
+                  },
+                  {
+                    label: t("AcademicYearStructureExplorer.stats.supervisors"),
+                    value: String(uniqueSupervisors),
+                  },
+                ],
+                detailItems: [
+                  {
+                    label: t("AcademicYearStructureExplorer.details.parentGrade"),
+                    value: classItem.schoolClass.className,
+                  },
+                  {
+                    label: t("AcademicYearStructureExplorer.details.classRollup"),
+                    value: t(
+                      "AcademicYearStructureExplorer.generatedClass.description",
+                    ),
+                  },
+                  {
+                    label: t("AcademicYearStructureExplorer.details.linkedSections"),
+                    value: String(sectionNodes.length),
+                    valueDir: "ltr" as const,
+                  },
+                  {
+                    label: t("AcademicYearStructureExplorer.details.linkedSubjects"),
+                    value: String(classItem.subjects.length),
+                    valueDir: "ltr" as const,
+                  },
+                ],
+                children: sectionNodes,
+              };
+
+              return {
+                id: gradeNodeId,
+                parentId: stageNodeId,
+                kind: "grade" as const,
+                kindLabel: t("AcademicYearStructureExplorer.hierarchy.grade"),
+                childrenLabel: t("AcademicYearStructureExplorer.childrenLabel"),
+                title: classItem.schoolClass.className,
+                subtitle: stageItem.stage.stageName,
+                status: classItem.schoolClass.isActive
+                  ? t("AcademicYearStructureExplorer.statuses.active")
+                  : t("AcademicYearStructureExplorer.statuses.inactive"),
+                expandLabel: t("AcademicYearStructureExplorer.actions.expand"),
+                collapseLabel: t(
+                  "AcademicYearStructureExplorer.actions.collapse",
+                ),
+                childrenCount: 1,
+                quickStats: [
+                  {
+                    label: t("AcademicYearStructureExplorer.stats.passGrade"),
+                    value: `${classItem.schoolClass.minimumPassingGrade}%`,
+                  },
+                  {
+                    label: t("AcademicYearStructureExplorer.stats.sections"),
+                    value: String(sectionNodes.length),
+                  },
+                  {
+                    label: t("AcademicYearStructureExplorer.stats.subjects"),
+                    value: String(classItem.subjects.length),
+                  },
+                ],
+                detailItems: gradeDetailItems,
+                children: [classNode],
+              };
+            });
+
+          return {
+            id: stageNodeId,
+            parentId: yearNodeId,
+            kind: "stage" as const,
+            kindLabel: t("AcademicYearStructureExplorer.hierarchy.stage"),
+            childrenLabel: t("AcademicYearStructureExplorer.childrenLabel"),
+            title: stageItem.stage.stageName,
+            subtitle: stageItem.stage.teachingLanguage,
+            status: t("AcademicYearStructureExplorer.statuses.configured"),
+            expandLabel: t("AcademicYearStructureExplorer.actions.expand"),
+            collapseLabel: t("AcademicYearStructureExplorer.actions.collapse"),
+            childrenCount: gradeNodes.length,
+            quickStats: [
+              {
+                label: t("AcademicYearStructureExplorer.stats.grades"),
+                value: String(gradeNodes.length),
+              },
+              {
+                label: t("AcademicYearStructureExplorer.stats.sections"),
+                value: String(stageSectionsCount),
+              },
+              {
+                label: t("AcademicYearStructureExplorer.stats.subjects"),
+                value: String(stageSubjectsCount),
+              },
+            ],
+            detailItems: [
+              {
+                label: t("AcademicYearStructureExplorer.details.academicYear"),
+                value: selectedAcademicYear.academicYearName,
+              },
+              {
+                label: t("AcademicYearStructureExplorer.details.teachingLanguage"),
+                value: stageItem.stage.teachingLanguage,
+              },
+              {
+                label: t(
+                  "AcademicYearStructureExplorer.details.requiredEnrollmentAge",
+                ),
+                value: String(stageItem.stage.requiredEnrollmentAge),
+                valueDir: "ltr" as const,
+              },
+              {
+                label: t("AcademicYearStructureExplorer.details.mixedStage"),
+                value: stageItem.stage.isMixedStage
+                  ? t("AcademicYearStructureExplorer.common.yes")
+                  : t("AcademicYearStructureExplorer.common.no"),
+              },
+            ],
+            children: gradeNodes,
+          };
+        },
+      );
+
       return {
-        nodes: [] as AcademicYearStructureFlowGraphNode[],
-        edges: [] as Edge[],
+        id: yearNodeId,
+        kind: "academicYear",
+        kindLabel: t("AcademicYearStructureExplorer.hierarchy.academicYear"),
+        childrenLabel: t("AcademicYearStructureExplorer.childrenLabel"),
+        title: selectedAcademicYear.academicYearName,
+        subtitle: `${selectedAcademicYear.startDate} - ${selectedAcademicYear.endDate}`,
+        status: selectedAcademicYear.isActive
+          ? t("AcademicYearStructureExplorer.statuses.active")
+          : t("AcademicYearStructureExplorer.statuses.inactive"),
+        expandLabel: t("AcademicYearStructureExplorer.actions.expand"),
+        collapseLabel: t("AcademicYearStructureExplorer.actions.collapse"),
+        childrenCount: stageNodes.length,
+        quickStats: [
+          {
+            label: t("AcademicYearStructureExplorer.stats.semesters"),
+            value: String(selectedYearSemesterNames.length),
+          },
+          {
+            label: t("AcademicYearStructureExplorer.stats.stages"),
+            value: String(totalStages),
+          },
+          {
+            label: t("AcademicYearStructureExplorer.stats.sections"),
+            value: String(totalSections),
+          },
+        ],
+        detailItems: [
+          {
+            label: t("AcademicYearStructureExplorer.details.academicYearRange"),
+            value: t("AcademicYearStructureExplorer.range", {
+              start: selectedAcademicYear.startDate,
+              end: selectedAcademicYear.endDate,
+            }),
+            valueDir: "ltr" as const,
+          },
+          {
+            label: t("AcademicYearStructureExplorer.details.registrationRange"),
+            value: t("AcademicYearStructureExplorer.range", {
+              start: selectedAcademicYear.registrationStartDate,
+              end: selectedAcademicYear.registrationEndDate,
+            }),
+            valueDir: "ltr" as const,
+          },
+          {
+            label: t("AcademicYearStructureExplorer.details.linkedSemesters"),
+            value:
+              selectedYearSemesterNames.join(", ") ||
+              t("AcademicYearStructureExplorer.common.notAssigned"),
+          },
+          {
+            label: t("AcademicYearStructureExplorer.details.hierarchyDepth"),
+            value: `${totalStages} / ${totalGrades} / ${totalClasses} / ${totalSections}`,
+            valueDir: "ltr" as const,
+          },
+        ],
+        children: stageNodes,
       };
+    },
+    [
+      selectedAcademicYear,
+      selectedYearSemesterNames,
+      stageStructure,
+      supervisorLabelMap,
+      t,
+    ],
+  );
+
+  const defaultExpandedNodeIds = useMemo(() => {
+    if (!hierarchyRoot) {
+      return [];
     }
 
-    const flowNodes: AcademicYearStructureFlowGraphNode[] = [];
-    const flowEdges: Edge[] = [];
+    return collectHierarchyNodeIds(hierarchyRoot);
+  }, [hierarchyRoot]);
 
-    const totalClasses = stageStructure.reduce(
-      (total, stageItem) => total + stageItem.classes.length,
-      0,
-    );
-    const totalSections = stageStructure.reduce(
-      (total, stageItem) =>
-        total +
-        stageItem.classes.reduce(
-          (classTotal, classItem) => classTotal + classItem.sections.length,
-          0,
-        ),
-      0,
-    );
-    const totalSubjects = stageStructure.reduce(
-      (total, stageItem) =>
-        total +
-        stageItem.classes.reduce(
-          (classTotal, classItem) => classTotal + classItem.subjects.length,
-          0,
-        ),
-      0,
-    );
+  const yearScopedExpandedNodeIds = useMemo(() => {
+    if (!hierarchyRoot || !selectedAcademicYearId) {
+      return [];
+    }
 
-    const stageHeights = stageStructure.map(getStageSubtreeHeight);
-    const totalStructureHeight =
-      stageHeights.reduce((total, height) => total + height, 0) +
-      (stageHeights.length - 1) * VERTICAL_GAP;
-    const yearCenterY = totalStructureHeight / 2;
-    const yearNodeId = `academic-year-${selectedAcademicYear.id}`;
+    return Object.prototype.hasOwnProperty.call(
+      expandedNodeIdsByYear,
+      selectedAcademicYearId,
+    )
+      ? expandedNodeIdsByYear[selectedAcademicYearId]
+      : defaultExpandedNodeIds;
+  }, [
+    defaultExpandedNodeIds,
+    expandedNodeIdsByYear,
+    hierarchyRoot,
+    selectedAcademicYearId,
+  ]);
 
-    // The root node anchors the full graph and gives context for the chosen academic year.
-    flowNodes.push({
-      id: yearNodeId,
-      type: "structureNode",
-      position: {
-        x: ROOT_X,
-        y: getTopFromCenter(yearCenterY),
-      },
-      data: {
-        category: t("AcademicYearStructureExplorer.centerCard.academicYear"),
-        title: selectedAcademicYear.academicYearName,
-        subtitle: t("AcademicYearStructureExplorer.range", {
-          start: selectedAcademicYear.startDate,
-          end: selectedAcademicYear.endDate,
-        }),
-        badges: summarizeSemesterBadges(selectedYearSemesterNames),
-        lines: [
-          t("AcademicYearStructureExplorer.range", {
-            start: selectedAcademicYear.registrationStartDate,
-            end: selectedAcademicYear.registrationEndDate,
-          }),
-          t("AcademicYearStructureExplorer.summaryValue", {
-            semesters: countLabel(
-              selectedYearSemesterNames.length,
-              t("AcademicYearStructureExplorer.counts.semesterSingular"),
-              t("AcademicYearStructureExplorer.counts.semesterPlural"),
-            ),
-            stages: countLabel(
-              stageStructure.length,
-              t("AcademicYearStructureExplorer.counts.stageSingular"),
-              t("AcademicYearStructureExplorer.counts.stagePlural"),
-            ),
-            classes: countLabel(
-              totalClasses,
-              t("AcademicYearStructureExplorer.counts.classSingular"),
-              t("AcademicYearStructureExplorer.counts.classPlural"),
-            ),
-          }),
-          `${countLabel(
-            totalSections,
-            t("AcademicYearStructureExplorer.counts.sectionSingular"),
-            t("AcademicYearStructureExplorer.counts.sectionPlural"),
-          )}, ${countLabel(
-            totalSubjects,
-            t("AcademicYearStructureExplorer.counts.subjectSingular"),
-            t("AcademicYearStructureExplorer.counts.subjectPlural"),
-          )}`,
-        ],
-        tone: "academicYear",
-        showTarget: false,
-      },
-    });
-
-    let currentStageTop = 0;
-
-    // Build the stage, class, section, and subject branches from left to right.
-    stageStructure.forEach((stageItem, stageIndex) => {
-      const stageHeight = stageHeights[stageIndex];
-      const stageCenterY = currentStageTop + stageHeight / 2;
-      const stageNodeId = `stage-${stageItem.stage.id}`;
-
-      flowNodes.push({
-        id: stageNodeId,
-        type: "structureNode",
-        position: {
-          x: ROOT_X + HORIZONTAL_GAP,
-          y: getTopFromCenter(stageCenterY),
-        },
-        data: {
-          category: t("AcademicYearStructureExplorer.stage.educationalStage"),
-          title: stageItem.stage.stageName,
-          subtitle: stageItem.stageLabel,
-          lines: [stageItem.stage.teachingLanguage],
-          tone: "stage",
-        },
-      });
-
-      flowEdges.push({
-        id: `${yearNodeId}-${stageNodeId}`,
-        source: yearNodeId,
-        target: stageNodeId,
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "var(--primary-strong)",
-        },
-        style: {
-          stroke: "var(--primary-strong)",
-          strokeWidth: 2,
-        },
-      });
-
-      if (!stageItem.classes.length) {
-        currentStageTop += stageHeight + VERTICAL_GAP;
+  const handleToggle = useCallback(
+    (nodeId: string) => {
+      if (!selectedAcademicYearId) {
         return;
       }
 
-      const classHeights = stageItem.classes.map(getClassSubtreeHeight);
-      const totalClassHeight =
-        classHeights.reduce((total, height) => total + height, 0) +
-        (classHeights.length - 1) * VERTICAL_GAP;
-      let currentClassTop =
-        currentStageTop + (stageHeight - totalClassHeight) / 2;
+      setExpandedNodeIdsByYear((currentState) => {
+        const currentIds = Object.prototype.hasOwnProperty.call(
+          currentState,
+          selectedAcademicYearId,
+        )
+          ? currentState[selectedAcademicYearId]
+          : defaultExpandedNodeIds;
 
-      stageItem.classes.forEach((classItem, classIndex) => {
-        const classHeight = classHeights[classIndex];
-        const classCenterY = currentClassTop + classHeight / 2;
-        const classNodeId = `class-${classItem.schoolClass.id}`;
-
-        flowNodes.push({
-          id: classNodeId,
-          type: "structureNode",
-          position: {
-            x: ROOT_X + HORIZONTAL_GAP * 2,
-            y: getTopFromCenter(classCenterY),
-          },
-          data: {
-            category: t("AcademicYearStructureExplorer.stats.schoolClasses"),
-            title: classItem.schoolClass.className,
-            subtitle: classItem.schoolClassLabel,
-            lines: [
-              t("AcademicYearStructureExplorer.class.minimumPassingGrade", {
-                value: classItem.schoolClass.minimumPassingGrade,
-              }),
-            ],
-            tone: "class",
-          },
-        });
-
-        flowEdges.push({
-          id: `${stageNodeId}-${classNodeId}`,
-          source: stageNodeId,
-          target: classNodeId,
-          markerEnd: {
-            type: MarkerType.ArrowClosed,
-            color: "var(--primary-strong)",
-          },
-          style: {
-            stroke: "var(--primary-strong)",
-            strokeWidth: 2,
-          },
-        });
-
-        const childItems = [
-          ...classItem.sections.map((section) => ({
-            id: `section-${section.id}`,
-            tone: "section" as const,
-            category: t("AcademicYearStructureExplorer.sections.title"),
-            title: section.sectionName,
-            subtitle: t("AcademicYearStructureExplorer.sections.capacity", {
-              value: section.defaultCapacity,
-            }),
-            lines: [
-              `${t("AcademicYearStructureExplorer.sections.supervisor")} ${
-                supervisorLabelMap.get(section.supervisorId) ??
-                t("AcademicYearStructureExplorer.common.notAssigned")
-              }`,
-            ],
-          })),
-          ...classItem.subjects.map((subject) => ({
-            id: `subject-${subject.id}-${classItem.schoolClass.id}`,
-            tone: "subject" as const,
-            category: t("AcademicYearStructureExplorer.subjects.title"),
-            title: subject.subjectName,
-            subtitle: t("AcademicYearStructureExplorer.subjects.subjectMeta", {
-              subjectType: subject.subjectType,
-              teachingLanguage: subject.teachingLanguage,
-            }),
-            lines: [
-              `${t("AcademicYearStructureExplorer.subjects.teachers")} ${
-                subject.teacherIds.length
-                  ? subject.teacherIds
-                      .map(
-                        (teacherId) =>
-                          teacherLabelMap.get(teacherId) ??
-                          t("AcademicYearStructureExplorer.common.unknownTeacher"),
-                      )
-                      .join(", ")
-                  : t("AcademicYearStructureExplorer.common.notAssigned")
-              }`,
-              `${t("AcademicYearStructureExplorer.subjects.weeklyPeriods", {
-                value: subject.classSetting?.weeklyPeriodsCount ?? 0,
-              })} | ${t(
-                "AcademicYearStructureExplorer.subjects.periodDuration",
-                {
-                  value: subject.classSetting?.periodDurationMinutes ?? 0,
-                },
-              )}`,
-              t("AcademicYearStructureExplorer.subjects.passGrade", {
-                value: subject.minimumPassingGrade,
-              }),
-            ],
-          })),
-        ];
-
-        if (!childItems.length) {
-          currentClassTop += classHeight + VERTICAL_GAP;
-          return;
-        }
-
-        const totalChildHeight = getStackHeight(childItems.length);
-        let currentChildTop =
-          currentClassTop + (classHeight - totalChildHeight) / 2;
-
-        childItems.forEach((child) => {
-          flowNodes.push({
-            id: child.id,
-            type: "structureNode",
-            position: {
-              x: ROOT_X + HORIZONTAL_GAP * 3,
-              y: currentChildTop,
-            },
-            data: {
-              category: child.category,
-              title: child.title,
-              subtitle: child.subtitle,
-              lines: child.lines,
-              tone: child.tone,
-              showSource: false,
-            },
-          });
-
-          flowEdges.push({
-            id: `${classNodeId}-${child.id}`,
-            source: classNodeId,
-            target: child.id,
-            markerEnd: {
-              type: MarkerType.ArrowClosed,
-              color: "var(--primary-strong)",
-            },
-            style: {
-              stroke: "var(--primary-strong)",
-              strokeWidth: 2,
-            },
-          });
-
-          currentChildTop += NODE_HEIGHT + VERTICAL_GAP;
-        });
-
-        currentClassTop += classHeight + VERTICAL_GAP;
+        return {
+          ...currentState,
+          [selectedAcademicYearId]: currentIds.includes(nodeId)
+            ? currentIds.filter((currentId) => currentId !== nodeId)
+            : [...currentIds, nodeId],
+        };
       });
 
-      currentStageTop += stageHeight + VERTICAL_GAP;
+      setFitViewVersion((currentVersion) => currentVersion + 1);
+    },
+    [defaultExpandedNodeIds, selectedAcademicYearId],
+  );
+
+  const { nodes, edges, layoutHeight } = useMemo(() => {
+    if (!hierarchyRoot) {
+      return {
+        nodes: [] as AcademicYearStructureFlowGraphNode[],
+        edges: [] as Edge[],
+        layoutHeight: 0,
+      };
+    }
+
+    const visibleHierarchyNodes: AcademicYearStructureHierarchyNode[] = [];
+    const visibleHierarchyEdges: HierarchyEdge[] = [];
+    const expandedNodeIds = new Set(yearScopedExpandedNodeIds);
+
+    collectVisibleHierarchy(
+      hierarchyRoot,
+      expandedNodeIds,
+      visibleHierarchyNodes,
+      visibleHierarchyEdges,
+    );
+
+    return buildFlowLayout({
+      visibleNodes: visibleHierarchyNodes,
+      visibleEdges: visibleHierarchyEdges,
+      expandedNodeIds,
+      onToggle: handleToggle,
+    });
+  }, [handleToggle, hierarchyRoot, yearScopedExpandedNodeIds]);
+
+  const flowHeight = useMemo(
+    () => Math.max(620, layoutHeight + 80),
+    [layoutHeight],
+  );
+
+  useEffect(() => {
+    if (!reactFlowInstance || !nodes.length) {
+      return;
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      reactFlowInstance.fitView({
+        duration: 260,
+        padding: 0.05,
+        minZoom: 0.55,
+        maxZoom: 1.35,
+      });
     });
 
-    return { nodes: flowNodes, edges: flowEdges };
-  }, [
-    selectedAcademicYear,
-    selectedYearSemesterNames,
-    stageStructure,
-    supervisorLabelMap,
-    teacherLabelMap,
-    t,
-  ]);
+    return () => window.cancelAnimationFrame(frameId);
+  }, [fitViewVersion, nodes.length, reactFlowInstance, selectedAcademicYearId]);
 
-  // Stop early with the existing empty-state card when there is no structure to draw yet.
-  if (!stageStructure.length || !selectedAcademicYear) {
-    return (
-      <DashboardCard
-        title={t("AcademicYearStructureExplorer.structureMap.title")}
-        subtitle={t("AcademicYearStructureExplorer.structureMap.subtitle")}
-        action={
-          <div className="min-w-70">
-            {/* Keep the academic-year selector available even when no structure nodes are ready yet. */}
-            <Dropdown
-              label={t("AcademicYearStructureExplorer.dropdownLabel")}
-              value={selectedAcademicYearId || undefined}
-              onChange={setSelectedAcademicYearId}
-              options={academicYearOptions}
-              placeholder={t("AcademicYearStructureExplorer.dropdownPlaceholder")}
-              searchable
-              searchPlaceholder={t(
-                "AcademicYearStructureExplorer.dropdownSearchPlaceholder",
-              )}
-            />
-          </div>
-        }
-      >
+  return (
+    <div className="w-full space-y-5">
+      <div className="max-w-80">
+        <Dropdown
+          label={t("AcademicYearStructureExplorer.dropdownLabel")}
+          value={selectedAcademicYearId || undefined}
+          onChange={setSelectedAcademicYearId}
+          options={academicYearOptions}
+          placeholder={t("AcademicYearStructureExplorer.dropdownPlaceholder")}
+          searchable
+          searchPlaceholder={t(
+            "AcademicYearStructureExplorer.dropdownSearchPlaceholder",
+          )}
+        />
+      </div>
+
+      {!stageStructure.length || !selectedAcademicYear || !hierarchyRoot ? (
         <p className="text-sm text-(--muted-text)">
           {t("AcademicYearStructureExplorer.structureMap.description")}
         </p>
-      </DashboardCard>
-    );
-  }
-
-  return (
-    <DashboardCard
-      title={t("AcademicYearStructureExplorer.title")}
-      action={
-        <div className="min-w-70">
-          {/* Keep the academic-year selector in the card header so only the flow renders below it. */}
-          <Dropdown
-            label={t("AcademicYearStructureExplorer.dropdownLabel")}
-            value={selectedAcademicYearId || undefined}
-            onChange={setSelectedAcademicYearId}
-            options={academicYearOptions}
-            placeholder={t("AcademicYearStructureExplorer.dropdownPlaceholder")}
-            searchable
-            searchPlaceholder={t(
-              "AcademicYearStructureExplorer.dropdownSearchPlaceholder",
-            )}
-          />
-        </div>
-      }
-    >
-      {/* Wrap the canvas in a styled frame so the flow feels like part of the dashboard UI. */}
-      <div className="rounded-[28px] border border-(--border-color) bg-[#F8FDFF] p-3">
-        <div className="h-[820px] overflow-hidden rounded-[22px] border border-(--border-color) bg-white">
-          {/* Render the graph as a read-only React Flow canvas that users can pan and zoom. */}
+      ) : (
+        <div
+          className="w-full"
+          style={{ height: `${flowHeight}px`, minHeight: "620px" }}
+        >
           <ReactFlow
             key={selectedAcademicYearId || "academic-year-structure-flow"}
             nodes={nodes}
             edges={edges}
             nodeTypes={nodeTypes}
             fitView
-            fitViewOptions={{ padding: 0.2 }}
+            fitViewOptions={{ padding: 0.05, minZoom: 0.55, maxZoom: 1.35 }}
+            onInit={setReactFlowInstance}
             proOptions={{ hideAttribution: true }}
+            minZoom={0.45}
+            maxZoom={1.5}
             nodesDraggable={false}
             nodesConnectable={false}
             elementsSelectable={false}
+            panOnDrag={false}
+            panOnScroll={false}
+            zoomOnScroll={false}
+            zoomOnPinch={false}
             zoomOnDoubleClick={false}
-            panOnScroll
-            className="bg-[#F8FDFF]"
-          >
-            {/* Add supporting canvas tools so the user can navigate the structure comfortably. */}
-            <Background
-              gap={24}
-              size={1}
-              color="rgba(41, 181, 197, 0.12)"
-            />
-            <MiniMap
-              pannable
-              zoomable
-              className="!border !border-(--border-color) !bg-white"
-              nodeColor={(node) => {
-                const tone = (node.data as AcademicYearStructureFlowNodeData).tone;
-
-                switch (tone) {
-                  case "academicYear":
-                    return "#157784";
-                  case "stage":
-                    return "#1B76A6";
-                  case "class":
-                    return "#A56A12";
-                  case "section":
-                    return "#2D8851";
-                  case "subject":
-                    return "#7A3FA6";
-                  default:
-                    return "#29B5C5";
-                }
-              }}
-            />
-            <Controls
-              showInteractive={false}
-              className="!border !border-(--border-color) !bg-white"
-            />
-          </ReactFlow>
+            selectionOnDrag={false}
+            nodesFocusable={false}
+            edgesFocusable={false}
+            preventScrolling={false}
+            className="bg-transparent"
+          />
         </div>
-      </div>
-    </DashboardCard>
+      )}
+    </div>
   );
 };
 

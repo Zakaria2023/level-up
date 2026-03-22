@@ -11,7 +11,6 @@ import { useSchoolClassStore } from "@/features/school-class/store/useSchoolClas
 import { SECTION_SUPERVISOR_OPTIONS } from "@/features/school-section/constants";
 import { useSchoolSectionStore } from "@/features/school-section/store/useSchoolSectionStore";
 import { useSemesterStore } from "@/features/semester/store/useSemesterStore";
-import { SUBJECT_TEACHER_OPTIONS } from "@/features/subject/constants";
 import { useSubjectStore } from "@/features/subject/store/useSubjectStore";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -110,19 +109,6 @@ export const useAcademicYearStructureExplorer = ({
               defaultValue: option.label,
             },
           ),
-        ]),
-      ),
-    [t],
-  );
-
-  const teacherLabelMap = useMemo(
-    () =>
-      new Map(
-        SUBJECT_TEACHER_OPTIONS.map((option) => [
-          option.value,
-          t(`AcademicYearStructureExplorer.teacherOptions.${option.value}`, {
-            defaultValue: option.label,
-          }),
         ]),
       ),
     [t],
@@ -255,6 +241,5 @@ export const useAcademicYearStructureExplorer = ({
     totalSections,
     totalSubjects,
     supervisorLabelMap,
-    teacherLabelMap,
   };
 };

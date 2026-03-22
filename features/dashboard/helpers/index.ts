@@ -1,4 +1,4 @@
-const DEFAULT_USER_NAME = "Level Up User";
+export const DEFAULT_USER_NAME = "Level Up User";
 
 export const getStoredUserName = () => {
   if (typeof window === "undefined") {

@@ -4,6 +4,7 @@ import { SchoolClassRow } from "@/features/school-class/types";
 import type { SchoolSectionRow } from "@/features/school-section/types";
 import type { SemesterRow } from "@/features/semester/types";
 import type { SubjectClassSetting, SubjectRow } from "@/features/subject/types";
+import type { Node } from "@xyflow/react";
 
 export type AcademicYearStructureTimelineItem = {
   key: string;
@@ -28,6 +29,52 @@ export type AcademicYearStructureStageItem = {
   classes: AcademicYearStructureClassItem[];
 };
 
+export type AcademicYearStructureNodeKind =
+  | "academicYear"
+  | "stage"
+  | "grade"
+  | "class"
+  | "section";
+
+export type AcademicYearStructureQuickStat = {
+  label: string;
+  value: string;
+};
+
+export type AcademicYearStructureDetailItem = {
+  label: string;
+  value: string;
+  valueDir?: "auto" | "ltr" | "rtl";
+};
+
+export type AcademicYearStructureHierarchyNode = {
+  id: string;
+  kind: AcademicYearStructureNodeKind;
+  kindLabel: string;
+  childrenLabel: string;
+  title: string;
+  subtitle?: string;
+  status: string;
+  expandLabel: string;
+  collapseLabel: string;
+  childrenCount: number;
+  quickStats: AcademicYearStructureQuickStat[];
+  detailItems: AcademicYearStructureDetailItem[];
+  children: AcademicYearStructureHierarchyNode[];
+  parentId?: string;
+};
+
+export type AcademicYearStructureFlowNodeData = {
+  hierarchyNode: AcademicYearStructureHierarchyNode;
+  isExpanded: boolean;
+  onToggle: (nodeId: string) => void;
+};
+
+export type AcademicYearStructureFlowGraphNode = Node<
+  AcademicYearStructureFlowNodeData,
+  "structureNode"
+>;
+
 export type AcademicYearStructureData = {
   academicYears: AcademicYearRow[];
   academicYearOptions: {
@@ -44,5 +91,4 @@ export type AcademicYearStructureData = {
   totalSections: number;
   totalSubjects: number;
   supervisorLabelMap: Map<string, string>;
-  teacherLabelMap: Map<string, string>;
 };

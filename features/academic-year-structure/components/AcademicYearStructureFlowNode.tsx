@@ -1,144 +1,182 @@
 "use client";
 
-import {
-  Handle,
-  Position,
-  type Node,
-  type NodeProps,
-} from "@xyflow/react";
-
-export type AcademicYearStructureFlowNodeTone =
-  | "academicYear"
-  | "stage"
-  | "class"
-  | "section"
-  | "subject";
-
-export type AcademicYearStructureFlowNodeData = {
-  category: string;
-  title: string;
-  subtitle?: string;
-  badges?: string[];
-  lines?: string[];
-  tone: AcademicYearStructureFlowNodeTone;
-  showTarget?: boolean;
-  showSource?: boolean;
-};
-
-export type AcademicYearStructureFlowGraphNode = Node<
-  AcademicYearStructureFlowNodeData,
-  "structureNode"
->;
+import { Handle, Position, type NodeProps } from "@xyflow/react";
+import clsx from "clsx";
+import type {
+  AcademicYearStructureFlowGraphNode,
+  AcademicYearStructureNodeKind,
+} from "../types";
 
 const toneClassMap: Record<
-  AcademicYearStructureFlowNodeTone,
+  AcademicYearStructureNodeKind,
   {
+    headerClassName: string;
     badgeClassName: string;
-    ringClassName: string;
+    statClassName: string;
+    footerButtonClassName: string;
   }
 > = {
   academicYear: {
-    badgeClassName: "bg-(--sidebar-panel) text-white",
-    ringClassName: "shadow-[0_18px_36px_rgba(15,95,107,0.18)]",
+    headerClassName: "bg-[#875A7B]",
+    badgeClassName: "bg-[#F4E8EF] text-[#875A7B]",
+    statClassName: "bg-[#FBF5F8] text-[#875A7B]",
+    footerButtonClassName:
+      "border-[#D9C0CF] text-[#875A7B] hover:bg-[#FAF2F6]",
   },
   stage: {
-    badgeClassName: "bg-[#E0F4FF] text-[#1B76A6]",
-    ringClassName: "shadow-[0_18px_36px_rgba(27,118,166,0.12)]",
+    headerClassName: "bg-[#29B5C5]",
+    badgeClassName: "bg-[#E6FAFD] text-[#157784]",
+    statClassName: "bg-[#F3FCFD] text-[#157784]",
+    footerButtonClassName:
+      "border-[#BEEAF0] text-[#157784] hover:bg-[#F2FBFD]",
+  },
+  grade: {
+    headerClassName: "bg-[#7C7BAD]",
+    badgeClassName: "bg-[#EFEEFB] text-[#5A5891]",
+    statClassName: "bg-[#F7F7FD] text-[#5A5891]",
+    footerButtonClassName:
+      "border-[#D7D4EE] text-[#5A5891] hover:bg-[#F6F5FD]",
   },
   class: {
-    badgeClassName: "bg-[#FFF2DB] text-[#A56A12]",
-    ringClassName: "shadow-[0_18px_36px_rgba(165,106,18,0.12)]",
+    headerClassName: "bg-[#E5C76B]",
+    badgeClassName: "bg-[#FFF8DD] text-[#8A6E12]",
+    statClassName: "bg-[#FFFCEF] text-[#8A6E12]",
+    footerButtonClassName:
+      "border-[#F0DFA5] text-[#8A6E12] hover:bg-[#FFFCF0]",
   },
   section: {
-    badgeClassName: "bg-[#E8F6E8] text-[#2D8851]",
-    ringClassName: "shadow-[0_18px_36px_rgba(45,136,81,0.12)]",
-  },
-  subject: {
-    badgeClassName: "bg-[#F4E9FF] text-[#7A3FA6]",
-    ringClassName: "shadow-[0_18px_36px_rgba(122,63,166,0.12)]",
+    headerClassName: "bg-[#6CB98D]",
+    badgeClassName: "bg-[#ECF8F1] text-[#2F7C4F]",
+    statClassName: "bg-[#F5FBF7] text-[#2F7C4F]",
+    footerButtonClassName:
+      "border-[#CBE7D5] text-[#2F7C4F] hover:bg-[#F4FBF6]",
   },
 };
 
+const getAvatarLabel = (value: string) =>
+  value
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((segment) => segment[0]?.toUpperCase() ?? "")
+    .join("")
+    .slice(0, 2);
+
 const AcademicYearStructureFlowNode = ({
+  id,
   data,
 }: NodeProps<AcademicYearStructureFlowGraphNode>) => {
-  const toneClasses = toneClassMap[data.tone];
+  const toneClasses = toneClassMap[data.hierarchyNode.kind];
+  const canExpand = data.hierarchyNode.childrenCount > 0;
+  const visibleStats = data.hierarchyNode.quickStats.slice(0, 2);
+  const avatarLabel = getAvatarLabel(data.hierarchyNode.title);
 
   return (
-    <div
-      className={[
-        "w-65 rounded-3xl border border-(--border-color) bg-white p-4",
-        toneClasses.ringClassName,
-      ].join(" ")}
-    >
-      {/* Show the incoming connection handle for every node except the academic-year root node. */}
-      {data.showTarget !== false ? (
-        <Handle
-          type="target"
-          position={Position.Left}
-          className="h-3! w-3! border-2! border-white! bg-(--primary-strong)!"
-        />
-      ) : null}
+    <div className="w-[268px] overflow-hidden rounded-[18px] border border-[#DCE7EF] bg-white shadow-[0_6px_18px_rgba(15,23,42,0.05)]">
+      <Handle
+        type="target"
+        position={Position.Top}
+        className="!pointer-events-none !h-0 !w-0 !border-0 !bg-transparent !opacity-0"
+      />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        className="!pointer-events-none !h-0 !w-0 !border-0 !bg-transparent !opacity-0"
+      />
 
-      {/* Keep the node header consistent so each graph level is easy to scan at a glance. */}
-      <div className="space-y-3">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0 space-y-2">
-            <span
-              className={[
-                "inline-flex rounded-full px-3 py-1 text-[11px] font-semibold",
-                toneClasses.badgeClassName,
-              ].join(" ")}
-            >
-              {data.category}
-            </span>
-            <div>
-              <h3 className="text-sm font-semibold text-[#0D3B52]">
-                {data.title}
-              </h3>
-              {data.subtitle ? (
-                <p className="mt-1 text-xs text-(--muted-text)">
-                  {data.subtitle}
-                </p>
-              ) : null}
-            </div>
+      <div
+        className={clsx(
+          "flex min-h-11 items-center justify-between gap-2 px-4 py-2 text-white",
+          toneClasses.headerClassName,
+        )}
+      >
+        <p className="truncate text-[13px] font-semibold">
+          {data.hierarchyNode.title}
+        </p>
+        <span className="shrink-0 rounded-full bg-white/20 px-2 py-1 text-[10px] font-semibold">
+          {data.hierarchyNode.status}
+        </span>
+      </div>
+
+      <div className="space-y-3 px-4 py-3.5">
+        <div className="flex items-start gap-3">
+          <div
+            className={clsx(
+              "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-bold",
+              toneClasses.badgeClassName,
+            )}
+          >
+            {avatarLabel || "AY"}
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#91A0AE]">
+              {data.hierarchyNode.kindLabel}
+            </p>
+            {data.hierarchyNode.subtitle ? (
+              <p className="mt-1 text-[12px] leading-5 text-[#526372]">
+                {data.hierarchyNode.subtitle}
+              </p>
+            ) : null}
           </div>
         </div>
 
-        {/* Render compact badges for short facts like semester names without making the node too tall. */}
-        {data.badges?.length ? (
-          <div className="flex flex-wrap gap-2">
-            {data.badges.map((badge) => (
-              <span
-                key={badge}
-                className="inline-flex rounded-full bg-(--primary-soft) px-2.5 py-1 text-[11px] font-medium text-(--primary-strong)"
+        {visibleStats.length ? (
+          <div className="grid grid-cols-2 gap-2">
+            {visibleStats.map((stat) => (
+              <div
+                key={`${id}-${stat.label}`}
+                className={clsx(
+                  "rounded-xl px-2.5 py-2 text-center",
+                  toneClasses.statClassName,
+                )}
               >
-                {badge}
-              </span>
-            ))}
-          </div>
-        ) : null}
-
-        {/* Show the supporting details as short rows so the graph stays readable while still useful. */}
-        {data.lines?.length ? (
-          <div className="space-y-1.5">
-            {data.lines.map((line) => (
-              <p key={line} className="text-xs text-(--muted-text)">
-                {line}
-              </p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.08em] opacity-75">
+                  {stat.label}
+                </p>
+                <p className="mt-1 text-[12px] font-bold">{stat.value}</p>
+              </div>
             ))}
           </div>
         ) : null}
       </div>
 
-      {/* Show the outgoing connection handle for every non-leaf node so the flow remains directional. */}
-      {data.showSource !== false ? (
-        <Handle
-          type="source"
-          position={Position.Right}
-          className="h-3! w-3! border-2! border-white! bg-(--primary-strong)!"
-        />
-      ) : null}
+      <div className="flex items-center justify-between gap-3 border-t border-[#E7EEF4] px-4 py-3">
+        <span className="text-[11px] font-semibold text-[#607284]">
+          {data.hierarchyNode.childrenCount} {data.hierarchyNode.childrenLabel}
+        </span>
+
+        {canExpand ? (
+          <button
+            type="button"
+            aria-expanded={data.isExpanded}
+            onPointerDownCapture={(event) => {
+              event.stopPropagation();
+            }}
+            onMouseDownCapture={(event) => {
+              event.stopPropagation();
+            }}
+            onPointerUp={(event) => {
+              event.stopPropagation();
+            }}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              data.onToggle(id);
+            }}
+            className={clsx(
+              "nodrag nopan nowheel pointer-events-auto inline-flex h-8 cursor-pointer items-center justify-center rounded-full border px-3 text-[11px] font-semibold transition",
+              toneClasses.footerButtonClassName,
+            )}
+          >
+            {data.isExpanded
+              ? data.hierarchyNode.collapseLabel
+              : data.hierarchyNode.expandLabel}
+          </button>
+        ) : (
+          <span className="text-[11px] font-semibold text-[#9AA8B5]">-</span>
+        )}
+      </div>
     </div>
   );
 };

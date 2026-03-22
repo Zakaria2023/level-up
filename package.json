@@ -12,6 +12,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@xyflow/react": "^12.10.1",
     "clsx": "^2.1.1",
+    "dagre": "^0.8.5",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.38.0",
     "i18next": "^25.10.2",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/dagre": "^0.7.54",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",

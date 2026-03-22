@@ -1,14 +1,25 @@
 "use client";
 
 import { DashboardCard } from "@/components/ui/DashboardCard";
-import { format } from "date-fns";
 import { TFunction } from "i18next";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getStoredUserName } from "../helpers";
+import { DEFAULT_USER_NAME, getStoredUserName } from "../helpers";
 import { useDashboardRealTime } from "../hooks/useDashboardRealTime";
 
+const DASHBOARD_TIME_ZONE = "Asia/Damascus";
+
+const getDashboardLocale = (language: string) =>
+  language.startsWith("ar") ? "ar" : "en-US";
+
 const getGreeting = (date: Date, t: TFunction) => {
-  const hour = date.getHours();
+  const hour = Number(
+    new Intl.DateTimeFormat("en-US", {
+      hour: "2-digit",
+      hour12: false,
+      timeZone: DASHBOARD_TIME_ZONE,
+    }).format(date),
+  );
 
   if (hour < 12) {
     return t("DashboardHome.goodMorning");
@@ -21,10 +32,50 @@ const getGreeting = (date: Date, t: TFunction) => {
   return t("DashboardHome.goodEvening");
 };
 
-export const DashboardHome = () => {
-  const { t } = useTranslation();
-  const now = useDashboardRealTime();
-  const userName = getStoredUserName();
+type DashboardHomeProps = {
+  initialNowIso: string;
+};
+
+export const DashboardHome = ({ initialNowIso }: DashboardHomeProps) => {
+  const { t, i18n } = useTranslation();
+  const now = useDashboardRealTime(initialNowIso);
+  const [userName, setUserName] = useState(DEFAULT_USER_NAME);
+
+  useEffect(() => {
+    const frameId = window.requestAnimationFrame(() => {
+      setUserName(getStoredUserName());
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, []);
+
+  const locale = useMemo(() => getDashboardLocale(i18n.language), [i18n.language]);
+
+  const formattedDate = useMemo(
+    () =>
+      new Intl.DateTimeFormat(locale, {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        timeZone: DASHBOARD_TIME_ZONE,
+      }).format(now),
+    [locale, now],
+  );
+
+  const formattedTime = useMemo(
+    () =>
+      new Intl.DateTimeFormat(locale, {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+        timeZone: DASHBOARD_TIME_ZONE,
+      }).format(now),
+    [locale, now],
+  );
 
   return (
     <div className="mx-auto w-full max-w-260 md:mt-40">
@@ -42,7 +93,7 @@ export const DashboardHome = () => {
                 {t("DashboardHome.today")}
               </p>
               <p className="mt-3 text-2xl font-semibold text-(--foreground) md:text-3xl">
-                {format(now, "EEEE, MMMM d, yyyy")}
+                {formattedDate}
               </p>
             </div>
 
@@ -51,7 +102,7 @@ export const DashboardHome = () => {
                 {t("DashboardHome.currentTime")}
               </p>
               <p className="mt-3 font-mono text-3xl font-semibold text-(--foreground) md:text-4xl">
-                {format(now, "hh:mm:ss a")}
+                {formattedTime}
               </p>
             </div>
           </div>

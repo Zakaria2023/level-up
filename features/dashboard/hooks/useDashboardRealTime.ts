@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-export const useDashboardRealTime = () => {
-  const [now, setNow] = useState(() => new Date());
+export const useDashboardRealTime = (initialNowIso: string) => {
+  const [now, setNow] = useState(() => new Date(initialNowIso));
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -11,7 +11,7 @@ export const useDashboardRealTime = () => {
     return () => {
       window.clearInterval(timer);
     };
-  }, []);
+  }, [initialNowIso]);
 
   return now;
 };

@@ -5,7 +5,7 @@ import AcademicYearStructureEmptyState from "./AcademicYearStructureEmptyState";
 import AcademicYearStructureFlow from "./AcademicYearStructureFlow";
 
 // Keep the explorer focused on selecting an academic year and then rendering the related structure.
-export default function AcademicYearStructureExplorer() {
+export const AcademicYearStructureExplorer = () => {
   const {
     academicYears,
     academicYearOptions,
@@ -15,7 +15,6 @@ export default function AcademicYearStructureExplorer() {
     selectedYearSemesterNames,
     stageStructure,
     supervisorLabelMap,
-    teacherLabelMap,
   } = useAcademicYearStructureExplorer();
 
   if (!academicYears.length) {
@@ -23,7 +22,7 @@ export default function AcademicYearStructureExplorer() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-360 flex-col gap-6">
+    <div className="flex w-full flex-col">
       {/* Render the chosen academic year as a flow graph instead of the old stacked cards. */}
       <AcademicYearStructureFlow
         academicYearOptions={academicYearOptions}
@@ -33,7 +32,6 @@ export default function AcademicYearStructureExplorer() {
         stageStructure={stageStructure}
         selectedYearSemesterNames={selectedYearSemesterNames}
         supervisorLabelMap={supervisorLabelMap}
-        teacherLabelMap={teacherLabelMap}
       />
     </div>
   );
