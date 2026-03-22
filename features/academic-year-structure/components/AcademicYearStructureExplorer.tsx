@@ -2,18 +2,10 @@
 
 import { useAcademicYearStructureExplorer } from "../hooks/useAcademicYearStructureExplorer";
 import AcademicYearStructureEmptyState from "./AcademicYearStructureEmptyState";
-import AcademicYearStructureOverview from "./AcademicYearStructureOverview";
-import AcademicYearStructureTree from "./AcademicYearStructureTree";
+import AcademicYearStructureFlow from "./AcademicYearStructureFlow";
 
-type AcademicYearStructureExplorerProps = {
-  academicYearId?: number;
-  showAcademicYearSelector?: boolean;
-};
-
-export default function AcademicYearStructureExplorer({
-  academicYearId,
-  showAcademicYearSelector = true,
-}: AcademicYearStructureExplorerProps) {
+// Keep the explorer focused on selecting an academic year and then rendering the related structure.
+export default function AcademicYearStructureExplorer() {
   const {
     academicYears,
     academicYearOptions,
@@ -21,14 +13,10 @@ export default function AcademicYearStructureExplorer({
     selectedAcademicYearId,
     setSelectedAcademicYearId,
     selectedYearSemesterNames,
-    semesterTimeline,
     stageStructure,
-    totalClasses,
-    totalSections,
-    totalSubjects,
     supervisorLabelMap,
     teacherLabelMap,
-  } = useAcademicYearStructureExplorer({ academicYearId });
+  } = useAcademicYearStructureExplorer();
 
   if (!academicYears.length) {
     return <AcademicYearStructureEmptyState />;
@@ -36,23 +24,12 @@ export default function AcademicYearStructureExplorer({
 
   return (
     <div className="mx-auto flex w-full max-w-360 flex-col gap-6">
-      <AcademicYearStructureOverview
+      {/* Render the chosen academic year as a flow graph instead of the old stacked cards. */}
+      <AcademicYearStructureFlow
         academicYearOptions={academicYearOptions}
+        selectedAcademicYear={selectedAcademicYear}
         selectedAcademicYearId={selectedAcademicYearId}
         setSelectedAcademicYearId={setSelectedAcademicYearId}
-        selectedAcademicYear={selectedAcademicYear}
-        semesterTimeline={semesterTimeline}
-        stageCount={stageStructure.length}
-        totalClasses={totalClasses}
-        totalSections={totalSections}
-        totalSubjects={totalSubjects}
-        showAcademicYearSelector={showAcademicYearSelector}
-        filteredSemesterCount={
-          semesterTimeline.filter((item) => item.semester).length
-        }
-      />
-
-      <AcademicYearStructureTree
         stageStructure={stageStructure}
         selectedYearSemesterNames={selectedYearSemesterNames}
         supervisorLabelMap={supervisorLabelMap}

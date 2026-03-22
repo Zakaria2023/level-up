@@ -11,6 +11,7 @@ import {
   FiBookOpen,
   FiCalendar,
   FiChevronDown,
+  FiGitBranch,
   FiGrid,
   FiHome,
   FiLayers,
@@ -48,6 +49,12 @@ const academicYearLink: NavItem = {
 const semesterLink: NavItem = {
   href: "/semester",
   labelKey: "Sidebar.semester",
+};
+
+// Restore the academic-year structure as a standalone navigation destination.
+const academicYearStructureLink: NavItem = {
+  href: "/academic-year-structure",
+  labelKey: "Sidebar.academicYearStructure",
 };
 
 const educationalStageLink: NavItem = {
@@ -133,6 +140,10 @@ export const Sidebar = ({ onNavigate }: Props) => {
   const homeActive = currentPath === "/";
   const academicYearActive = isRouteActive(currentPath, academicYearLink.href);
   const semesterActive = isRouteActive(currentPath, semesterLink.href);
+  const academicYearStructureActive = isRouteActive(
+    currentPath,
+    academicYearStructureLink.href
+  );
   const educationalStageActive = isRouteActive(
     currentPath,
     educationalStageLink.href
@@ -212,6 +223,27 @@ export const Sidebar = ({ onNavigate }: Props) => {
               <FiBookOpen size={16} />
             </span>
             <span>{t(semesterLink.labelKey)}</span>
+          </Link>
+
+          {/* Keep the structure explorer available as its own page in the main sidebar. */}
+          <Link
+            href={academicYearStructureLink.href}
+            onClick={onNavigate}
+            className={[
+              `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 ${lang === "ar" ? "text-right" : "text-left"} text-sm font-medium transition`,
+              academicYearStructureActive
+                ? "bg-[#157784] text-white shadow-[0_14px_28px_rgba(7,57,64,0.22)]"
+                : "text-[#d3f4f7] hover:bg-[#136f7b] hover:text-white",
+            ].join(" ")}
+          >
+            <span
+              className={
+                academicYearStructureActive ? "text-[#c9f8fc]" : "text-[#8fdee7]"
+              }
+            >
+              <FiGitBranch size={16} />
+            </span>
+            <span>{t(academicYearStructureLink.labelKey)}</span>
           </Link>
 
           <Link

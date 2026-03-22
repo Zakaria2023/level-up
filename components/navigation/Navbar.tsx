@@ -13,6 +13,7 @@ const pageTitleKeyMap: Record<string, string> = {
   "settings/study-period-settings": "Navbar.pageTitles.studyPeriodSettings",
   "academic-year": "Navbar.pageTitles.academicYear",
   semester: "Navbar.pageTitles.semester",
+  "academic-year-structure": "Navbar.pageTitles.academicYearStructure",
   "educational-stage": "Navbar.pageTitles.educationalStage",
   "school-class": "Navbar.pageTitles.schoolClass",
   "school-section": "Navbar.pageTitles.schoolSection",

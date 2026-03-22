@@ -2,7 +2,6 @@
 
 import { DashboardCard } from "@/components/ui/DashboardCard";
 import { DetailField } from "@/components/ui/DetailField";
-import AcademicYearStructureExplorer from "@/features/academic-year-structure/components/AcademicYearStructureExplorer";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { toDetailFields } from "../../constants";
@@ -41,7 +40,7 @@ export const AcademicYearDetails = ({
   }
 
   return (
-    <div className="w-full max-w-360 space-y-6">
+    <div className="w-full max-w-220 space-y-6">
       <DashboardCard
         title={t("AcademicYearDetails.title", { id: row.id })}
         subtitle={t("AcademicYearDetails.subtitle")}
@@ -62,17 +61,13 @@ export const AcademicYearDetails = ({
           </div>
         }
       >
+        {/* Keep the detail page limited to the stored academic-year fields. */}
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {toDetailFields(row, t).map((field) => (
             <DetailField key={field.label} label={field.label} value={field.value} />
           ))}
         </div>
       </DashboardCard>
-
-      <AcademicYearStructureExplorer
-        academicYearId={row.id}
-        showAcademicYearSelector={false}
-      />
     </div>
   );
 };

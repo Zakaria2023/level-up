@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Load the shared React Flow styles once so the academic-year structure canvas renders correctly. */
+@import "@xyflow/react/dist/style.css";
 
 :root {
   --background: #f4fbfc;
