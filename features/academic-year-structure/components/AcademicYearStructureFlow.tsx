@@ -10,7 +10,7 @@ import {
   type ReactFlowInstance,
 } from "@xyflow/react";
 import dagre from "dagre";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   AcademicYearStructureClassItem,
@@ -70,17 +70,6 @@ const countTotalCapacity = (classItem: AcademicYearStructureClassItem) =>
     (total, section) => total + section.defaultCapacity,
     0,
   );
-
-const collectHierarchyNodeIds = (
-  node: AcademicYearStructureHierarchyNode,
-  nodeIds: string[] = [],
-) => {
-  nodeIds.push(node.id);
-  node.children.forEach((childNode) =>
-    collectHierarchyNodeIds(childNode, nodeIds),
-  );
-  return nodeIds;
-};
 
 const collectVisibleHierarchy = (
   node: AcademicYearStructureHierarchyNode,
@@ -200,8 +189,12 @@ const AcademicYearStructureFlow = ({
     Record<string, string[]>
   >({});
   const [fitViewVersion, setFitViewVersion] = useState(0);
+  const [lastToggleMode, setLastToggleMode] = useState<
+    "initial" | "expand" | "collapse"
+  >("initial");
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance | null>(null);
+  const previousAcademicYearIdRef = useRef("");
 
   const hierarchyRoot = useMemo<AcademicYearStructureHierarchyNode | undefined>(
     () => {
@@ -533,13 +526,7 @@ const AcademicYearStructureFlow = ({
     ],
   );
 
-  const defaultExpandedNodeIds = useMemo(() => {
-    if (!hierarchyRoot) {
-      return [];
-    }
-
-    return collectHierarchyNodeIds(hierarchyRoot);
-  }, [hierarchyRoot]);
+  const defaultExpandedNodeIds = useMemo(() => [] as string[], []);
 
   const yearScopedExpandedNodeIds = useMemo(() => {
     if (!hierarchyRoot || !selectedAcademicYearId) {
@@ -565,6 +552,10 @@ const AcademicYearStructureFlow = ({
         return;
       }
 
+      const isCollapsing = yearScopedExpandedNodeIds.includes(nodeId);
+      const shouldAutoFit =
+        !isCollapsing || (hierarchyRoot ? nodeId === hierarchyRoot.id : false);
+
       setExpandedNodeIdsByYear((currentState) => {
         const currentIds = Object.prototype.hasOwnProperty.call(
           currentState,
@@ -581,9 +572,19 @@ const AcademicYearStructureFlow = ({
         };
       });
 
-      setFitViewVersion((currentVersion) => currentVersion + 1);
+      if (shouldAutoFit) {
+        setLastToggleMode("expand");
+        setFitViewVersion((currentVersion) => currentVersion + 1);
+      } else {
+        setLastToggleMode("collapse");
+      }
     },
-    [defaultExpandedNodeIds, selectedAcademicYearId],
+    [
+      defaultExpandedNodeIds,
+      hierarchyRoot,
+      selectedAcademicYearId,
+      yearScopedExpandedNodeIds,
+    ],
   );
 
   const { nodes, edges, layoutHeight } = useMemo(() => {
@@ -620,21 +621,41 @@ const AcademicYearStructureFlow = ({
   );
 
   useEffect(() => {
+    const yearChanged = previousAcademicYearIdRef.current !== selectedAcademicYearId;
+
+    previousAcademicYearIdRef.current = selectedAcademicYearId;
+
     if (!reactFlowInstance || !nodes.length) {
       return;
     }
 
+    if (!yearChanged && lastToggleMode === "collapse") {
+      return;
+    }
+
+    let innerFrameId = 0;
     const frameId = window.requestAnimationFrame(() => {
-      reactFlowInstance.fitView({
-        duration: 260,
-        padding: 0.05,
-        minZoom: 0.55,
-        maxZoom: 1.35,
+      innerFrameId = window.requestAnimationFrame(() => {
+        reactFlowInstance.fitView({
+          duration: 260,
+          padding: 0.05,
+          minZoom: 0.55,
+          maxZoom: 1.35,
+        });
       });
     });
 
-    return () => window.cancelAnimationFrame(frameId);
-  }, [fitViewVersion, nodes.length, reactFlowInstance, selectedAcademicYearId]);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.cancelAnimationFrame(innerFrameId);
+    };
+  }, [
+    fitViewVersion,
+    lastToggleMode,
+    nodes.length,
+    reactFlowInstance,
+    selectedAcademicYearId,
+  ]);
 
   return (
     <div className="w-full space-y-5">
