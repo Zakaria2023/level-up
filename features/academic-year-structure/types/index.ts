@@ -93,3 +93,8 @@ export type AcademicYearStructureData = {
   totalSubjects: number;
   supervisorLabelMap: Map<string, string>;
 };
+
+export type HierarchyEdge = {
+  source: string;
+  target: string;
+};

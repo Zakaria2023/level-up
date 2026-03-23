@@ -4,7 +4,6 @@ import { useAcademicYearStructureExplorer } from "../hooks/useAcademicYearStruct
 import AcademicYearStructureEmptyState from "./AcademicYearStructureEmptyState";
 import AcademicYearStructureFlow from "./AcademicYearStructureFlow";
 
-// Keep the explorer focused on selecting an academic year and then rendering the related structure.
 export const AcademicYearStructureExplorer = () => {
   const {
     academicYears,
@@ -23,7 +22,6 @@ export const AcademicYearStructureExplorer = () => {
 
   return (
     <div className="flex w-full flex-col">
-      {/* Render the chosen academic year as a flow graph instead of the old stacked cards. */}
       <AcademicYearStructureFlow
         academicYearOptions={academicYearOptions}
         selectedAcademicYear={selectedAcademicYear}
