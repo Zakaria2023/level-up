@@ -4,6 +4,7 @@ import {
   AcademicYearStructureClassItem,
   AcademicYearStructureFlowGraphNode,
   AcademicYearStructureHierarchyNode,
+  AcademicYearStructureNodeKind,
   AcademicYearStructureStageItem,
   HierarchyEdge,
 } from "../types";
@@ -148,3 +149,53 @@ export const buildFlowLayout = ({
     layoutHeight: Math.ceil((graphMetrics.height ?? 0) + 48),
   };
 };
+
+export const toneClassMap: Record<
+  AcademicYearStructureNodeKind,
+  {
+    headerClassName: string;
+    badgeClassName: string;
+    statClassName: string;
+    footerButtonClassName: string;
+  }
+> = {
+  academicYear: {
+    headerClassName: "bg-[#875A7B]",
+    badgeClassName: "bg-[#F4E8EF] text-[#875A7B]",
+    statClassName: "bg-[#FBF5F8] text-[#875A7B]",
+    footerButtonClassName: "border-[#D9C0CF] text-[#875A7B] hover:bg-[#FAF2F6]",
+  },
+  stage: {
+    headerClassName: "bg-[#29B5C5]",
+    badgeClassName: "bg-[#E6FAFD] text-[#157784]",
+    statClassName: "bg-[#F3FCFD] text-[#157784]",
+    footerButtonClassName: "border-[#BEEAF0] text-[#157784] hover:bg-[#F2FBFD]",
+  },
+  grade: {
+    headerClassName: "bg-[#7C7BAD]",
+    badgeClassName: "bg-[#EFEEFB] text-[#5A5891]",
+    statClassName: "bg-[#F7F7FD] text-[#5A5891]",
+    footerButtonClassName: "border-[#D7D4EE] text-[#5A5891] hover:bg-[#F6F5FD]",
+  },
+  class: {
+    headerClassName: "bg-[#E5C76B]",
+    badgeClassName: "bg-[#FFF8DD] text-[#8A6E12]",
+    statClassName: "bg-[#FFFCEF] text-[#8A6E12]",
+    footerButtonClassName: "border-[#F0DFA5] text-[#8A6E12] hover:bg-[#FFFCF0]",
+  },
+  section: {
+    headerClassName: "bg-[#6CB98D]",
+    badgeClassName: "bg-[#ECF8F1] text-[#2F7C4F]",
+    statClassName: "bg-[#F5FBF7] text-[#2F7C4F]",
+    footerButtonClassName: "border-[#CBE7D5] text-[#2F7C4F] hover:bg-[#F4FBF6]",
+  },
+};
+
+export const getAvatarLabel = (value: string) =>
+  value
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((segment) => segment[0]?.toUpperCase() ?? "")
+    .join("")
+    .slice(0, 2);
